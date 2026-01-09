@@ -52,7 +52,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-[#DFDBC8]">
-      {/* Car image on main page - fills entire space including header */}
+      {/* Car image on main page - fills entire space with header overlaid */}
       <div className="relative h-[700px] w-full overflow-hidden bg-[#DFDBC8]">
         <Image
           src="/img/Mask group.png"
@@ -62,7 +62,7 @@ export default async function Home() {
           priority
           sizes="100vw"
         />
-        {/* Header overlaid on top of image */}
+        {/* Header overlaid on top of image - transparent, no background */}
         <div className="absolute inset-0 z-10">
           <Header />
         </div>
