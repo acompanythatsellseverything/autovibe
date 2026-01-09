@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
 import { useI18n } from '@/lib/i18n/context';
 import { RedTick } from '@/components/icons/RedTick';
@@ -19,12 +18,11 @@ export default function ElClubContent() {
           <p className="mb-12 sm:mb-16 lg:mb-20 text-[20px] sm:text-[24px] lg:text-[30px] font-extralight leading-[100%] tracking-[0%] text-[#000000]">
             {t('pages.elClub.hero.subtitle')}
           </p>
-          <Link
-            href="/cars"
-            className="inline-block rounded-3xl bg-[#603361] px-6 sm:px-8 py-2.5 sm:py-3 text-[16px] sm:text-[18px] lg:text-[20px] font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#4D2850]"
+          <span
+            className="inline-block rounded-3xl bg-[#603361] px-6 sm:px-8 py-2.5 sm:py-3 text-[16px] sm:text-[18px] lg:text-[20px] font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#4D2850] cursor-default"
           >
             {t('pages.elClub.hero.button')}
-          </Link>
+          </span>
         </div>
       </section>
 
@@ -83,12 +81,11 @@ export default function ElClubContent() {
                 </li>
               </ul>
               <div className="mt-12 sm:mt-16 lg:mt-20 xl:mt-24 text-center">
-                <Link
-                  href="/cars"
-                  className="inline-block rounded-3xl bg-[#603361] px-6 sm:px-8 py-2.5 sm:py-3 text-[16px] sm:text-[18px] lg:text-[20px] font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#4D2850]"
+                <span
+                  className="inline-block rounded-3xl bg-[#603361] px-6 sm:px-8 py-2.5 sm:py-3 text-[16px] sm:text-[18px] lg:text-[20px] font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#4D2850] cursor-default"
                 >
                   {t('pages.elClub.hero.button')}
-                </Link>
+                </span>
               </div>
             </div>
           </div>
@@ -131,12 +128,11 @@ export default function ElClubContent() {
                 </li>
               </ul>
               <div className="mt-12 sm:mt-16 lg:mt-20 xl:mt-24 text-center">
-                <Link
-                  href="/cars"
-                  className="inline-block rounded-3xl bg-[#603361] px-6 sm:px-8 py-2.5 sm:py-3 text-[16px] sm:text-[18px] lg:text-[20px] font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#4D2850]"
+                <span
+                  className="inline-block rounded-3xl bg-[#603361] px-6 sm:px-8 py-2.5 sm:py-3 text-[16px] sm:text-[18px] lg:text-[20px] font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#4D2850] cursor-default"
                 >
                   {t('pages.elClub.hero.button')}
-                </Link>
+                </span>
               </div>
             </div>
 
