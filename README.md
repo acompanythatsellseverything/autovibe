@@ -15,7 +15,6 @@
 npm install
 ```
 
-
 2. Set up environment variables:
 Create a `.env.local` file in the root directory with:
 
