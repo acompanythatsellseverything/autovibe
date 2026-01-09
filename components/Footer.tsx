@@ -1,0 +1,296 @@
+'use client';
+
+import Image from 'next/image';
+import { useI18n } from '@/lib/i18n/context';
+
+export default function Footer() {
+  const { t } = useI18n();
+
+  return (
+    <footer className="relative overflow-hidden">
+      {/* Gradient background */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(to right, #544A70, #D99300)',
+        }}
+      />
+
+      <div className="relative mx-auto w-full px-8 py-12 lg:px-46">
+        {/* Logo and Social Media - Top Row */}
+        <div className="mb-12 flex items-center justify-between">
+          {/* Logo */}
+          <div>
+            <Image
+              src="/icons/LogoFooter.png"
+              alt="AutoVibe Logo"
+              width={300}
+              height={120}
+              className="h-10 w-auto"
+              priority
+            />
+          </div>
+
+          {/* Social Media Icons */}
+          <div className="flex items-center gap-5">
+            <a
+              href="https://www.youtube.com/@autovibe-spain"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-transform hover:scale-110"
+            >
+              <Image
+                src="/icons/youtube.png"
+                alt="YouTube"
+                width={64}
+                height={64}
+                className="h-10 w-10"
+              />
+            </a>
+            <a
+              href="https://www.instagram.com/auto_vibe_sl/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-transform hover:scale-110"
+            >
+              <Image
+                src="/icons/instagram.png"
+                alt="Instagram"
+                width={64}
+                height={64}
+                className="h-10 w-10"
+              />
+            </a>
+            <a
+              href="https://www.tiktok.com/@autovibe_bogdan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-transform hover:scale-110"
+            >
+              <Image
+                src="/icons/tiktok.png"
+                alt="TikTok"
+                width={64}
+                height={64}
+                className="h-10 w-10"
+              />
+            </a>
+          </div>
+        </div>
+
+        {/* Footer Columns */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+          {/* Legal Links */}
+          <div>
+            {/* Invisible header to align with other columns */}
+            <h3
+              className="mb-4 font-medium leading-[100%] tracking-[0%] invisible"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '20px',
+                color: '#DFDBC8',
+              }}
+            >
+              {t('footer.ciudades.title')}
+            </h3>
+            <div className="space-y-2">
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.legal.terminos')}
+              </span>
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.legal.privacidad')}
+              </span>
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.legal.cookies')}
+              </span>
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.legal.condiciones')}
+              </span>
+            </div>
+          </div>
+
+          {/* Cities */}
+          <div>
+            <h3
+              className="mb-4 font-medium leading-[100%] tracking-[0%]"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '20px',
+                color: '#DFDBC8',
+              }}
+            >
+              {t('footer.ciudades.title')}
+            </h3>
+            <div className="space-y-2">
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.ciudades.valencia')}
+              </span>
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.ciudades.barcelona')}
+              </span>
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.ciudades.madrid')}
+              </span>
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.ciudades.marbella')}
+              </span>
+            </div>
+          </div>
+
+          {/* About Us */}
+          <div>
+            <h3
+              className="mb-4 font-medium leading-[100%] tracking-[0%]"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '20px',
+                color: '#DFDBC8',
+              }}
+            >
+              {t('footer.conocenos.title')}
+            </h3>
+            <div className="space-y-2">
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.conocenos.sitemap')}
+              </span>
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.conocenos.trabaja')}
+              </span>
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.conocenos.compramos')}
+              </span>
+              <span
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  color: '#DFDBC8',
+                }}
+              >
+                {t('footer.conocenos.opiniones')}
+              </span>
+            </div>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3
+              className="mb-4 font-medium leading-[100%] tracking-[0%]"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '20px',
+                color: '#DFDBC8',
+              }}
+            >
+              {t('footer.contactanos.title')}
+            </h3>
+            <div className="space-y-2 font-light leading-[100%] tracking-[0%]"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '20px',
+                color: '#DFDBC8',
+              }}
+            >
+              <p>{t('footer.contactanos.horario')}</p>
+              <p>{t('footer.contactanos.atencion')}</p>
+              <p>{t('footer.contactanos.nuevos')}</p>
+              <p>{t('footer.contactanos.asistencia')}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Copyright - Bottom Right */}
+        <div className="mt-12 flex justify-end">
+          <p
+            className="font-light leading-[100%] tracking-[0%]"
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '20px',
+              color: '#DFDBC8',
+            }}
+          >
+            {t('footer.copyright')}
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+

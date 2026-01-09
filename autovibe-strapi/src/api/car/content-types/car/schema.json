@@ -1,0 +1,105 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cars",
+  "info": {
+    "singularName": "car",
+    "pluralName": "cars",
+    "displayName": "Car"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "brand": {
+      "type": "string",
+      "required": true
+    },
+    "model": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "pricePerMonth": {
+      "type": "integer",
+      "required": true
+    },
+    "location": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "Valencia",
+        "Barcelona",
+        "Madrid",
+        "Marbella"
+      ]
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "category": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "coupe",
+        "suv",
+        "sedan",
+        "hatchback",
+        "convertible"
+      ]
+    },
+    "available": {
+      "type": "boolean",
+      "default": true
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "stripeProductId": {
+      "type": "string",
+      "required": false
+    },
+    "stripePriceId": {
+      "type": "string",
+      "required": false
+    },
+    "additionalImages": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "minPermanence": {
+      "type": "integer"
+    },
+    "originalPrice": {
+      "type": "integer"
+    },
+    "detailedDescription": {
+      "type": "text"
+    },
+    "permanenceOptions": {
+      "type": "json"
+    },
+    "mileageOptions": {
+      "type": "json"
+    }
+  }
+}
