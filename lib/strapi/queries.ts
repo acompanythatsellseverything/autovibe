@@ -51,6 +51,19 @@ export async function getCars(featured?: boolean) {
     if (error?.response?.status === 404) {
       return [];
     }
+    // Handle connection errors (e.g., during build when Strapi is not available)
+    if (error?.code === 'ECONNREFUSED' || error?.code === 'ENOTFOUND' || error?.message?.includes('ECONNREFUSED')) {
+      console.warn('Strapi connection refused (likely during build). Returning empty array.');
+      return [];
+    }
+    // Handle AggregateError
+    if (error instanceof AggregateError) {
+      const firstError = error.errors?.[0];
+      if (firstError?.code === 'ECONNREFUSED' || firstError?.code === 'ENOTFOUND') {
+        console.warn('Strapi connection refused in AggregateError (likely during build). Returning empty array.');
+        return [];
+      }
+    }
     console.error('Error fetching cars:', error);
     return [];
   }
@@ -290,6 +303,19 @@ export async function getTestimonials() {
     if (error?.response?.status === 404) {
       return [];
     }
+    // Handle connection errors (e.g., during build when Strapi is not available)
+    if (error?.code === 'ECONNREFUSED' || error?.code === 'ENOTFOUND' || error?.message?.includes('ECONNREFUSED')) {
+      console.warn('Strapi connection refused (likely during build). Returning empty array.');
+      return [];
+    }
+    // Handle AggregateError
+    if (error instanceof AggregateError) {
+      const firstError = error.errors?.[0];
+      if (firstError?.code === 'ECONNREFUSED' || firstError?.code === 'ENOTFOUND') {
+        console.warn('Strapi connection refused in AggregateError (likely during build). Returning empty array.');
+        return [];
+      }
+    }
     console.error('Error fetching testimonials:', error);
     return [];
   }
@@ -310,6 +336,19 @@ export async function getFAQs() {
     // If Content Type doesn't exist (404), return empty array silently
     if (error?.response?.status === 404) {
       return [];
+    }
+    // Handle connection errors (e.g., during build when Strapi is not available)
+    if (error?.code === 'ECONNREFUSED' || error?.code === 'ENOTFOUND' || error?.message?.includes('ECONNREFUSED')) {
+      console.warn('Strapi connection refused (likely during build). Returning empty array.');
+      return [];
+    }
+    // Handle AggregateError
+    if (error instanceof AggregateError) {
+      const firstError = error.errors?.[0];
+      if (firstError?.code === 'ECONNREFUSED' || firstError?.code === 'ENOTFOUND') {
+        console.warn('Strapi connection refused in AggregateError (likely during build). Returning empty array.');
+        return [];
+      }
     }
     console.error('Error fetching FAQs:', error);
     return [];
@@ -332,6 +371,19 @@ export async function getFeatures() {
     // If Content Type doesn't exist (404), return empty array silently
     if (error?.response?.status === 404) {
       return [];
+    }
+    // Handle connection errors (e.g., during build when Strapi is not available)
+    if (error?.code === 'ECONNREFUSED' || error?.code === 'ENOTFOUND' || error?.message?.includes('ECONNREFUSED')) {
+      console.warn('Strapi connection refused (likely during build). Returning empty array.');
+      return [];
+    }
+    // Handle AggregateError
+    if (error instanceof AggregateError) {
+      const firstError = error.errors?.[0];
+      if (firstError?.code === 'ECONNREFUSED' || firstError?.code === 'ENOTFOUND') {
+        console.warn('Strapi connection refused in AggregateError (likely during build). Returning empty array.');
+        return [];
+      }
     }
     console.error('Error fetching features:', error);
     return [];

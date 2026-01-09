@@ -35,14 +35,14 @@ async function createStripeProducts() {
           : undefined;
 
         // Create product in Stripe
-        const product = await stripe.products.create({
+        const product = await stripe().products.create({
           name: carData.name,
           description: carData.description || '',
           images: imageUrl ? [imageUrl] : [],
         });
 
         // Create price for the product (monthly subscription)
-        const price = await stripe.prices.create({
+        const price = await stripe().prices.create({
           product: product.id,
           unit_amount: Math.round(carData.pricePerMonth * 100), // Convert to cents
           currency: 'eur',

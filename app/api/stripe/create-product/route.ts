@@ -13,14 +13,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Create product in Stripe
-    const product = await stripe.products.create({
+    const product = await stripe().products.create({
       name,
       description,
       images: imageUrl ? [imageUrl] : [],
     });
 
     // Create price for the product (monthly subscription)
-    const price = await stripe.prices.create({
+    const price = await stripe().prices.create({
       product: product.id,
       unit_amount: Math.round(pricePerMonth * 100), // Convert to cents
       currency: 'eur',

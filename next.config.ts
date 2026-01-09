@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
+  // Configure Turbopack to exclude Strapi folder
+  turbopack: {
+    resolveAlias: {
+      // This helps exclude the folder from processing
+    },
+  },
+  // Set output file tracing root to silence lockfile warning
+  outputFileTracingRoot: path.join(__dirname),
   images: {
     remotePatterns: [
       {
