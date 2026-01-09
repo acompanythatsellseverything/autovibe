@@ -1,6 +1,6 @@
 # AutoVibe - Car Subscription Website
 
- Next.js web application for AutoVibe car subscription service, featuring Stripe integration and Strapi CMS.
+ Next.js web application for AutoVibe car subscription service, featuring Strapi CMS.
 
 ### Prerequisites
 

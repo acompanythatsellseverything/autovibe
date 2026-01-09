@@ -11,15 +11,12 @@
     "dev:strapi": "cd autovibe-strapi && npm run develop"
   },
   "dependencies": {
-    "@stripe/react-stripe-js": "^2.6.0",
-    "@stripe/stripe-js": "^2.4.0",
     "axios": "^1.13.2",
     "framer-motion": "^11.0.0",
-    "lucide-react": "^0.344.0",
+    "lucide-react": "^0.562.0",
     "next": "16.0.10",
     "react": "19.2.1",
-    "react-dom": "19.2.1",
-    "stripe": "^17.0.0"
+    "react-dom": "19.2.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
