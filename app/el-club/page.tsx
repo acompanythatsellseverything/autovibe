@@ -21,7 +21,7 @@ export default function ElClubPage() {
           <Header />
         </div>
       </div>
-      <main>
+      <main className="pb-0">
         <ElClubContent />
       </main>
       <Footer />

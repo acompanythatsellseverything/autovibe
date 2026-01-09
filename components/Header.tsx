@@ -29,8 +29,8 @@ export default function Header() {
       {/* Content */}
       <nav className="relative z-10 mx-auto w-full px-4 sm:px-6 lg:px-8" style={{ marginTop: 0, paddingTop: 0 }}>
         <div className="relative flex h-28 items-center">
-          {/* Logo - Left, larger and closer to edge, from top to almost bottom, shifted slightly right */}
-          <Link href="/" className="absolute left-8 flex h-full items-start lg:left-16" style={{ top: 0, marginTop: 0, paddingTop: 0 }}>
+          {/* Logo - Left */}
+          <Link href="/" className="flex h-full items-start flex-shrink-0" style={{ top: 0, marginTop: 0, paddingTop: 0 }}>
             <Image
               src="/AutoVibeLogo.png"
               alt="AutoVibe Logo"
@@ -42,12 +42,12 @@ export default function Header() {
             />
           </Link>
 
-          {/* Center Section - Navigation Links and Buttons in a single row */}
-          <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-6">
+          {/* Center Section - Navigation Links and Buttons */}
+          <div className="flex-1 flex justify-center items-center gap-3 xl:gap-6">
             {/* Navigation Links */}
             <Link
               href="/suscripcion"
-              className={`hidden text-[20px] font-normal leading-[100%] tracking-[0%] transition-colors whitespace-nowrap lg:block ${
+              className={`hidden text-[18px] xl:text-[20px] font-normal leading-[100%] tracking-[0%] transition-colors whitespace-nowrap lg:block ${
                 isTransparentHeader
                   ? 'text-white hover:text-yellow-300'
                   : 'text-gray-900 hover:text-purple-600'
@@ -57,7 +57,7 @@ export default function Header() {
             </Link>
             <Link
               href="/compra"
-              className={`hidden text-[20px] font-normal leading-[100%] tracking-[0%] transition-colors whitespace-nowrap lg:block ${
+              className={`hidden text-[18px] xl:text-[20px] font-normal leading-[100%] tracking-[0%] transition-colors whitespace-nowrap lg:block ${
                 isTransparentHeader
                   ? 'text-white hover:text-yellow-300'
                   : 'text-gray-900 hover:text-purple-600'
@@ -66,7 +66,7 @@ export default function Header() {
               {t('header.compra')}
             </Link>
             <span
-              className={`hidden text-[20px] font-normal leading-[100%] tracking-[0%] whitespace-nowrap lg:block cursor-default ${
+              className={`hidden text-[18px] xl:text-[20px] font-normal leading-[100%] tracking-[0%] whitespace-nowrap lg:block cursor-default ${
                 isTransparentHeader
                   ? 'text-white'
                   : 'text-gray-900'
@@ -76,7 +76,7 @@ export default function Header() {
             </span>
             <Link
               href="/el-club"
-              className={`hidden text-[20px] font-normal leading-[100%] tracking-[0%] transition-colors whitespace-nowrap lg:block ${
+              className={`hidden text-[18px] xl:text-[20px] font-normal leading-[100%] tracking-[0%] transition-colors whitespace-nowrap lg:block ${
                 isTransparentHeader
                   ? 'text-white hover:text-yellow-300'
                   : 'text-gray-900 hover:text-purple-600'
@@ -86,26 +86,28 @@ export default function Header() {
             </Link>
 
             {/* Buttons */}
-            <button className="hidden items-center gap-2 rounded-2xl bg-[#F4A709] px-4 py-2 text-[20px] font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#E59808] lg:flex whitespace-nowrap">
-              <Phone className="h-4 w-4" />
-              <span>{t('header.llamaMe')}</span>
-            </button>
-            <span
-              className="hidden items-center gap-2 rounded-2xl bg-[#603361] px-4 py-2 text-[20px] font-normal leading-[100%] tracking-[0%] text-white lg:flex whitespace-nowrap cursor-default"
-            >
-              <Image
-                src="/icons/account_circle.svg"
-                alt="Account"
-                width={20}
-                height={20}
-                className="h-5 w-5"
-              />
-              <span>{t('header.miCuenta')}</span>
-            </span>
+            <div className="hidden items-center gap-2 xl:gap-3 lg:flex">
+              <button className="flex items-center gap-1.5 xl:gap-2 rounded-2xl bg-[#F4A709] px-3 xl:px-4 py-2 text-[16px] xl:text-[20px] font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#E59808] whitespace-nowrap">
+                <Phone className="h-3.5 w-3.5 xl:h-4 xl:w-4 flex-shrink-0" />
+                <span>{t('header.llamaMe')}</span>
+              </button>
+              <span
+                className="flex items-center gap-1.5 xl:gap-2 rounded-2xl bg-[#603361] px-3 xl:px-4 py-2 text-[16px] xl:text-[20px] font-normal leading-[100%] tracking-[0%] text-white whitespace-nowrap cursor-default"
+              >
+                <Image
+                  src="/icons/account_circle.svg"
+                  alt="Account"
+                  width={20}
+                  height={20}
+                  className="h-4 w-4 xl:h-5 xl:w-5 flex-shrink-0"
+                />
+                <span>{t('header.miCuenta')}</span>
+              </span>
+            </div>
           </div>
 
-          {/* Language Selector - Right, closer to edge */}
-          <div className="absolute right-0 top-1/2 hidden -translate-y-1/2 items-center gap-2 pr-1 lg:flex">
+          {/* Right Section - Language Selector only */}
+          <div className="hidden items-center gap-2 lg:flex flex-shrink-0">
             <button
               onClick={() => setLocale('es')}
               className="h-8 w-8 overflow-hidden rounded-full transition-transform hover:scale-110"
