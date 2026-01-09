@@ -12,6 +12,49 @@ export const strapiClient = axios.create({
   },
 });
 
+// Helper function to convert Strapi URL to proxy URL if needed
+// This fixes SSL protocol errors when Vercel (HTTPS) tries to load images from HTTP Strapi
+function getProxiedImageUrl(strapiUrl: string): string {
+  // Check if Strapi URL is HTTP (not HTTPS)
+  const isHttpStrapi = strapiUrl.startsWith('http://');
+  
+  // In production (Vercel), we're always on HTTPS, so we need to proxy HTTP images
+  // In development, we can use direct URLs
+  const isProduction = process.env.NODE_ENV === 'production';
+  
+  if (isHttpStrapi && isProduction) {
+    // Extract the path from the Strapi URL
+    // e.g., "http://example.com/uploads/image.jpg" -> "uploads/image.jpg"
+    try {
+      const url = new URL(strapiUrl);
+      let path = url.pathname.startsWith('/') ? url.pathname.slice(1) : url.pathname;
+      
+      // Preserve query parameters if they exist (though Strapi images typically don't have them)
+      if (url.search) {
+        path += url.search;
+      }
+      
+      // Use the proxy route
+      return `/api/strapi-image/${path}`;
+    } catch (e) {
+      // If URL parsing fails, try to extract path manually
+      const pathMatch = strapiUrl.match(/https?:\/\/[^\/]+(.*?)(?:\?|$)/);
+      if (pathMatch) {
+        let path = pathMatch[1].startsWith('/') ? pathMatch[1].slice(1) : pathMatch[1];
+        // Preserve query string if present
+        const queryMatch = strapiUrl.match(/\?(.*)$/);
+        if (queryMatch) {
+          path += '?' + queryMatch[1];
+        }
+        return `/api/strapi-image/${path}`;
+      }
+    }
+  }
+  
+  // Return original URL if no proxy needed
+  return strapiUrl;
+}
+
 // Helper function to get image URL from Strapi
 export function getStrapiImageUrl(image: any, size: 'thumbnail' | 'small' | 'medium' | 'large' = 'medium'): string {
   try {
@@ -36,18 +79,21 @@ export function getStrapiImageUrl(image: any, size: 'thumbnail' | 'small' | 'med
 
         // Try to get the requested size, fallback to original
         if (formats && formats[size]) {
-          return `${baseUrl}${formats[size].url}`;
+          const fullUrl = `${baseUrl}${formats[size].url}`;
+          return getProxiedImageUrl(fullUrl);
         }
 
         // Fallback to original image
         if (imageData.attributes.url) {
-          return `${baseUrl}${imageData.attributes.url}`;
+          const fullUrl = `${baseUrl}${imageData.attributes.url}`;
+          return getProxiedImageUrl(fullUrl);
         }
       }
       
       // Handle case where data is direct object without attributes wrapper
       if (imageData && imageData.url) {
-        return imageData.url.startsWith('http') ? imageData.url : `${STRAPI_URL}${imageData.url}`;
+        const fullUrl = imageData.url.startsWith('http') ? imageData.url : `${STRAPI_URL}${imageData.url}`;
+        return getProxiedImageUrl(fullUrl);
       }
     }
 
@@ -57,22 +103,26 @@ export function getStrapiImageUrl(image: any, size: 'thumbnail' | 'small' | 'med
       const baseUrl = STRAPI_URL;
 
       if (formats && formats[size]) {
-        return `${baseUrl}${formats[size].url}`;
+        const fullUrl = `${baseUrl}${formats[size].url}`;
+        return getProxiedImageUrl(fullUrl);
       }
 
       if (image.attributes.url) {
-        return `${baseUrl}${image.attributes.url}`;
+        const fullUrl = `${baseUrl}${image.attributes.url}`;
+        return getProxiedImageUrl(fullUrl);
       }
     }
 
     // Handle direct URL string
     if (typeof image === 'string') {
-      return image.startsWith('http') ? image : `${STRAPI_URL}${image}`;
+      const fullUrl = image.startsWith('http') ? image : `${STRAPI_URL}${image}`;
+      return getProxiedImageUrl(fullUrl);
     }
 
     // Handle case where image is already a URL object
     if (image.url) {
-      return image.url.startsWith('http') ? image.url : `${STRAPI_URL}${image.url}`;
+      const fullUrl = image.url.startsWith('http') ? image.url : `${STRAPI_URL}${image.url}`;
+      return getProxiedImageUrl(fullUrl);
     }
 
     return '';
@@ -111,16 +161,18 @@ export function getStrapiFullImageUrl(image: any): string {
         const baseUrl = STRAPI_URL;
         if (imageData.attributes.url) {
           const url = `${baseUrl}${imageData.attributes.url}`;
-          console.log('[getStrapiFullImageUrl] Returning URL from data.attributes:', url);
-          return url;
+          const proxiedUrl = getProxiedImageUrl(url);
+          console.log('[getStrapiFullImageUrl] Returning URL from data.attributes:', proxiedUrl);
+          return proxiedUrl;
         }
       }
       
       // Try direct url in imageData
       if (imageData?.url) {
         const url = imageData.url.startsWith('http') ? imageData.url : `${STRAPI_URL}${imageData.url}`;
-        console.log('[getStrapiFullImageUrl] Returning URL from data.url:', url);
-        return url;
+        const proxiedUrl = getProxiedImageUrl(url);
+        console.log('[getStrapiFullImageUrl] Returning URL from data.url:', proxiedUrl);
+        return proxiedUrl;
       }
     }
 
@@ -130,23 +182,26 @@ export function getStrapiFullImageUrl(image: any): string {
       const baseUrl = STRAPI_URL;
       if (image.attributes.url) {
         const url = `${baseUrl}${image.attributes.url}`;
-        console.log('[getStrapiFullImageUrl] Returning URL from attributes:', url);
-        return url;
+        const proxiedUrl = getProxiedImageUrl(url);
+        console.log('[getStrapiFullImageUrl] Returning URL from attributes:', proxiedUrl);
+        return proxiedUrl;
       }
     }
 
     // Handle direct URL string
     if (typeof image === 'string') {
       const url = image.startsWith('http') ? image : `${STRAPI_URL}${image}`;
-      console.log('[getStrapiFullImageUrl] Returning URL from string:', url);
-      return url;
+      const proxiedUrl = getProxiedImageUrl(url);
+      console.log('[getStrapiFullImageUrl] Returning URL from string:', proxiedUrl);
+      return proxiedUrl;
     }
 
     // Handle direct url property
     if (image.url) {
       const url = image.url.startsWith('http') ? image.url : `${STRAPI_URL}${image.url}`;
-      console.log('[getStrapiFullImageUrl] Returning URL from url property:', url);
-      return url;
+      const proxiedUrl = getProxiedImageUrl(url);
+      console.log('[getStrapiFullImageUrl] Returning URL from url property:', proxiedUrl);
+      return proxiedUrl;
     }
 
     console.warn('[getStrapiFullImageUrl] No URL found in image structure');

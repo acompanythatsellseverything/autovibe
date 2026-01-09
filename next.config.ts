@@ -24,9 +24,14 @@ const nextConfig: NextConfig = {
         port: '1337',
         pathname: '/uploads/**',
       },
-      // For production Strapi instance
+      // For production Strapi instance - allow both HTTP and HTTPS
       {
         protocol: 'https',
+        hostname: '**',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'http',
         hostname: '**',
         pathname: '/uploads/**',
       },
