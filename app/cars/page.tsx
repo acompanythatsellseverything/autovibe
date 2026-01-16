@@ -11,6 +11,8 @@ export default async function CarsPage() {
   return (
     <div className="min-h-screen bg-[#DFDBC8]">
       <Header />
+      {/* Spacer for fixed header on mobile */}
+      <div className="h-20 sm:h-24 md:h-28 lg:h-0"></div>
       <main className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h1 className="mb-8 text-4xl font-bold text-gray-900">

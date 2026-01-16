@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useI18n } from '@/lib/i18n/context';
 
 export default function HomeHero() {
@@ -14,11 +15,12 @@ export default function HomeHero() {
         <p className="mb-12 sm:mb-16 md:mb-20 lg:mb-24 text-[18px] sm:text-[22px] md:text-[26px] lg:text-[30px] font-extralight leading-[100%] tracking-[0%] text-[#000000]">
           {t('home.hero.subtitle')}
         </p>
-        <span
-          className="inline-block rounded-2xl sm:rounded-3xl bg-[#603361] px-6 sm:px-8 py-2 sm:py-3 text-[16px] sm:text-[18px] md:text-[20px] font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#4D2850] cursor-default"
+        <Link
+          href="/empresas"
+          className="inline-block rounded-2xl sm:rounded-3xl bg-[#603361] px-6 sm:px-8 py-2 sm:py-3 text-[16px] sm:text-[18px] md:text-[20px] font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#4D2850]"
         >
           {t('home.hero.verCoches')}
-        </span>
+        </Link>
       </div>
     </section>
   );

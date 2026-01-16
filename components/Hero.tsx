@@ -28,7 +28,7 @@ export default function Hero() {
           Tu coche, tus reglas. Para ti o tu empresa.
         </p>
 <Link
-  href="/cars"
+  href="/empresas"
   style={{ borderRadius: '9999px' }}
   className="inline-flex bg-red-500 px-20 py-20"
 >

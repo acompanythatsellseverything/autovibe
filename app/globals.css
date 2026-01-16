@@ -40,3 +40,10 @@ html, body {
 .neon-glow {
   animation: neon-pulse 2s ease-in-out infinite;
 }
+
+/* Transparent header on mobile for home and el-club pages */
+header.transparent-header {
+  background-color: transparent !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+}

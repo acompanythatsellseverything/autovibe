@@ -8,18 +8,18 @@ import Link from 'next/link';
 import { RightArr } from './icons/RightArr';
 import { useI18n } from '@/lib/i18n/context';
 
-interface CompraPageContentProps {
+interface EmpresasPageContentProps {
   cars: Car[];
 }
 
-type FilterType = 'compra' | 'suscripcion';
-type SuscripcionType = 'larga' | 'corta' | null;
+type FilterType = 'suscripcion' | 'compra';
+type SuscripcionType = 'corta' | 'larga' | null;
 type SortType = 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc';
 
-export default function CompraPageContent({ cars }: CompraPageContentProps) {
+export default function EmpresasPageContent({ cars }: EmpresasPageContentProps) {
   const { t } = useI18n();
-  const [filterType, setFilterType] = useState<FilterType>('compra');
-  const [suscripcionType, setSuscripcionType] = useState<SuscripcionType>(null);
+  const [filterType, setFilterType] = useState<FilterType>('suscripcion');
+  const [suscripcionType, setSuscripcionType] = useState<SuscripcionType>('corta');
   const maxCarPrice = Math.max(...cars.map(car => car.pricePerMonth || 0), 1000);
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(1000);
@@ -66,16 +66,18 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
   };
 
   return (
-    <main className="py-8">
+    <main className="pb-8">
+      {/* Spacer for fixed header on mobile */}
+      <div className="h-20 sm:h-24 md:h-28 lg:h-0"></div>
       {/* Reviews Section */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8 pt-8 lg:pt-12">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2">
             <div className="flex items-center">
               <span className="text-yellow-400 text-xl">★★★★</span>
               <span className="text-gray-300 text-xl">★</span>
             </div>
-            <span className="text-sm text-gray-700">{t('pages.compra.reviews')}</span>
+            <span className="text-sm text-gray-700">{t('pages.empresas.reviews')}</span>
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -90,41 +92,41 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-12">
         <div className="text-center">
           <h1 className="mb-4 text-2xl md:text-[40px] font-medium text-gray-900" style={{ fontFamily: 'Inter', fontWeight: 500, lineHeight: '100%', letterSpacing: '0%' }}>
-            {t('pages.compra.title')}
+            {t('pages.empresas.title')}
           </h1>
           <p className="text-base md:text-[30px] text-black" style={{ fontFamily: 'Inter', fontWeight: 200, lineHeight: '100%', letterSpacing: '0%' }}>
-            {t('pages.compra.subtitle')}
+            {t('pages.empresas.subtitle')}
           </p>
         </div>
       </section>
 
-      {/* Filters Section - Compra/Suscripción */}
+      {/* Filters Section - Permanencia corta selected */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8">
-        {/* Three filter buttons in a row - reordered: Compra first, then Permanencia larga, then Permanencia corta */}
+        {/* Three filter buttons in a row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          {/* Comprar coche - First position, selected on Compra page */}
+          {/* Permanencia corta - First position, selected on Empresas page */}
           <Link
-            href="/compra"
+            href="/empresas"
             className={`relative bg-[#DFDBC8] rounded-[20px] border-[2px] p-4 transition-all ${
-              filterType === 'compra'
+              filterType === 'suscripcion' && suscripcionType === 'corta'
                 ? 'border-[#FB3B55]'
                 : 'border-black'
             }`}
           >
-            {filterType === 'compra' && (
+            {filterType === 'suscripcion' && suscripcionType === 'corta' && (
               <span className="absolute bg-[#FB3B55] text-white text-xs px-2 py-1 rounded-2xl whitespace-nowrap" style={{ top: '-2px', right: '-2px' }}>
-                {t('pages.compra.vamos')}
+                {t('pages.empresas.vamos')}
               </span>
             )}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-3">
-                <img src="/icons/directions_car.svg" alt="Car" className="w-6 h-6" />
+                <img src="/icons/schedule.svg" alt="Schedule" className="w-6 h-6" />
                 <div className="text-left">
-                  <div className="text-gray-900 font-medium">{t('pages.compra.comprarCoche')}</div>
-                  <div className="text-sm text-gray-900">{t('pages.compra.comprarCocheDesc')}</div>
+                  <div className="text-gray-900 font-medium">{t('pages.empresas.permanenciaCorta')}</div>
+                  <div className="text-sm" style={{ color: '#000000' }}>{t('pages.empresas.permanenciaCortaDesc')}</div>
                 </div>
               </div>
-              {filterType !== 'compra' && (
+              {!(filterType === 'suscripcion' && suscripcionType === 'corta') && (
                 <svg width="24" height="24" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <RightArr />
                 </svg>
@@ -143,15 +145,15 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
           >
             {filterType === 'suscripcion' && suscripcionType === 'larga' && (
               <span className="absolute bg-[#FB3B55] text-white text-xs px-2 py-1 rounded-2xl whitespace-nowrap" style={{ top: '-2px', right: '-2px' }}>
-                {t('pages.compra.vamos')}
+                {t('pages.empresas.vamos')}
               </span>
             )}
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-3">
                 <img src="/icons/Calendar.svg" alt="Calendar" className="w-6 h-6" />
                 <div className="text-left">
-                  <div className="text-gray-900 font-medium">{t('pages.compra.permanenciaLarga')}</div>
-                  <div className="text-sm" style={{ color: '#000000' }}>{t('pages.compra.permanenciaLargaDesc')}</div>
+                  <div className="text-gray-900 font-medium">{t('pages.empresas.permanenciaLarga')}</div>
+                  <div className="text-sm" style={{ color: '#000000' }}>{t('pages.empresas.permanenciaLargaDesc')}</div>
                 </div>
               </div>
               {!(filterType === 'suscripcion' && suscripcionType === 'larga') && (
@@ -162,22 +164,33 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
             </div>
           </Link>
 
-          {/* Permanencia corta - navigates to /empresas */}
+          {/* Compra - navigates to /compra */}
           <Link
-            href="/empresas"
-            className={`relative bg-[#DFDBC8] rounded-[20px] border-[2px] p-4 transition-all border-black`}
+            href="/compra"
+            className={`relative bg-[#DFDBC8] rounded-[20px] border-[2px] p-4 transition-all ${
+              filterType === 'compra'
+                ? 'border-[#FB3B55]'
+                : 'border-black'
+            }`}
           >
-            <div className="flex items-center justify-between w-full">
+            {filterType === 'compra' && (
+              <span className="absolute bg-[#FB3B55] text-white text-xs px-2 py-1 rounded-2xl whitespace-nowrap" style={{ top: '-2px', right: '-2px' }}>
+                {t('pages.empresas.vamos')}
+              </span>
+            )}
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <img src="/icons/schedule.svg" alt="Schedule" className="w-6 h-6" />
+                <img src="/icons/directions_car.svg" alt="Car" className="w-6 h-6" />
                 <div className="text-left">
-                  <div className="text-gray-900 font-medium">{t('pages.compra.permanenciaCorta')}</div>
-                  <div className="text-sm" style={{ color: '#000000' }}>{t('pages.compra.permanenciaCortaDesc')}</div>
+                  <div className="text-gray-900 font-medium">{t('pages.empresas.comprarCoche')}</div>
+                  <div className="text-sm text-gray-900">{t('pages.empresas.comprarCocheDesc')}</div>
                 </div>
               </div>
-              <svg width="24" height="24" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <RightArr />
-              </svg>
+              {filterType !== 'compra' && (
+                <svg width="24" height="24" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <RightArr />
+                </svg>
+              )}
             </div>
           </Link>
         </div>
@@ -192,7 +205,7 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
               minValue={minPrice}
               maxValue={maxPrice}
               onChange={handlePriceRangeChange}
-              label={t('pages.compra.cuotaMensual')}
+              label={t('pages.empresas.cuotaMensual')}
             />
           </div>
 
@@ -208,10 +221,10 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
             >
               <span className="flex items-center gap-1">
                 <span>↓↑</span>
-                <span>{t('pages.compra.ordenarPor')}</span>
+                <span>{t('pages.empresas.ordenarPor')}</span>
               </span>
               <span className="font-bold ml-auto md:ml-0">
-                {sortType === 'price-asc' || sortType === 'price-desc' ? t('pages.compra.precio') : t('pages.compra.nombre')}
+                {sortType === 'price-asc' || sortType === 'price-desc' ? t('pages.empresas.precio') : t('pages.empresas.nombre')}
               </span>
             </button>
           </div>
@@ -228,11 +241,10 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
           </div>
         ) : (
           <div className="text-center text-gray-500 py-16">
-            {t('pages.compra.noCoches')}
+            {t('pages.empresas.noCoches')}
           </div>
         )}
       </section>
     </main>
   );
 }
-

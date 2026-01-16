@@ -55,14 +55,14 @@ export default function BrandCarousel() {
             {visibleLogos.map((logoNum) => (
               <div
                 key={logoNum}
-                className="relative w-9 h-9 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center"
+                className="relative w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex-shrink-0 flex items-center justify-center"
               >
                 <Image
                   src={`/brand_img/${logoNum}.svg`}
                   alt={`Brand logo ${logoNum}`}
                   width={40}
                   height={40}
-                  className="w-9 h-9 sm:w-10 sm:h-10 object-contain"
+                  className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 object-contain"
                 />
               </div>
             ))}
@@ -71,7 +71,7 @@ export default function BrandCarousel() {
           {/* Right Arrow - всегда справа, меняет направление в зависимости от страницы */}
           <button
             onClick={canGoNext ? goToNext : goToPrev}
-            className="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center ml-0.5 sm:ml-1"
+            className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center ml-0.5 sm:ml-1"
             aria-label={canGoNext ? "Next logos" : "Previous logos"}
           >
             <Image
@@ -79,7 +79,7 @@ export default function BrandCarousel() {
               alt={canGoNext ? "Next" : "Previous"}
               width={40}
               height={40}
-              className="w-9 h-9 sm:w-10 sm:h-10"
+              className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10"
             />
           </button>
         </div>

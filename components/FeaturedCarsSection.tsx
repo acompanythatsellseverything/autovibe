@@ -68,14 +68,14 @@ export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) 
     <section className="bg-[#DFDBC8] py-16">
       {/* Заголовок - в контейнере с ограничением ширины */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8">
-        <div className="flex items-center justify-between">
+        <div className="flex items-end justify-between">
           <h2 className="text-[25px] font-bold text-gray-900" style={{ fontFamily: 'Inter', fontWeight: 700, lineHeight: '100%', letterSpacing: '0%' }}>
             {t('home.featuredCars.title')}
           </h2>
           <Link
             href="/suscripcion"
-            className="text-[#FB3B55] hover:text-[#FB3B55]/80 underline text-base md:text-[25px] font-normal"
-            style={{ fontFamily: 'Inter', fontWeight: 400, lineHeight: '100%', letterSpacing: '0%', textDecorationLine: 'underline' }}
+            className="text-[#FB3B55] hover:text-[#FB3B55]/80 no-underline md:underline text-lg md:text-[20px] font-normal whitespace-nowrap"
+            style={{ fontFamily: 'Inter', fontWeight: 400, lineHeight: '100%', letterSpacing: '0%' }}
           >
             {t('home.featuredCars.verMas')}
           </Link>

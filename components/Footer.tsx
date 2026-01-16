@@ -13,7 +13,7 @@ export default function Footer() {
 
       <div className="relative mx-auto w-full px-4 sm:px-6 md:px-8 py-8 sm:py-10 md:py-12 lg:px-46">
         {/* Logo and Social Media - Top Row */}
-        <div className="mb-0 sm:mb-10 md:mb-12 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-5">
+        <div className="mb-6 sm:mb-10 md:mb-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-5">
           {/* Logo - Hidden on mobile, shown on desktop */}
           <div className="hidden sm:block">
             <Image
@@ -26,57 +26,57 @@ export default function Footer() {
             />
           </div>
 
-          {/* Social Media Icons - Left aligned on mobile */}
-          <div className="flex items-center gap-3 sm:gap-4 md:gap-5 self-start sm:self-auto">
-            <a
-              href="https://www.youtube.com/@autovibe-spain"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-transform hover:scale-110"
-            >
-              <Image
-                src="/icons/youtube.png"
-                alt="YouTube"
-                width={64}
-                height={64}
-                className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10"
-              />
-            </a>
-            <a
-              href="https://www.instagram.com/auto_vibe_sl/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-transform hover:scale-110"
-            >
-              <Image
-                src="/icons/instagram.png"
-                alt="Instagram"
-                width={64}
-                height={64}
-                className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10"
-              />
-            </a>
-            <a
-              href="https://www.tiktok.com/@autovibe_bogdan"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-transform hover:scale-110"
-            >
-              <Image
-                src="/icons/tiktok.png"
-                alt="TikTok"
-                width={64}
-                height={64}
-                className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10"
-              />
-            </a>
+          {/* Social Media Icons */}
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
+          <a
+            href="https://www.youtube.com/@autovibe-spain"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-transform hover:scale-110"
+          >
+            <Image
+              src="/icons/youtube.png"
+              alt="YouTube"
+              width={64}
+              height={64}
+              className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10"
+            />
+          </a>
+          <a
+            href="https://www.instagram.com/auto_vibe_sl/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-transform hover:scale-110"
+          >
+            <Image
+              src="/icons/instagram.png"
+              alt="Instagram"
+              width={64}
+              height={64}
+              className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10"
+            />
+          </a>
+          <a
+            href="https://www.tiktok.com/@autovibe_bogdan"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-transform hover:scale-110"
+          >
+            <Image
+              src="/icons/tiktok.png"
+              alt="TikTok"
+              width={64}
+              height={64}
+              className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10"
+            />
+          </a>
           </div>
         </div>
 
         {/* Footer Columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7 md:gap-8">
-          {/* Legal Links */}
-          <div>
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7 md:gap-8">
+          {/* Legal Links - Hidden on mobile */}
+          <div className="hidden sm:block">
             {/* Invisible header to align with other columns */}
             <h3
               className="mb-3 sm:mb-4 font-medium leading-[100%] tracking-[0%] invisible"
@@ -245,7 +245,7 @@ export default function Footer() {
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="col-span-2 sm:col-span-1">
             <h3
               className="mb-3 sm:mb-4 font-medium leading-[100%] tracking-[0%]"
               style={{
@@ -271,20 +271,21 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Logo on mobile - Above copyright */}
-        <div className="mt-8 sm:mt-10 md:mt-12 flex justify-center sm:hidden mb-4">
-          <Image
-            src="/icons/LogoFooter.png"
-            alt="AutoVibe Logo"
-            width={300}
-            height={120}
-            className="h-6 w-auto"
-            priority
-          />
-        </div>
+        {/* Logo and Copyright on mobile - Left aligned */}
+        <div className="mt-8 sm:mt-10 md:mt-12 flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-end gap-4 sm:gap-0">
+          {/* Logo on mobile */}
+          <div className="sm:hidden">
+            <Image
+              src="/icons/LogoFooter.png"
+              alt="AutoVibe Logo"
+              width={300}
+              height={120}
+              className="h-6 w-auto"
+              priority
+            />
+          </div>
 
-        {/* Copyright - Bottom Right */}
-        <div className="mt-0 sm:mt-10 md:mt-12 flex justify-center sm:justify-end">
+          {/* Copyright */}
           <p
             className="font-light leading-[100%] tracking-[0%] text-black sm:text-[#DFDBC8]"
             style={{

@@ -81,9 +81,11 @@ export default function SubscriptionPageContent({ cars }: SubscriptionPageConten
   };
 
   return (
-    <main className="py-8">
+    <main className="py-8 lg:pt-8">
+      {/* Spacer for fixed header on mobile */}
+      <div className="h-20 sm:h-24 md:h-28 lg:h-0"></div>
       {/* Reviews Section */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8 mt-2 lg:mt-0">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2">
             <div className="flex items-center">
@@ -147,9 +149,10 @@ export default function SubscriptionPageContent({ cars }: SubscriptionPageConten
             </div>
           </Link>
 
-          {/* Permanencia corta - doesn't lead anywhere yet */}
-          <div
-            className={`relative bg-[#DFDBC8] rounded-[20px] border-[2px] p-4 transition-all border-black cursor-not-allowed`}
+          {/* Permanencia corta - navigates to /empresas */}
+          <Link
+            href="/empresas"
+            className={`relative bg-[#DFDBC8] rounded-[20px] border-[2px] p-4 transition-all border-black`}
           >
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-3">
@@ -163,7 +166,7 @@ export default function SubscriptionPageContent({ cars }: SubscriptionPageConten
                 <RightArr />
               </svg>
             </div>
-          </div>
+          </Link>
 
           {/* Compra - navigates to /compra */}
           <Link
