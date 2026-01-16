@@ -220,7 +220,7 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
       {/* Сетка машин - 3 в ряд, равномерно распределенные */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
         {filteredAndSortedCars.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center md:justify-items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 justify-items-center sm:justify-items-stretch">
             {filteredAndSortedCars.map((car) => (
               <CarDisplayCard key={car.id || car._id} car={car} />
             ))}

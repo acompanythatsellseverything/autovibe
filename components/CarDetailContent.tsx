@@ -179,31 +179,32 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Title and Price Section */}
         <div className="mb-6 sm:mb-8 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-start">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-normal text-gray-900" style={{ fontFamily: 'Inter', paddingTop: '0.5rem' }}>
+          {/* Title - hidden on mobile, shown on desktop */}
+          <h1 className="hidden lg:block text-2xl sm:text-3xl md:text-4xl font-normal text-gray-900" style={{ fontFamily: 'Inter', paddingTop: '0.5rem' }}>
             {car.name}
           </h1>
           
           {/* Right block with permanence and price - aligned with Configura tu suscripción */}
-          <div className="flex flex-wrap sm:flex-nowrap items-start gap-2 sm:gap-2">
+          <div className="flex flex-nowrap items-start gap-0.5 sm:gap-2">
             {/* Left part: permanence */}
-            <div className="text-right">
-              <div className="text-base sm:text-lg font-semibold text-gray-900">
+            <div className="text-right flex-shrink-0">
+              <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
                 {minPermanence} {t('carPage.meses')}
               </div>
-              <div className="text-xs sm:text-sm font-normal text-gray-700 whitespace-nowrap">
+              <div className="text-[9px] sm:text-xs md:text-sm font-normal text-gray-700 whitespace-nowrap">
                 permanencia mínima
               </div>
             </div>
             
             {/* Vertical divider */}
-            <div className="w-[2px] h-10 sm:h-12 bg-[#B4B4B4] mx-1 sm:mx-2" />
+            <div className="w-[1px] sm:w-[2px] h-8 sm:h-10 md:h-12 bg-[#B4B4B4] mx-0.5 sm:mx-1 md:mx-2 flex-shrink-0" />
             
             {/* Invisible spacer to align with Configura tu suscripción */}
-            <div className="w-2 sm:w-4" />
+            <div className="w-0.5 sm:w-2 md:w-4 flex-shrink-0" />
             
             {/* Right part: price */}
-            <div className="text-left">
-              <div className="text-base sm:text-lg font-semibold text-gray-900 whitespace-nowrap">
+            <div className="text-left flex-shrink-0 ml-1 sm:ml-0">
+              <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
                 {t('carPage.cuotaMensualDe')} {originalPrice && originalPrice > displayPrice ? (
                   <>
                     <span className="line-through" style={{ color: '#E10000' }}>{originalPrice}€</span> <span>{displayPrice}€</span>
@@ -212,13 +213,16 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
                   <span>{displayPrice}€</span>
                 )}
               </div>
-              <div className="text-xs sm:text-sm font-normal text-gray-700 whitespace-nowrap text-right">
+              <div className="text-[9px] sm:text-xs md:text-sm font-normal text-gray-700 whitespace-nowrap text-right">
                 {t('carPage.ivaIncl')}
               </div>
             </div>
             
+            {/* Spacer to center button */}
+            <div className="flex-1" />
+            
             {/* Button */}
-            <button className="bg-[#FB3B55] text-white px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 rounded-lg font-semibold text-sm sm:text-base md:text-lg hover:bg-[#E02A44] transition-colors ml-2 sm:ml-4 w-full sm:w-auto">
+            <button className="bg-[#FB3B55] text-white px-2.5 sm:px-5 md:px-6 lg:px-8 py-1.5 sm:py-2.5 md:py-2.5 lg:py-3 rounded-md sm:rounded-lg font-semibold text-[11px] sm:text-sm md:text-base lg:text-lg hover:bg-[#E02A44] transition-colors flex-shrink-0">
               {t('carPage.continuar')}
             </button>
           </div>
@@ -229,6 +233,10 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
       <div className="mb-6 sm:mb-8 h-[2px] bg-[#B4B4B4] w-full" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Title - shown on mobile, hidden on desktop (already shown above) */}
+        <h1 className="lg:hidden text-2xl sm:text-3xl md:text-4xl font-normal text-gray-900 mb-4" style={{ fontFamily: 'Inter' }}>
+          {car.name}
+        </h1>
 
         {/* Images and Configuration Section */}
         <div className="mb-8 sm:mb-10 md:mb-12 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr]">
@@ -303,7 +311,9 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
           </div>
         )}
       </div>
-        <HowItWorks />
+        <div className="mt-8 sm:mt-0">
+          <HowItWorks />
+        </div>
         <ComparisonTable />
     </main>
   );
