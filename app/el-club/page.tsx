@@ -7,7 +7,7 @@ export default function ElClubPage() {
   return (
     <div className="min-h-screen bg-[#DFDBC8]">
       {/* Hero image on El Club page - fills entire space with header overlaid */}
-      <div className="relative h-[700px] w-full overflow-hidden bg-[#DFDBC8]">
+      <div className="relative h-[616px] sm:h-[700px] w-full overflow-hidden bg-[#DFDBC8]">
         <Image
           src="/img/elcub.jpg"
           alt="El Club"

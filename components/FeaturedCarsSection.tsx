@@ -20,7 +20,7 @@ export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) 
 
   // Константы для галереи
   const CARD_WIDTH = 350;
-  const GAP = 32;
+  const GAP = 18; // Уменьшено на 20% (было 22)
 
   useEffect(() => {
     if (scrollContainerRef.current) {
@@ -66,9 +66,9 @@ export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) 
 
   return (
     <section className="bg-[#DFDBC8] py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Заголовок */}
-        <div className="mb-8 flex items-center justify-between">
+      {/* Заголовок - в контейнере с ограничением ширины */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8">
+        <div className="flex items-center justify-between">
           <h2 className="text-[25px] font-bold text-gray-900" style={{ fontFamily: 'Inter', fontWeight: 700, lineHeight: '100%', letterSpacing: '0%' }}>
             {t('home.featuredCars.title')}
           </h2>
@@ -80,9 +80,13 @@ export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) 
             {t('home.featuredCars.verMas')}
           </Link>
         </div>
+      </div>
 
-        {/* Галерея - горизонтальный скролл */}
-        <div className="relative">
+      {/* Галерея - растягивается до правого края страницы */}
+      <div className="relative w-full overflow-x-hidden">
+        {/* Обертка для выравнивания начала карусели с заголовком */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Контейнер карусели - начинается от того же места что и заголовок, но уходит до правого края */}
           <div
             ref={scrollContainerRef}
             onScroll={handleScroll}
@@ -93,6 +97,9 @@ export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) 
               msOverflowStyle: 'none',
               gap: `${GAP}px`,
               WebkitOverflowScrolling: 'touch',
+              marginLeft: '-8px',
+              marginRight: 'calc(-100vw + 100%)',
+              paddingRight: 'calc(100vw - 100%)',
             }}
           >
             {cars.map((car: any) => (
@@ -108,9 +115,11 @@ export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) 
               </div>
             ))}
           </div>
+        </div>
 
-          {/* Навигация: кнопки и точки */}
-          <div className="mt-6 flex items-center gap-4">
+        {/* Навигация: кнопки и точки - в контейнере с ограничением ширины */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
+          <div className="flex items-center gap-4">
             {/* Кнопки влево/вправо */}
             <div className="flex gap-2">
               <button
