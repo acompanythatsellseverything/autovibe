@@ -20,7 +20,7 @@ export default function CarDisplayCard({ car }: CarDisplayCardProps) {
   const carId = car.id || car._id || '';
 
   return (
-    <Link href={`/cars/${carId}`} className="flex flex-col w-full cursor-pointer">
+    <Link href={`/cars/${carId}`} className="flex flex-col max-w-md md:w-full md:max-w-none cursor-pointer">
       {/* Картинка машины - квадратная, полностью видна */}
       <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden">
         {imageUrl ? (
@@ -48,7 +48,7 @@ export default function CarDisplayCard({ car }: CarDisplayCardProps) {
       </div>
 
       {/* Текст под картинкой */}
-      <div>
+      <div className="pl-2">
         <h3 className="mb-2 text-lg font-semibold text-gray-900" style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '18px', lineHeight: '100%', letterSpacing: '0%' }}>
           {carName}
         </h3>

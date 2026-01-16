@@ -89,10 +89,10 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
       {/* Text Section */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-12">
         <div className="text-center">
-          <h1 className="mb-4 text-4xl font-medium text-gray-900" style={{ fontFamily: 'Inter', fontWeight: 500, fontSize: '40px', lineHeight: '100%', letterSpacing: '0%' }}>
+          <h1 className="mb-4 text-2xl md:text-[40px] font-medium text-gray-900" style={{ fontFamily: 'Inter', fontWeight: 500, lineHeight: '100%', letterSpacing: '0%' }}>
             {t('pages.compra.title')}
           </h1>
-          <p className="text-xl text-black" style={{ fontFamily: 'Inter', fontWeight: 200, fontSize: '30px', lineHeight: '100%', letterSpacing: '0%' }}>
+          <p className="text-base md:text-[30px] text-black" style={{ fontFamily: 'Inter', fontWeight: 200, lineHeight: '100%', letterSpacing: '0%' }}>
             {t('pages.compra.subtitle')}
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
       {/* Filters Section - Compra/Suscripción */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8">
         {/* Three filter buttons in a row - reordered: Compra first, then Permanencia larga, then Permanencia corta */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           {/* Comprar coche - First position, selected on Compra page */}
           <Link
             href="/compra"
@@ -182,9 +182,9 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
         </div>
 
         {/* Price Slider and Sort Filter below */}
-        <div className="flex gap-8 items-start">
+        <div className="flex flex-col md:flex-row gap-8 items-end">
           {/* Price Slider - Left - размером с одну колонку машин (ширина одной карточки из сетки 3 колонки) */}
-          <div className="w-full max-w-[calc((100%-4rem)/3)]">
+          <div className="w-full md:max-w-[calc((100%-4rem)/3)]">
             <DoubleRangeSlider
               min={0}
               max={maxCarPrice}
@@ -196,18 +196,20 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
           </div>
 
           {/* Sort Filter - Right - заканчивается где заканчивается третья машина */}
-          <div className="flex items-center ml-auto">
+          <div className="w-full md:w-auto flex items-center justify-between md:ml-auto">
             <button
               onClick={() => {
                 const sortOptions: SortType[] = ['price-asc', 'price-desc', 'name-asc', 'name-desc'];
                 const currentIndex = sortOptions.indexOf(sortType);
                 setSortType(sortOptions[(currentIndex + 1) % sortOptions.length]);
               }}
-              className="text-sm text-gray-900 flex items-center gap-1 no-underline"
+              className="text-sm text-gray-900 flex items-center gap-1 no-underline w-full md:w-auto"
             >
-              <span>↓↑</span>
-              <span>{t('pages.compra.ordenarPor')}</span>
-              <span className="font-bold">
+              <span className="flex items-center gap-1">
+                <span>↓↑</span>
+                <span>{t('pages.compra.ordenarPor')}</span>
+              </span>
+              <span className="font-bold ml-auto md:ml-0">
                 {sortType === 'price-asc' || sortType === 'price-desc' ? t('pages.compra.precio') : t('pages.compra.nombre')}
               </span>
             </button>
@@ -218,7 +220,7 @@ export default function CompraPageContent({ cars }: CompraPageContentProps) {
       {/* Сетка машин - 3 в ряд, равномерно распределенные */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
         {filteredAndSortedCars.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center md:justify-items-stretch">
             {filteredAndSortedCars.map((car) => (
               <CarDisplayCard key={car.id || car._id} car={car} />
             ))}

@@ -49,7 +49,7 @@ export default function CarCard({ car }: CarCardProps) {
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="pl-2 pt-6 pb-6">
           <h3 className="mb-2 text-xl font-bold text-gray-900 line-clamp-2">
             {carName}
           </h3>

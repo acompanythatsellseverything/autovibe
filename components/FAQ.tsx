@@ -28,14 +28,14 @@ export default function FAQ() {
   ];
 
   return (
-    <section className="bg-[#DFDBC8] py-16">
+    <section className="bg-[#DFDBC8] py-12 sm:py-14 md:py-16">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* Title */}
         <h2
-          className="mb-12 text-center font-medium leading-[100%] tracking-[0%]"
+          className="mb-8 sm:mb-10 md:mb-12 text-center font-medium leading-[100%] tracking-[0%]"
           style={{
             fontFamily: 'Inter, sans-serif',
-            fontSize: '40px',
+            fontSize: 'clamp(24px, 5vw, 40px)',
             color: '#000000',
           }}
         >
@@ -58,23 +58,23 @@ export default function FAQ() {
               )}
 
               {/* Question and Answer */}
-              <div className="py-6">
+              <div className="py-4 sm:py-5 md:py-6">
               <button
-                  className="flex w-full items-center justify-between text-left"
+                  className="flex w-full items-center justify-between text-left gap-2 sm:gap-3"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
               >
                   <span
-                    className="font-medium leading-[100%] tracking-[0%]"
+                    className="font-medium leading-[110%] sm:leading-[100%] tracking-[0%] flex-1"
                     style={{
                       fontFamily: 'Inter, sans-serif',
-                      fontSize: '25px',
+                      fontSize: 'clamp(18px, 3vw, 25px)',
                       color: '#0C0C0C',
                     }}
                   >
                   {faq.question}
                 </span>
                 <ChevronDown
-                    className={`h-5 w-5 transition-transform ${
+                    className={`h-4 w-4 sm:h-5 sm:w-5 transition-transform flex-shrink-0 ${
                     openIndex === index ? 'rotate-180' : ''
                   }`}
                     style={{ color: '#0C0C0C' }}
@@ -83,12 +83,12 @@ export default function FAQ() {
 
                 {/* Answer */}
               {openIndex === index && (
-                  <div className="mt-4 pr-8">
+                  <div className="mt-3 sm:mt-4 pr-4 sm:pr-6 md:pr-8">
                     <p
-                      className="font-light leading-[100%] tracking-[0%]"
+                      className="font-light leading-[120%] sm:leading-[100%] tracking-[0%]"
                       style={{
                         fontFamily: 'Inter, sans-serif',
-                        fontSize: '20px',
+                        fontSize: 'clamp(16px, 2.5vw, 20px)',
                         color: '#0C0C0C',
                       }}
                     >

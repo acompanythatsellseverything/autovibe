@@ -26,9 +26,13 @@ export default function RootLayout({
     <html lang="es">
       <head>
         <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+        <meta name="theme-color" content="#DFDBC8" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body
         className={`${inter.variable} antialiased`}
+        style={{ backgroundColor: '#DFDBC8' }}
         suppressHydrationWarning
       >
         <I18nProvider>

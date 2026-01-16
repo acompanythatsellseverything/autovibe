@@ -79,7 +79,7 @@ function parseFormattedText(text: string): ReactNode[] {
       // Flush any accumulated list items first
       if (currentList.length > 0) {
         result.push(
-          <ul key={`list-${keyCounter++}`} className="list-disc list-inside mb-3 space-y-1 text-lg leading-relaxed text-gray-700">
+          <ul key={`list-${keyCounter++}`} className="list-disc list-inside mb-3 space-y-1 text-base sm:text-lg leading-relaxed text-gray-700">
             {currentList.map((item, itemIndex) => (
               <li key={itemIndex}>{parseInlineFormatting(item)}</li>
             ))}
@@ -91,7 +91,7 @@ function parseFormattedText(text: string): ReactNode[] {
       // Render heading
       const headingText = trimmedLine.slice(2, -2).trim();
       result.push(
-        <h3 key={`heading-${keyCounter++}`} className="text-[21px] font-normal text-gray-900 mb-2 mt-4">
+        <h3 key={`heading-${keyCounter++}`} className="text-[18px] sm:text-[19px] md:text-[20px] lg:text-[21px] font-normal text-gray-900 mb-2 mt-4">
           {parseInlineFormatting(headingText)}
         </h3>
       );
@@ -106,7 +106,7 @@ function parseFormattedText(text: string): ReactNode[] {
       // Flush accumulated list items if we encounter a non-list line
       if (currentList.length > 0) {
         result.push(
-          <ul key={`list-${keyCounter++}`} className="list-disc list-inside mb-3 space-y-1 text-lg leading-relaxed text-gray-700">
+          <ul key={`list-${keyCounter++}`} className="list-disc list-inside mb-3 space-y-1 text-base sm:text-lg leading-relaxed text-gray-700">
             {currentList.map((item, itemIndex) => (
               <li key={itemIndex}>{parseInlineFormatting(item)}</li>
             ))}
@@ -118,7 +118,7 @@ function parseFormattedText(text: string): ReactNode[] {
       // Render paragraph if line is not empty
       if (trimmedLine) {
         result.push(
-          <p key={`para-${keyCounter++}`} className="text-lg leading-relaxed text-gray-700 mb-2">
+          <p key={`para-${keyCounter++}`} className="text-base sm:text-lg leading-relaxed text-gray-700 mb-2">
             {parseInlineFormatting(trimmedLine)}
           </p>
         );
@@ -175,35 +175,35 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
   const originalPrice = car.originalPrice;
 
   return (
-    <main className="py-8">
+    <main className="py-6 sm:py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Title and Price Section */}
-        <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-[1.55fr_1fr] items-start">
-          <h1 className="text-4xl font-normal text-gray-900" style={{ fontFamily: 'Inter', paddingTop: '0.5rem' }}>
+        <div className="mb-6 sm:mb-8 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-start">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-normal text-gray-900" style={{ fontFamily: 'Inter', paddingTop: '0.5rem' }}>
             {car.name}
           </h1>
           
           {/* Right block with permanence and price - aligned with Configura tu suscripción */}
-          <div className="flex items-start gap-2">
+          <div className="flex flex-wrap sm:flex-nowrap items-start gap-2 sm:gap-2">
             {/* Left part: permanence */}
             <div className="text-right">
-              <div className="text-lg font-semibold text-gray-900">
+              <div className="text-base sm:text-lg font-semibold text-gray-900">
                 {minPermanence} {t('carPage.meses')}
               </div>
-              <div className="text-sm font-normal text-gray-700 whitespace-nowrap">
+              <div className="text-xs sm:text-sm font-normal text-gray-700 whitespace-nowrap">
                 permanencia mínima
               </div>
             </div>
             
             {/* Vertical divider */}
-            <div className="w-[2px] h-12 bg-[#B4B4B4] mx-2" />
+            <div className="w-[2px] h-10 sm:h-12 bg-[#B4B4B4] mx-1 sm:mx-2" />
             
             {/* Invisible spacer to align with Configura tu suscripción */}
-            <div className="w-4" />
+            <div className="w-2 sm:w-4" />
             
             {/* Right part: price */}
             <div className="text-left">
-              <div className="text-lg font-semibold text-gray-900 whitespace-nowrap">
+              <div className="text-base sm:text-lg font-semibold text-gray-900 whitespace-nowrap">
                 {t('carPage.cuotaMensualDe')} {originalPrice && originalPrice > displayPrice ? (
                   <>
                     <span className="line-through" style={{ color: '#E10000' }}>{originalPrice}€</span> <span>{displayPrice}€</span>
@@ -212,13 +212,13 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
                   <span>{displayPrice}€</span>
                 )}
               </div>
-              <div className="text-sm font-normal text-gray-700 whitespace-nowrap text-right">
+              <div className="text-xs sm:text-sm font-normal text-gray-700 whitespace-nowrap text-right">
                 {t('carPage.ivaIncl')}
               </div>
             </div>
             
             {/* Button */}
-            <button className="bg-[#FB3B55] text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-[#E02A44] transition-colors ml-4">
+            <button className="bg-[#FB3B55] text-white px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 rounded-lg font-semibold text-sm sm:text-base md:text-lg hover:bg-[#E02A44] transition-colors ml-2 sm:ml-4 w-full sm:w-auto">
               {t('carPage.continuar')}
             </button>
           </div>
@@ -226,16 +226,16 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
       </div>
 
       {/* Divider - full width */}
-      <div className="mb-8 h-[2px] bg-[#B4B4B4] w-full" />
+      <div className="mb-6 sm:mb-8 h-[2px] bg-[#B4B4B4] w-full" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Images and Configuration Section */}
-        <div className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-[1.55fr_1fr]">
+        <div className="mb-8 sm:mb-10 md:mb-12 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr]">
           {/* Left: Main Image and Gallery */}
           <div className="h-full flex flex-col">
             {/* Main Image */}
-            <div className="relative mb-4 flex-1 overflow-hidden rounded-2xl bg-gray-100 min-h-[400px]">
+            <div className="relative mb-3 sm:mb-4 flex-1 overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 min-h-[300px] sm:min-h-[350px] md:min-h-[400px]">
               {currentImageUrl ? (
                 <Image
                   src={currentImageUrl}
@@ -254,27 +254,27 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
 
             {/* Thumbnail Gallery - show next 3 additionalImages (not clickable) */}
             {thumbnailImages.length > 0 && (
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                 {thumbnailImages.map((image, thumbIndex) => {
                   const imageUrl = image ? getStrapiImageUrl(image, 'medium') : '';
                   
                   return (
                     <div
                       key={thumbIndex}
-                      className="relative aspect-[16/9] overflow-visible rounded-lg"
+                      className="relative aspect-[16/9] overflow-visible rounded-md sm:rounded-lg"
                     >
                       {imageUrl ? (
-                        <div className="relative h-full w-full rounded-lg" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}>
+                        <div className="relative h-full w-full rounded-md sm:rounded-lg" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}>
                         <Image
                           src={imageUrl}
                             alt={`${car.name} ${thumbIndex + 2}`}
                           fill
-                            className="object-cover rounded-lg"
+                            className="object-cover rounded-md sm:rounded-lg"
                             sizes="(max-width: 1024px) 33vw, 22vw"
                         />
                         </div>
                       ) : (
-                        <div className="flex h-full items-center justify-center bg-gray-200 rounded-lg" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}>
+                        <div className="flex h-full items-center justify-center bg-gray-200 rounded-md sm:rounded-lg" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}>
                           <p className="text-xs text-gray-400">{thumbIndex + 2}</p>
                         </div>
                       )}
@@ -293,11 +293,11 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
 
         {/* Detailed Description */}
         {car.detailedDescription && (
-          <div className="mb-12">
-            <h2 className="mb-4 text-3xl font-semibold text-gray-900">
+          <div className="mb-8 sm:mb-10 md:mb-12">
+            <h2 className="mb-3 sm:mb-4 text-2xl sm:text-2.5xl md:text-3xl font-semibold text-gray-900">
               {car.model || car.name}
             </h2>
-            <div className="prose prose-lg max-w-none">
+            <div className="prose prose-base sm:prose-lg max-w-none">
               {parseFormattedText(car.detailedDescription)}
             </div>
           </div>

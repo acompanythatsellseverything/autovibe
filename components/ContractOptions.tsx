@@ -29,7 +29,7 @@ export default function ContractOptions() {
   ];
 
   return (
-    <section className="relative py-16 overflow-hidden">
+    <section className="relative py-12 sm:py-14 md:py-16 overflow-hidden">
       {/* Gradient background */}
       <div 
         className="absolute inset-0"
@@ -41,10 +41,10 @@ export default function ContractOptions() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Title */}
         <h2 
-          className="mb-12 text-center font-medium leading-[100%] tracking-[0%]"
+          className="mb-8 sm:mb-10 md:mb-12 text-center font-medium leading-[100%] tracking-[0%]"
           style={{
             fontFamily: 'Inter, sans-serif',
-            fontSize: '40px',
+            fontSize: 'clamp(24px, 5vw, 40px)',
             color: '#DFDBC8',
           }}
         >
@@ -52,16 +52,16 @@ export default function ContractOptions() {
         </h2>
         
         {/* Options grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:gap-7 md:gap-8 md:grid-cols-2 lg:grid-cols-4">
           {options.map((option, index) => (
             <div key={index} className="flex flex-col">
               {/* Option number */}
-              <div className="mb-4">
+              <div className="mb-3 sm:mb-4">
                 <span 
                   className="font-medium leading-[100%] tracking-[0%]"
                   style={{
                     fontFamily: 'Inter, sans-serif',
-                    fontSize: '25px',
+                    fontSize: 'clamp(18px, 3vw, 25px)',
                     color: '#DFDBC8',
                   }}
                 >
@@ -74,7 +74,7 @@ export default function ContractOptions() {
                 className="font-normal leading-[1.4] tracking-[0%]"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '16px',
+                  fontSize: 'clamp(14px, 2vw, 16px)',
                   color: '#DFDBC8',
                 }}
               >

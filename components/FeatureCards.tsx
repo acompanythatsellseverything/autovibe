@@ -20,13 +20,13 @@ export default function FeatureCards() {
   ];
 
   return (
-    <section className="bg-[#DFDBC8] py-16">
+    <section className="bg-[#DFDBC8] py-12 sm:py-14 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:gap-7 md:gap-8 md:grid-cols-3">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-2xl shadow-lg transition-transform hover:scale-105"
+              className="group relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg transition-transform hover:scale-105"
             >
               <div className="relative aspect-square">
                 <Image
@@ -37,11 +37,11 @@ export default function FeatureCards() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
                 {/* Text Overlay */}
-                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 via-black/20 to-transparent p-6">
-                  <h3 className="mb-2 text-[25px] font-semibold leading-[100%] tracking-[0%] text-white">
+                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 via-black/20 to-transparent p-4 sm:p-5 md:p-6">
+                  <h3 className="mb-1.5 sm:mb-2 text-[18px] sm:text-[20px] md:text-[22px] lg:text-[25px] font-semibold leading-[100%] tracking-[0%] text-white">
                     {feature.title}
                   </h3>
-                  <p className="text-[15px] font-light leading-[100%] tracking-[0%] text-white">
+                  <p className="text-[13px] sm:text-[14px] md:text-[15px] font-light leading-[110%] sm:leading-[100%] tracking-[0%] text-white">
                     {feature.description}
                   </p>
                 </div>
