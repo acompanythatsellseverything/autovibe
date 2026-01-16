@@ -24,50 +24,61 @@ export default function ComparisonTable() {
           {t('comparison.title')}
         </h2>
         <div className="relative flex justify-center overflow-x-hidden">
-          {/* White rounded rectangle container - increased width */}
-          <div className="relative h-auto min-h-[400px] sm:min-h-[500px] md:h-[560px] lg:h-[640px] w-full max-w-[1800px] rounded-[12px] sm:rounded-[20px] md:rounded-[25px] lg:rounded-[30px] bg-white shadow-lg overflow-hidden">
-            <div className="relative flex h-full flex-col px-2 sm:px-4 md:px-6 lg:px-10 xl:px-12 py-3 sm:py-5 md:py-6 lg:py-8">
+          {/* White rounded rectangle container - width significantly reduced on mobile, centered */}
+          <div className="relative h-auto min-h-[400px] sm:min-h-[500px] md:h-[560px] lg:h-[640px] w-[calc(100%-4px)] sm:w-[calc(100%-6px)] md:max-w-[1720px] lg:max-w-[1680px] xl:max-w-[1640px] mx-auto rounded-[12px] sm:rounded-[20px] md:rounded-[25px] lg:rounded-[30px] bg-white shadow-lg overflow-hidden">
+            <div className="relative flex h-full flex-col pl-2 pr-0 sm:pl-4 sm:pr-0 md:px-6 lg:px-10 xl:pl-12 xl:pr-0 py-3 sm:py-5 md:py-6 lg:py-8 overflow-hidden">
               {/* Red background rectangle for Suscripción AutoVibe column - spans entire height */}
-              {/* Mobile: simplified positioning based on grid proportions */}
+              {/* Width reduced more on large screens to center content properly */}
               <style dangerouslySetInnerHTML={{__html: `
                 .comparison-red-block {
                   /* Mobile: grid-cols-[1.8fr_0.9fr_0.9fr_1fr] = total 4.6fr
                      Last column starts at: (1.8+0.9+0.9)/4.6 = 78.26%
-                     Last column width: 1/4.6 = 21.74% */
+                     Extend from left position to right edge */
                   left: 78.26%;
-                  width: 21.74%;
-                  right: -8px;
+                  right: 0 !important;
+                  width: auto !important;
+                  border-top-right-radius: 12px;
+                  border-bottom-right-radius: 12px;
                 }
                 @media (min-width: 640px) {
                   .comparison-red-block {
                     /* sm: grid-cols-[1.9fr_1fr_1fr_1.1fr] = total 5fr
                        Last column starts at: (1.9+1+1)/5 = 78%
-                       Last column width: 1.1/5 = 22% */
+                       Extend from left position to right edge */
                     left: 78%;
-                    width: 22%;
-                    right: -16px;
+                    right: 0 !important;
+                    width: auto !important;
+                    border-top-right-radius: 20px;
+                    border-bottom-right-radius: 20px;
                   }
                 }
                 @media (min-width: 768px) {
                   .comparison-red-block {
                     /* md: grid-cols-[2fr_1fr_1fr_1fr] = total 5fr
                        Last column starts at: (2+1+1)/5 = 80%
-                       Last column width: 1/5 = 20% */
+                       Use exact column width, position to match grid column */
                     left: 80%;
                     width: 20%;
-                    right: -24px;
+                    border-top-right-radius: 25px;
+                    border-bottom-right-radius: 25px;
                   }
                 }
                 @media (min-width: 1024px) {
                   .comparison-red-block {
-                    right: -40px;
+                    /* lg: use exact column width to match grid */
+                    left: 80%;
+                    width: 20%;
+                    border-top-right-radius: 30px;
+                    border-bottom-right-radius: 30px;
                   }
                 }
                 @media (min-width: 1280px) {
                   .comparison-red-block {
-                    left: auto;
-                    width: 320px;
-                    right: -48px;
+                    /* xl: use exact column width to match grid */
+                    left: 80% !important;
+                    width: 20% !important;
+                    border-top-right-radius: 30px;
+                    border-bottom-right-radius: 30px;
                   }
                 }
                 /* Hide separator on mobile */
@@ -90,8 +101,8 @@ export default function ComparisonTable() {
                 className="absolute top-0 h-full bg-[#FB3B55] rounded-[12px] sm:rounded-[20px] md:rounded-[25px] lg:rounded-[30px] z-0 comparison-red-block"
                 style={{
                   left: '78.26%',
-                  width: '21.74%',
-                  right: '-8px',
+                  right: '0',
+                  width: 'auto',
                 }}
               />
               
@@ -107,22 +118,22 @@ export default function ComparisonTable() {
               {/* Table Header */}
               <div className="mb-1 sm:mb-2 grid grid-cols-[1.8fr_0.9fr_0.9fr_1fr] sm:grid-cols-[1.9fr_1fr_1fr_1.1fr] md:grid-cols-[2fr_1fr_1fr_1fr] relative z-10 items-center gap-0.5 sm:gap-1.5 md:gap-2.5 lg:gap-3 xl:gap-4">
                 <div className="text-left pl-1 sm:pl-2 md:pl-4 lg:pl-6 xl:pl-8">
-                  <h3 className="text-[8px] sm:text-[11px] md:text-[13px] lg:text-[15px] xl:text-[18px] font-medium leading-[1.2] sm:leading-[1.3] tracking-[-0.01em] sm:tracking-[0%] text-[#000000]">
+                  <h3 className="text-[11px] sm:text-[11px] md:text-[13px] lg:text-[15px] xl:text-[18px] font-medium leading-[1.2] sm:leading-[1.3] tracking-[-0.01em] sm:tracking-[0%] text-[#000000]">
                     {t('comparison.caracteristicas')}
                   </h3>
                 </div>
                 <div className="relative text-center flex items-center justify-center">
-                  <h3 className="text-[8px] sm:text-[11px] md:text-[13px] lg:text-[15px] xl:text-[18px] font-medium leading-[1.2] sm:leading-[1.3] tracking-[-0.01em] sm:tracking-[0%] text-[#000000]">
+                  <h3 className="text-[11px] sm:text-[11px] md:text-[13px] lg:text-[15px] xl:text-[18px] font-medium leading-[1.2] sm:leading-[1.3] tracking-[-0.01em] sm:tracking-[0%] text-[#000000]">
                     {t('comparison.leasing')}
                   </h3>
                 </div>
                 <div className="text-center flex items-center justify-center">
-                  <h3 className="text-[8px] sm:text-[11px] md:text-[13px] lg:text-[15px] xl:text-[18px] font-medium leading-[1.2] sm:leading-[1.3] tracking-[-0.01em] sm:tracking-[0%] text-[#000000]">
+                  <h3 className="text-[11px] sm:text-[11px] md:text-[13px] lg:text-[15px] xl:text-[18px] font-medium leading-[1.2] sm:leading-[1.3] tracking-[-0.01em] sm:tracking-[0%] text-[#000000]">
                     {t('comparison.alquiler')}
                   </h3>
                 </div>
                 <div className="relative flex flex-col sm:block items-center justify-center w-full" style={{ padding: 0, margin: 0 }}>
-                  <h3 className="relative z-10 text-[8px] sm:text-[11px] md:text-[13px] lg:text-[15px] xl:text-[18px] font-medium leading-[1.1] sm:leading-[1.2] md:leading-[1.3] tracking-[-0.01em] sm:tracking-[0%] text-white text-center w-full">
+                  <h3 className="relative z-10 text-[11px] sm:text-[11px] md:text-[13px] lg:text-[15px] xl:text-[18px] font-medium leading-[1.1] sm:leading-[1.2] md:leading-[1.3] tracking-[-0.01em] sm:tracking-[0%] text-white text-center w-full">
                     <span className="block sm:inline">{t('comparison.suscripcion')}</span>
                     <br className="hidden sm:block" />
                     <span className="block sm:inline">{t('comparison.autovibe')}</span>
@@ -131,22 +142,22 @@ export default function ComparisonTable() {
               </div>
 
               {/* Features List */}
-              <div className="relative flex-1 flex flex-col justify-between z-10 gap-1.5 sm:gap-2.5 md:gap-3 lg:gap-4">
+              <div className="relative flex-1 flex flex-col justify-between z-10 gap-0.5 sm:gap-2.5 md:gap-3 lg:gap-4">
                 {features.map((feature, index) => (
                   <div key={index} className="grid grid-cols-[1.8fr_0.9fr_0.9fr_1fr] sm:grid-cols-[1.9fr_1fr_1fr_1.1fr] md:grid-cols-[2fr_1fr_1fr_1fr] flex-1 items-center gap-0.5 sm:gap-1.5 md:gap-2.5 lg:gap-3 xl:gap-4">
                     <div className="flex items-center text-left pl-1 sm:pl-2 md:pl-4 lg:pl-6 xl:pl-8 min-w-0">
-                      <p className="text-[8px] sm:text-[11px] md:text-[13px] lg:text-[15px] xl:text-[18px] font-light leading-[1.2] sm:leading-[1.3] tracking-[-0.01em] sm:tracking-[0%] text-[#0C0C0C] whitespace-nowrap overflow-hidden text-ellipsis">
+                      <p className="text-[11px] sm:text-[11px] md:text-[13px] lg:text-[15px] xl:text-[18px] font-light leading-[1.1] sm:leading-[1.2] md:leading-[1.3] tracking-[-0.01em] sm:tracking-[0%] text-[#0C0C0C] break-words">
                         {feature.name}
                       </p>
                     </div>
-                    <div className="relative flex items-center justify-center">
+                    <div className="relative flex items-center justify-center self-center">
                       {feature.leasing ? (
                         <Image
                           src="/icons/Check.svg"
                           alt="Check"
                           width={32}
                           height={32}
-                          className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 lg:h-6 lg:w-6 xl:h-8 xl:w-8"
+                          className="h-4.5 w-4.5 sm:h-4 sm:w-4 md:h-5 md:w-5 lg:h-6 lg:w-6 xl:h-8 xl:w-8"
                           style={{ objectFit: 'contain' }}
                         />
                       ) : (
@@ -155,19 +166,19 @@ export default function ComparisonTable() {
                           alt="Cross"
                           width={24}
                           height={24}
-                          className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6"
+                          className="h-3.5 w-3.5 sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6"
                           style={{ objectFit: 'contain' }}
                         />
                       )}
                     </div>
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center self-center">
                       {feature.rental ? (
                         <Image
                           src="/icons/Check.svg"
                           alt="Check"
                           width={32}
                           height={32}
-                          className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 lg:h-6 lg:w-6 xl:h-8 xl:w-8"
+                          className="h-4.5 w-4.5 sm:h-4 sm:w-4 md:h-5 md:w-5 lg:h-6 lg:w-6 xl:h-8 xl:w-8"
                           style={{ objectFit: 'contain' }}
                         />
                       ) : (
@@ -176,12 +187,12 @@ export default function ComparisonTable() {
                           alt="Cross"
                           width={24}
                           height={24}
-                          className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6"
+                          className="h-3.5 w-3.5 sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6"
                           style={{ objectFit: 'contain' }}
                         />
                       )}
                     </div>
-                    <div className="relative flex items-center justify-center w-full" style={{ padding: 0 }}>
+                    <div className="relative flex items-center justify-center w-full self-center" style={{ padding: 0 }}>
                       <div className="relative z-10 flex items-center justify-center w-full mx-auto">
                         {feature.autovibe ? (
                           <Image
@@ -189,7 +200,7 @@ export default function ComparisonTable() {
                             alt="Check"
                             width={32}
                             height={32}
-                            className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 lg:h-6 lg:w-6 xl:h-8 xl:w-8 brightness-0 invert mx-auto"
+                            className="h-4.5 w-4.5 sm:h-4 sm:w-4 md:h-5 md:w-5 lg:h-6 lg:w-6 xl:h-8 xl:w-8 brightness-0 invert mx-auto"
                             style={{ objectFit: 'contain' }}
                           />
                         ) : (
@@ -198,7 +209,7 @@ export default function ComparisonTable() {
                             alt="Cross"
                             width={24}
                             height={24}
-                            className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6 brightness-0 invert mx-auto"
+                            className="h-3.5 w-3.5 sm:h-3 sm:w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6 brightness-0 invert mx-auto"
                             style={{ objectFit: 'contain' }}
                           />
                         )}

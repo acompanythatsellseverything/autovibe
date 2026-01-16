@@ -9,18 +9,13 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden">
       {/* Gradient background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(to right, #544A70, #D99300)',
-        }}
-      />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#544A70] to-[#D99300] sm:bg-gradient-to-r" />
 
       <div className="relative mx-auto w-full px-4 sm:px-6 md:px-8 py-8 sm:py-10 md:py-12 lg:px-46">
         {/* Logo and Social Media - Top Row */}
-        <div className="mb-8 sm:mb-10 md:mb-12 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-5">
-          {/* Logo */}
-          <div>
+        <div className="mb-0 sm:mb-10 md:mb-12 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-5">
+          {/* Logo - Hidden on mobile, shown on desktop */}
+          <div className="hidden sm:block">
             <Image
               src="/icons/LogoFooter.png"
               alt="AutoVibe Logo"
@@ -31,8 +26,8 @@ export default function Footer() {
             />
           </div>
 
-          {/* Social Media Icons */}
-          <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
+          {/* Social Media Icons - Left aligned on mobile */}
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-5 self-start sm:self-auto">
             <a
               href="https://www.youtube.com/@autovibe-spain"
               target="_blank"
@@ -276,14 +271,25 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Logo on mobile - Above copyright */}
+        <div className="mt-8 sm:mt-10 md:mt-12 flex justify-center sm:hidden mb-4">
+          <Image
+            src="/icons/LogoFooter.png"
+            alt="AutoVibe Logo"
+            width={300}
+            height={120}
+            className="h-6 w-auto"
+            priority
+          />
+        </div>
+
         {/* Copyright - Bottom Right */}
-        <div className="mt-8 sm:mt-10 md:mt-12 flex justify-center sm:justify-end">
+        <div className="mt-0 sm:mt-10 md:mt-12 flex justify-center sm:justify-end">
           <p
-            className="font-light leading-[100%] tracking-[0%]"
+            className="font-light leading-[100%] tracking-[0%] text-black sm:text-[#DFDBC8]"
             style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: 'clamp(14px, 2.5vw, 20px)',
-              color: '#DFDBC8',
             }}
           >
             {t('footer.copyright')}

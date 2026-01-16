@@ -20,7 +20,7 @@ export async function getCars(featured?: boolean) {
 
     if (featured) {
       params['filters[featured][$eq]'] = true;
-      params['pagination[limit]'] = 4;
+      // Убрано ограничение pagination[limit] чтобы показывать все featured машины
     }
 
     const response = await strapiClient.get('/cars', { params });

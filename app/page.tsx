@@ -11,6 +11,7 @@ import StrapiNotice from '@/components/StrapiNotice';
 import HomeHero from '@/components/HomeHero';
 import FeaturedCarsSection from '@/components/FeaturedCarsSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
+import BrandCarousel from '@/components/BrandCarousel';
 import {
   getFeaturedCars,
   getFeatures,
@@ -53,7 +54,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-[#DFDBC8]">
       {/* Car image on main page - fills entire space with header overlaid */}
-      <div className="relative h-[700px] w-full overflow-hidden bg-[#DFDBC8]">
+      <div className="relative h-[616px] sm:h-[700px] w-full overflow-hidden bg-[#DFDBC8]">
         <Image
           src="/img/Mask group.png"
           alt="Car showcase"
@@ -68,17 +69,8 @@ export default async function Home() {
         </div>
       </div>
       <main>
-        {/* Car Logos Image - Full Width */}
-        <div className="relative w-full">
-            <Image
-            src="/icons/carlogos.png"
-            alt="Car brand logos"
-            width={1920}
-            height={200}
-            className="h-auto w-full object-cover"
-            priority
-          />
-        </div>
+        {/* Car Logos - Desktop: Image, Mobile: Carousel */}
+        <BrandCarousel />
 
         {/* Call to Action Section */}
         <HomeHero />

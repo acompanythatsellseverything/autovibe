@@ -31,7 +31,7 @@ export default function Header() {
         <div className="relative flex h-20 sm:h-24 md:h-28 items-center">
           {/* Mobile menu button - Left, before logo */}
           <button
-            className={`lg:hidden mr-3 ${isTransparentHeader ? 'text-white' : 'text-gray-900'}`}
+            className={`lg:hidden mr-3 -mt-2 sm:-mt-2.5 md:-mt-3 ${isTransparentHeader ? 'text-white' : 'text-gray-900'}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <svg
@@ -213,7 +213,27 @@ export default function Header() {
           <div className="sticky top-0 bg-[#DFDBC8] z-10">
             <div className="px-6 py-4">
               <div className="flex items-center justify-between">
-                {/* Language selector - Left */}
+                {/* Close button - Left */}
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-gray-900"
+                >
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+
+                {/* Language selector - Right */}
                 <div className="flex items-center space-x-3">
                   <button
                     onClick={() => setLocale('es')}
@@ -264,26 +284,6 @@ export default function Header() {
                     />
                   </button>
                 </div>
-
-                {/* Close button - Right */}
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-gray-900"
-                >
-                  <svg
-                    className="h-6 w-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
               </div>
             </div>
             
@@ -295,23 +295,35 @@ export default function Header() {
           <div className="px-6 py-8">
             <div className="flex flex-col space-y-6">
               {/* Llama me! and Mi Cuenta - на одной линии */}
-              <div className="flex gap-4">
-                <button className="flex items-center space-x-2 rounded-2xl bg-[#F4A709] px-4 py-2 text-base font-semibold text-white flex-1">
-                  <Phone className="h-5 w-5" />
+              <div className="flex items-center justify-center gap-2">
+                <button className="flex items-center justify-center gap-1.5 rounded-3xl bg-[#F4A709] px-4 py-2 text-base font-normal text-white transition-colors hover:bg-[#E59808] whitespace-nowrap flex-1">
+                  <Phone className="h-5 w-5 flex-shrink-0" />
                   <span>{t('header.llamaMe')}</span>
                 </button>
-                <span className="flex items-center space-x-2 rounded-2xl bg-[#603361] px-4 py-2 text-base font-semibold text-white cursor-default flex-1">
+                <span className="flex items-center justify-center gap-1.5 rounded-3xl bg-[#603361] px-4 py-2 text-base font-normal text-white whitespace-nowrap cursor-default flex-1">
                   <Image
                     src="/icons/account_circle.svg"
                     alt="Account"
                     width={20}
                     height={20}
-                    className="h-5 w-5"
+                    className="h-5 w-5 flex-shrink-0"
                   />
                   <span>{t('header.miCuenta')}</span>
                 </span>
               </div>
 
+              <div>
+                <div style={{ display: 'inline-block' }}>
+                  <Link
+                    href="/"
+                    className="text-lg font-medium text-gray-900 hover:text-purple-600 transition-colors block"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {t('header.inicio')}
+                  </Link>
+                  <div style={{ height: '1px', backgroundColor: '#B4B4B4', marginTop: '8px', padding: 0, lineHeight: 0 }} />
+                </div>
+              </div>
               <div>
                 <div style={{ display: 'inline-block' }}>
                   <Link

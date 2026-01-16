@@ -4,6 +4,7 @@ export const translations = {
   es: {
     // Header
     header: {
+      inicio: 'Inicio',
       suscripcion: 'Suscripción',
       compra: 'Compra',
       empresas: 'Empresas',
@@ -221,6 +222,7 @@ export const translations = {
   en: {
     // Header
     header: {
+      inicio: 'Home',
       suscripcion: 'Subscription',
       compra: 'Purchase',
       empresas: 'Business',
@@ -438,6 +440,7 @@ export const translations = {
   uk: {
     // Header
     header: {
+      inicio: 'Головна',
       suscripcion: 'Підписка',
       compra: 'Купівля',
       empresas: 'Бізнес',
@@ -655,6 +658,7 @@ export const translations = {
   ru: {
     // Header
     header: {
+      inicio: 'Главная',
       suscripcion: 'Подписка',
       compra: 'Покупка',
       empresas: 'Бизнес',
