@@ -442,7 +442,7 @@ export const translations = {
       compra: 'Купівля',
       empresas: 'Бізнес',
       elClub: 'Клуб',
-      llamaMe: 'Зателефонуй мені!',
+      llamaMe: 'Зателефонуй!',
       miCuenta: 'Мій акаунт',
     },
     // Home page

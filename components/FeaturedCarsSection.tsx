@@ -74,7 +74,7 @@ export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) 
           </h2>
           <Link
             href="/suscripcion"
-            className="text-[#FB3B55] hover:text-[#FB3B55]/80 underline text-[25px] font-normal"
+            className="text-[#FB3B55] hover:text-[#FB3B55]/80 underline text-base md:text-[25px] font-normal"
             style={{ fontFamily: 'Inter', fontWeight: 400, lineHeight: '100%', letterSpacing: '0%', textDecorationLine: 'underline' }}
           >
             {t('home.featuredCars.verMas')}

@@ -16,9 +16,9 @@ export default function Footer() {
         }}
       />
 
-      <div className="relative mx-auto w-full px-8 py-12 lg:px-46">
+      <div className="relative mx-auto w-full px-4 sm:px-6 md:px-8 py-8 sm:py-10 md:py-12 lg:px-46">
         {/* Logo and Social Media - Top Row */}
-        <div className="mb-12 flex items-center justify-between">
+        <div className="mb-8 sm:mb-10 md:mb-12 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-5">
           {/* Logo */}
           <div>
             <Image
@@ -26,13 +26,13 @@ export default function Footer() {
               alt="AutoVibe Logo"
               width={300}
               height={120}
-              className="h-10 w-auto"
+              className="h-8 sm:h-9 md:h-10 w-auto"
               priority
             />
           </div>
 
           {/* Social Media Icons */}
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
             <a
               href="https://www.youtube.com/@autovibe-spain"
               target="_blank"
@@ -44,7 +44,7 @@ export default function Footer() {
                 alt="YouTube"
                 width={64}
                 height={64}
-                className="h-10 w-10"
+                className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10"
               />
             </a>
             <a
@@ -58,7 +58,7 @@ export default function Footer() {
                 alt="Instagram"
                 width={64}
                 height={64}
-                className="h-10 w-10"
+                className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10"
               />
             </a>
             <a
@@ -72,33 +72,33 @@ export default function Footer() {
                 alt="TikTok"
                 width={64}
                 height={64}
-                className="h-10 w-10"
+                className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10"
               />
             </a>
           </div>
         </div>
 
         {/* Footer Columns */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7 md:gap-8">
           {/* Legal Links */}
           <div>
             {/* Invisible header to align with other columns */}
             <h3
-              className="mb-4 font-medium leading-[100%] tracking-[0%] invisible"
+              className="mb-3 sm:mb-4 font-medium leading-[100%] tracking-[0%] invisible"
               style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '20px',
+                fontSize: 'clamp(16px, 2.5vw, 20px)',
                 color: '#DFDBC8',
               }}
             >
               {t('footer.ciudades.title')}
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-1.5 sm:space-y-2">
               <span
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -108,7 +108,7 @@ export default function Footer() {
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -118,7 +118,7 @@ export default function Footer() {
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -128,7 +128,7 @@ export default function Footer() {
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -140,21 +140,21 @@ export default function Footer() {
           {/* Cities */}
           <div>
             <h3
-              className="mb-4 font-medium leading-[100%] tracking-[0%]"
+              className="mb-3 sm:mb-4 font-medium leading-[100%] tracking-[0%]"
               style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '20px',
+                fontSize: 'clamp(16px, 2.5vw, 20px)',
                 color: '#DFDBC8',
               }}
             >
               {t('footer.ciudades.title')}
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-1.5 sm:space-y-2">
               <span
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -164,7 +164,7 @@ export default function Footer() {
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -174,7 +174,7 @@ export default function Footer() {
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -184,7 +184,7 @@ export default function Footer() {
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -196,21 +196,21 @@ export default function Footer() {
           {/* About Us */}
           <div>
             <h3
-              className="mb-4 font-medium leading-[100%] tracking-[0%]"
+              className="mb-3 sm:mb-4 font-medium leading-[100%] tracking-[0%]"
               style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '20px',
+                fontSize: 'clamp(16px, 2.5vw, 20px)',
                 color: '#DFDBC8',
               }}
             >
               {t('footer.conocenos.title')}
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-1.5 sm:space-y-2">
               <span
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -220,7 +220,7 @@ export default function Footer() {
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -230,7 +230,7 @@ export default function Footer() {
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -240,7 +240,7 @@ export default function Footer() {
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
+                  fontSize: 'clamp(14px, 2.5vw, 20px)',
                   color: '#DFDBC8',
                 }}
               >
@@ -252,19 +252,19 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h3
-              className="mb-4 font-medium leading-[100%] tracking-[0%]"
+              className="mb-3 sm:mb-4 font-medium leading-[100%] tracking-[0%]"
               style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '20px',
+                fontSize: 'clamp(16px, 2.5vw, 20px)',
                 color: '#DFDBC8',
               }}
             >
               {t('footer.contactanos.title')}
             </h3>
-            <div className="space-y-2 font-light leading-[100%] tracking-[0%]"
+            <div className="space-y-1.5 sm:space-y-2 font-light leading-[100%] tracking-[0%]"
               style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '20px',
+                fontSize: 'clamp(14px, 2.5vw, 20px)',
                 color: '#DFDBC8',
               }}
             >
@@ -277,12 +277,12 @@ export default function Footer() {
         </div>
 
         {/* Copyright - Bottom Right */}
-        <div className="mt-12 flex justify-end">
+        <div className="mt-8 sm:mt-10 md:mt-12 flex justify-center sm:justify-end">
           <p
             className="font-light leading-[100%] tracking-[0%]"
             style={{
               fontFamily: 'Inter, sans-serif',
-              fontSize: '20px',
+              fontSize: 'clamp(14px, 2.5vw, 20px)',
               color: '#DFDBC8',
             }}
           >

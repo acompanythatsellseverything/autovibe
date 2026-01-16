@@ -38,7 +38,7 @@ export default function CarCarouselCard({ car }: CarCarouselCardProps) {
       </div>
 
       {/* Content - текст и описание под картинкой */}
-      <div>
+      <div className="pl-2">
         <h3 className="mb-2 text-lg text-gray-900" style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '18px', lineHeight: '100%', letterSpacing: '0%' }}>
           {carName}
         </h3>
