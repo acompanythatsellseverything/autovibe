@@ -62,7 +62,7 @@ export default function CarCard({ car }: CarCardProps) {
             <div className="flex items-baseline space-x-2">
               <span className="text-sm font-medium text-orange-500">desde</span>
               <span className="text-3xl font-bold text-orange-500">
-                €{car.pricePerMonth || 0}/mes
+                €{car.pricePerMonthSuscripcion || car.pricePerMonth || 0}/mes
               </span>
             </div>
             <div className="text-lg font-semibold text-blue-500">
@@ -71,7 +71,7 @@ export default function CarCard({ car }: CarCardProps) {
           </div>
 
           <Link
-            href={`/cars/${car.id || car._id}`}
+            href={`/suscripcion/cars/${car.id || car._id}`}
             className="block w-full rounded-lg bg-purple-600 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-purple-700"
           >
             Ver detalles

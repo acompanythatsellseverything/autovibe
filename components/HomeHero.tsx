@@ -7,7 +7,7 @@ export default function HomeHero() {
   const { t } = useI18n();
 
   return (
-    <section className="bg-[#DFDBC8] py-8 sm:py-12 md:py-16">
+    <section className="bg-[#DFDBC8] pt-8 sm:pt-12 md:pt-16 pb-6 sm:pb-8 md:pb-10">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
         <h1 className="mb-3 sm:mb-4 text-[24px] sm:text-[30px] md:text-[36px] lg:text-[40px] font-medium leading-[100%] tracking-[0%] text-[#000000]">
           {t('home.hero.title')}

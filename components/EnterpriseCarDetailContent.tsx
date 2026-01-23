@@ -3,13 +3,13 @@
 import Image from 'next/image';
 import { Car } from '@/types';
 import { getStrapiImageUrl, getStrapiFullImageUrl } from '@/lib/strapi/config';
-import SubscriptionConfig from './SubscriptionConfig';
+import EnterpriseRentalConfig from './EnterpriseRentalConfig';
 import { useI18n } from '@/lib/i18n/context';
 import HowItWorks from './HowItWorks';
 import ComparisonTable from './ComparisonTable';
 import { ReactNode } from 'react';
 
-interface CarDetailContentProps {
+interface EnterpriseCarDetailContentProps {
   car: Car;
 }
 
@@ -24,7 +24,6 @@ function parseInlineFormatting(text: string): ReactNode[] {
   let keyIndex = 0;
   
   while ((match = boldRegex.exec(text)) !== null) {
-    // Add text before the match
     if (match.index > lastIndex) {
       const beforeText = text.substring(lastIndex, match.index);
       if (beforeText) {
@@ -32,7 +31,6 @@ function parseInlineFormatting(text: string): ReactNode[] {
       }
     }
     
-    // Add bold text
     parts.push(
       <strong key={`bold-${keyIndex++}`} className="font-bold">
         {match[1]}
@@ -42,7 +40,6 @@ function parseInlineFormatting(text: string): ReactNode[] {
     lastIndex = match.index + match[0].length;
   }
   
-  // Add remaining text after last match
   if (lastIndex < text.length) {
     const remainingText = text.substring(lastIndex);
     if (remainingText) {
@@ -50,7 +47,6 @@ function parseInlineFormatting(text: string): ReactNode[] {
     }
   }
   
-  // If no matches found, return original text
   if (parts.length === 0) {
     return [text];
   }
@@ -59,10 +55,6 @@ function parseInlineFormatting(text: string): ReactNode[] {
 }
 
 // Function to parse formatted text
-// Supports:
-// **text** for bold
-// ##text## for large/heading (must be on its own line)
-// - item or * item for bullet lists
 function parseFormattedText(text: string): ReactNode[] {
   if (!text) return [];
   
@@ -74,9 +66,7 @@ function parseFormattedText(text: string): ReactNode[] {
   lines.forEach((line, lineIndex) => {
     const trimmedLine = line.trim();
     
-    // Check if it's a heading (##text##) - must be on its own line
     if (trimmedLine.startsWith('##') && trimmedLine.endsWith('##') && trimmedLine.length > 4) {
-      // Flush any accumulated list items first
       if (currentList.length > 0) {
         result.push(
           <ul key={`list-${keyCounter++}`} className="list-disc list-inside mb-3 space-y-1 text-base sm:text-lg leading-relaxed text-gray-700">
@@ -88,7 +78,6 @@ function parseFormattedText(text: string): ReactNode[] {
         currentList = [];
       }
       
-      // Render heading
       const headingText = trimmedLine.slice(2, -2).trim();
       result.push(
         <h3 key={`heading-${keyCounter++}`} className="text-[18px] sm:text-[19px] md:text-[20px] lg:text-[21px] font-normal text-gray-900 mb-2 mt-4">
@@ -96,14 +85,11 @@ function parseFormattedText(text: string): ReactNode[] {
         </h3>
       );
     }
-    // Check if it's a list item
     else if (trimmedLine.match(/^[-*]\s+/)) {
       const listItemText = trimmedLine.replace(/^[-*]\s+/, '');
       currentList.push(listItemText);
     }
-    // Regular line
     else {
-      // Flush accumulated list items if we encounter a non-list line
       if (currentList.length > 0) {
         result.push(
           <ul key={`list-${keyCounter++}`} className="list-disc list-inside mb-3 space-y-1 text-base sm:text-lg leading-relaxed text-gray-700">
@@ -115,7 +101,6 @@ function parseFormattedText(text: string): ReactNode[] {
         currentList = [];
       }
       
-      // Render paragraph if line is not empty
       if (trimmedLine) {
         result.push(
           <p key={`para-${keyCounter++}`} className="text-base sm:text-lg leading-relaxed text-gray-700 mb-2">
@@ -123,13 +108,11 @@ function parseFormattedText(text: string): ReactNode[] {
           </p>
         );
       } else if (result.length > 0) {
-        // Add spacing for empty lines
         result.push(<br key={`br-${keyCounter++}`} />);
       }
     }
   });
   
-  // Handle any remaining list items at the end
   if (currentList.length > 0) {
     result.push(
       <ul key={`list-${keyCounter++}`} className="list-disc list-inside mb-3 space-y-1 text-lg leading-relaxed text-gray-700">
@@ -143,88 +126,61 @@ function parseFormattedText(text: string): ReactNode[] {
   return result;
 }
 
-export default function CarDetailContent({ car }: CarDetailContentProps) {
+export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailContentProps) {
   const { t } = useI18n();
 
-  // Use only additionalImages (no mainImage)
   const additionalImages = car.additionalImages || [];
-  
-  // Large image: first additionalImages (index 0)
   const largeImage = additionalImages.length > 0 ? additionalImages[0] : null;
-  
-  // Thumbnails: next 3 additionalImages (indices 1, 2, 3)
   const thumbnailImages = additionalImages.slice(1, 4).filter(Boolean);
-
-  console.log('[CarDetailContent] Image data:', {
-    additionalImagesCount: additionalImages.length,
-    thumbnailImagesCount: thumbnailImages.length,
-    largeImage: !!largeImage,
-  });
-  
-  console.log('[CarDetailContent] Subscription data:', {
-    permanenceOptions: car.permanenceOptions,
-    mileageOptions: car.mileageOptions,
-    minPermanence: car.minPermanence,
-  });
-
-  // Large image URL (always first additionalImages)
   const currentImageUrl = largeImage ? getStrapiFullImageUrl(largeImage) : '';
 
-  const minPermanence = car.minPermanence || 12;
-  const displayPrice = car.pricePerMonthSuscripcion || car.pricePerMonth;
-  const originalPrice = car.priceOriginalSuscripcion || car.originalPrice;
+  const minMonths = car.rentalMinMonths || 1;
+  const maxMonths = car.rentalMaxMonths || 12;
+  const displayPrice = car.pricePerMonthEmpresas || car.pricePerMonth;
+  const originalPrice = car.priceOriginalEmpresas || car.originalPrice;
 
   return (
     <main className="py-6 sm:py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Title and Price Section */}
         <div className="mb-6 sm:mb-8 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-start">
-          {/* Title - hidden on mobile, shown on desktop */}
           <h1 className="hidden lg:block text-2xl sm:text-3xl md:text-4xl font-normal text-gray-900" style={{ fontFamily: 'Inter', paddingTop: '0.5rem' }}>
             {car.name}
           </h1>
           
-          {/* Right block with permanence and price - aligned with Configura tu suscripción */}
           <div className="flex flex-nowrap items-start gap-0.5 sm:gap-2">
-            {/* Left part: permanence */}
             <div className="text-right flex-shrink-0">
               <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
-                {minPermanence} {t('carPage.meses')}
+                {minMonths} - {maxMonths} {t('carPage.meses')}
               </div>
               <div className="text-[9px] sm:text-xs md:text-sm font-normal text-gray-700 whitespace-nowrap">
-                permanencia mínima
+                duración disponible
               </div>
             </div>
             
-            {/* Vertical divider */}
             <div className="w-[1px] sm:w-[2px] h-8 sm:h-10 md:h-12 bg-[#B4B4B4] mx-0.5 sm:mx-1 md:mx-2 flex-shrink-0" />
-            
-            {/* Invisible spacer to align with Configura tu suscripción */}
             <div className="w-0.5 sm:w-2 md:w-4 flex-shrink-0" />
             
-            {/* Right part: price */}
             <div className="text-left flex-shrink-0 ml-1 sm:ml-0">
               <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
-                {t('carPage.cuotaMensualDe')} {originalPrice && originalPrice > displayPrice ? (
+                {originalPrice && originalPrice > displayPrice ? (
                   <>
                     <span className="line-through" style={{ color: '#E10000' }}>{originalPrice}€</span> <span>{displayPrice}€</span>
                   </>
                 ) : (
                   <span>{displayPrice}€</span>
-                )}
+                )}/mes
               </div>
               <div className="text-[9px] sm:text-xs md:text-sm font-normal text-gray-700 whitespace-nowrap text-right">
                 {t('carPage.ivaIncl')}
               </div>
             </div>
             
-            {/* Spacer to center button */}
             <div className="flex-1" />
             
-            {/* Button */}
             <button 
               onClick={() => {
-                const formElement = document.getElementById('subscription-form');
+                const formElement = document.getElementById('rental-form');
                 if (formElement) {
                   formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
@@ -237,20 +193,15 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
         </div>
       </div>
 
-      {/* Divider - full width */}
       <div className="mb-6 sm:mb-8 h-[2px] bg-[#B4B4B4] w-full" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Title - shown on mobile, hidden on desktop (already shown above) */}
         <h1 className="lg:hidden text-2xl sm:text-3xl md:text-4xl font-normal text-gray-900 mb-4" style={{ fontFamily: 'Inter' }}>
           {car.name}
         </h1>
 
-        {/* Images and Configuration Section */}
         <div className="mb-8 sm:mb-10 md:mb-12 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-start">
-          {/* Left: Main Image and Gallery */}
           <div className="h-full flex flex-col">
-            {/* Main Image */}
             <div className="relative mb-3 sm:mb-4 overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px]">
               {currentImageUrl ? (
                 <Image
@@ -268,7 +219,6 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
               )}
             </div>
 
-            {/* Thumbnail Gallery - show next 3 additionalImages (not clickable) */}
             {thumbnailImages.length > 0 && (
               <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                 {thumbnailImages.map((image, thumbIndex) => {
@@ -281,13 +231,13 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
                     >
                       {imageUrl ? (
                         <div className="relative h-full w-full rounded-md sm:rounded-lg" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}>
-                        <Image
-                          src={imageUrl}
+                          <Image
+                            src={imageUrl}
                             alt={`${car.name} ${thumbIndex + 2}`}
-                          fill
+                            fill
                             className="object-cover rounded-md sm:rounded-lg"
                             sizes="(max-width: 1024px) 33vw, 22vw"
-                        />
+                          />
                         </div>
                       ) : (
                         <div className="flex h-full items-center justify-center bg-gray-200 rounded-md sm:rounded-lg" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}>
@@ -301,13 +251,11 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
             )}
           </div>
 
-          {/* Right: Subscription Configuration */}
           <div className="h-full flex">
-            <SubscriptionConfig car={car} />
+            <EnterpriseRentalConfig car={car} />
           </div>
         </div>
 
-        {/* Detailed Description */}
         {car.detailedDescription && (
           <div className="mb-8 sm:mb-10 md:mb-12">
             <h2 className="mb-3 sm:mb-4 text-2xl sm:text-2.5xl md:text-3xl font-semibold text-gray-900">
@@ -319,11 +267,10 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
           </div>
         )}
       </div>
-        <div className="mt-8 sm:mt-0">
-          <HowItWorks />
-        </div>
-        <ComparisonTable />
+      <div className="mt-8 sm:mt-0">
+        <HowItWorks />
+      </div>
+      <ComparisonTable />
     </main>
   );
 }
-

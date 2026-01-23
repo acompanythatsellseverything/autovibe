@@ -210,6 +210,7 @@ export const translations = {
     carPage: {
       mesesPermanenciaMinima: 'meses permanencia mínima',
       cuotaMensualDe: 'cuota mensual de',
+      desde: 'desde',
       ivaIncl: 'IVA incl.',
       continuar: 'Continuar',
       configuraSuscripcion: 'Configura tu suscripción',
@@ -234,6 +235,21 @@ export const translations = {
       enviando: 'Enviando...',
       contactoFormulario: 'Completa tus datos',
       graciasEnvio: '¡Gracias! Te contactaremos pronto.',
+      mensajeEnvioExitoso: 'Nos pondremos en contacto contigo muy pronto.',
+      // Empresas (rental)
+      configuraRenta: 'Configura tu renta',
+      duracionRenta: 'Duración de la renta',
+      resumenRenta: 'Resumen de tu renta',
+      // Compra (purchase)
+      configuraCompra: 'Configura tu compra',
+      opcionCompra: 'Opción de compra',
+      plazoFinanciacion: 'Plazo de financiación',
+      resumenCompra: 'Resumen de tu compra',
+      pagoUnico: 'Pago único',
+      financiacion: 'Financiación',
+      precioTotal: 'Precio total',
+      duracion: 'Duración',
+      total: 'Total',
     },
   },
   en: {
@@ -445,6 +461,7 @@ export const translations = {
     carPage: {
       mesesPermanenciaMinima: 'months minimum permanence',
       cuotaMensualDe: 'monthly fee of',
+      desde: 'from',
       ivaIncl: 'VAT incl.',
       continuar: 'Continue',
       configuraSuscripcion: 'Configure your subscription',
@@ -469,6 +486,21 @@ export const translations = {
       enviando: 'Sending...',
       contactoFormulario: 'Complete your details',
       graciasEnvio: 'Thank you! We will contact you soon.',
+      mensajeEnvioExitoso: 'We will contact you very soon.',
+      // Empresas (rental)
+      configuraRenta: 'Configure your rental',
+      duracionRenta: 'Rental duration',
+      resumenRenta: 'Rental summary',
+      // Compra (purchase)
+      configuraCompra: 'Configure your purchase',
+      opcionCompra: 'Purchase option',
+      plazoFinanciacion: 'Financing term',
+      resumenCompra: 'Purchase summary',
+      pagoUnico: 'Single payment',
+      financiacion: 'Financing',
+      precioTotal: 'Total price',
+      duracion: 'Duration',
+      total: 'Total',
     },
   },
   uk: {
@@ -680,6 +712,7 @@ export const translations = {
     carPage: {
       mesesPermanenciaMinima: 'місяців мінімальної постійності',
       cuotaMensualDe: 'щомісячна плата',
+      desde: 'від',
       ivaIncl: 'з ПДВ',
       continuar: 'Продовжити',
       configuraSuscripcion: 'Налаштуй свою підписку',
@@ -704,6 +737,21 @@ export const translations = {
       enviando: 'Відправка...',
       contactoFormulario: 'Заповніть свої дані',
       graciasEnvio: 'Дякуємо! Ми з вами зв\'яжемося найближчим часом.',
+      mensajeEnvioExitoso: 'Ми з вами зв\'яжемося найближчим часом.',
+      // Empresas (rental)
+      configuraRenta: 'Налаштуй свою оренду',
+      duracionRenta: 'Тривалість оренди',
+      resumenRenta: 'Резюме оренди',
+      // Compra (purchase)
+      configuraCompra: 'Налаштуй свою покупку',
+      opcionCompra: 'Опція покупки',
+      plazoFinanciacion: 'Термін фінансування',
+      resumenCompra: 'Резюме покупки',
+      pagoUnico: 'Одноразовий платіж',
+      financiacion: 'Фінансування',
+      precioTotal: 'Загальна ціна',
+      duracion: 'Тривалість',
+      total: 'Всього',
     },
   },
   ru: {
@@ -915,6 +963,7 @@ export const translations = {
     carPage: {
       mesesPermanenciaMinima: 'месяцев минимальной постоянности',
       cuotaMensualDe: 'ежемесячная плата',
+      desde: 'от',
       ivaIncl: 'с НДС',
       continuar: 'Продолжить',
       configuraSuscripcion: 'Настрой свою подписку',
@@ -939,6 +988,21 @@ export const translations = {
       enviando: 'Отправка...',
       contactoFormulario: 'Заполните свои данные',
       graciasEnvio: 'Спасибо! Мы с вами свяжемся в ближайшее время.',
+      mensajeEnvioExitoso: 'Мы с вами свяжемся в ближайшее время.',
+      // Empresas (rental)
+      configuraRenta: 'Настрой свою аренду',
+      duracionRenta: 'Длительность аренды',
+      resumenRenta: 'Резюме аренды',
+      // Compra (purchase)
+      configuraCompra: 'Настрой свою покупку',
+      opcionCompra: 'Опция покупки',
+      plazoFinanciacion: 'Срок финансирования',
+      resumenCompra: 'Резюме покупки',
+      pagoUnico: 'Единовременный платеж',
+      financiacion: 'Финансирование',
+      precioTotal: 'Общая цена',
+      duracion: 'Длительность',
+      total: 'Итого',
     },
   },
 } as const;

@@ -10,7 +10,7 @@ export default function ElClubContent() {
   return (
     <>
       {/* Hero Section - Like HomeHero */}
-      <section className="bg-[#DFDBC8] py-8 sm:py-12 lg:py-16 pb-16 sm:pb-24 lg:pb-32">
+      <section className="bg-[#DFDBC8] py-8 sm:py-12 lg:py-16 pb-12 sm:pb-20 lg:pb-24">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <h1 className="mb-3 sm:mb-4 text-[28px] sm:text-[32px] lg:text-[40px] font-medium leading-[100%] tracking-[0%] text-[#000000]">
             {t('pages.elClub.hero.title')}

@@ -483,6 +483,12 @@ export interface ApiCarCar extends Struct.CollectionTypeSchema {
       true
     >;
     available: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    availableForCompra: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
+    availableForEmpresas: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
+    availableForSuscripcion: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
     brand: Schema.Attribute.String & Schema.Attribute.Required;
     category: Schema.Attribute.Enumeration<
       ['coupe', 'suv', 'sedan', 'hatchback', 'convertible']
@@ -506,9 +512,8 @@ export interface ApiCarCar extends Struct.CollectionTypeSchema {
     minPermanence: Schema.Attribute.Integer;
     model: Schema.Attribute.String & Schema.Attribute.Required;
     name: Schema.Attribute.String & Schema.Attribute.Required;
-    originalPrice: Schema.Attribute.Integer;
     permanenceOptions: Schema.Attribute.JSON;
-    pricePerMonth: Schema.Attribute.Integer & Schema.Attribute.Required;
+    pricingConfig: Schema.Attribute.JSON;
     publishedAt: Schema.Attribute.DateTime;
     stripePriceId: Schema.Attribute.String;
     stripeProductId: Schema.Attribute.String;

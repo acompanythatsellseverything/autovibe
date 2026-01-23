@@ -45,9 +45,33 @@ export interface Car {
   brand: string;
   model: string;
   description: string;
-  // Only numbers
+  // Pricing configuration - all in one JSON field from Strapi
+  pricingConfig?: {
+    pricePerMonthSuscripcion?: number;
+    priceOriginalSuscripcion?: number;
+    pricePerMonthEmpresas?: number;
+    priceOriginalEmpresas?: number;
+    purchasePrice?: number;
+    installmentOptions?: Array<{
+      months: number;
+      totalPrice: number;
+      monthlyPayment: number;
+    }>;
+  };
+  // Computed fields for easy access (from pricingConfig)
+  pricePerMonthSuscripcion?: number;
+  priceOriginalSuscripcion?: number;
+  pricePerMonthEmpresas?: number;
+  priceOriginalEmpresas?: number;
+  purchasePrice?: number;
+  installmentOptions?: Array<{
+    months: number;
+    totalPrice: number;
+    monthlyPayment: number;
+  }>;
+  // Legacy fields - computed for backward compatibility
   pricePerMonth: number;
-  originalPrice?: number; // Original price for strikethrough
+  originalPrice?: number;
   // Only plain text strings
   location: string;
   // Only image object (no styles)
@@ -60,7 +84,11 @@ export interface Car {
   // Only boolean
   available: boolean;
   featured?: boolean;
-  // Subscription configuration
+  // Service availability flags - independent of pricing data
+  availableForSuscripcion?: boolean; // Enable/disable suscripcion option
+  availableForEmpresas?: boolean; // Enable/disable empresas option
+  availableForCompra?: boolean; // Enable/disable compra option
+  // Subscription configuration (suscripcion)
   minPermanence?: number; // Minimum permanence in months
   permanenceOptions?: Array<{
     months: number;
@@ -72,6 +100,20 @@ export interface Car {
     included: boolean;
     price?: number;
   }>;
+  // Enterprise rental configuration (empresas)
+  rentalMinMonths?: number; // Minimum rental months (e.g., 1, 2, 4)
+  rentalMaxMonths?: number; // Maximum rental months (e.g., 12)
+  rentalPrices?: Array<{
+    months: number;
+    price: number; // Price per month for this duration
+  }>; // Prices for different rental durations
+  // Purchase configuration (compra)
+  purchasePrice?: number; // Fixed purchase price
+  installmentOptions?: Array<{
+    months: number;
+    totalPrice: number; // Total price with interest
+    monthlyPayment: number; // Monthly payment amount
+  }>; // Installment options for purchase
   // Detailed description for car page
   detailedDescription?: string;
   // Only strings or undefined
