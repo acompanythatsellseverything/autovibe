@@ -107,13 +107,7 @@ export interface Car {
     months: number;
     price: number; // Price per month for this duration
   }>; // Prices for different rental durations
-  // Purchase configuration (compra)
-  purchasePrice?: number; // Fixed purchase price
-  installmentOptions?: Array<{
-    months: number;
-    totalPrice: number; // Total price with interest
-    monthlyPayment: number; // Monthly payment amount
-  }>; // Installment options for purchase
+  // Purchase configuration (compra) - use purchasePrice and installmentOptions from pricingConfig or computed fields above
   // Detailed description for car page
   detailedDescription?: string;
   // Only strings or undefined
