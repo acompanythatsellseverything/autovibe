@@ -16,6 +16,8 @@ html, body {
   background-color: #DFDBC8;
   min-height: 100vh;
   min-height: 100dvh; /* Dynamic viewport height for mobile */
+  margin: 0;
+  padding: 0;
 }
 
 /* iOS safe area support */
@@ -41,9 +43,46 @@ html, body {
   animation: neon-pulse 2s ease-in-out infinite;
 }
 
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out;
+}
+
 /* Transparent header on mobile for home and el-club pages */
 header.transparent-header {
   background-color: transparent !important;
   background: transparent !important;
   backdrop-filter: none !important;
+}
+
+/* Hero image container - высота уменьшается с увеличением ширины экрана */
+@media (min-width: 1024px) {
+  .hero-image-container {
+    height: calc(100vw * 0.58) !important; /* 58% от ширины на обычном PC */
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-image-container {
+    height: calc(100vw * 0.52) !important; /* 52% от ширины на xl */
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero-image-container {
+    height: calc(100vw * 0.48) !important; /* 48% от ширины на 2xl */
+  }
 }

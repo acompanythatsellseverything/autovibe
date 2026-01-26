@@ -6,12 +6,13 @@ import Link from 'next/link';
 
 interface CarDisplayCardProps {
   car: Car;
+  basePath?: string; // e.g., '/empresas', '/suscripcion', '/compra', '/cars'
 }
 
 /**
  * Простой универсальный компонент карточки машины
  */
-export default function CarDisplayCard({ car }: CarDisplayCardProps) {
+export default function CarDisplayCard({ car, basePath = '/cars' }: CarDisplayCardProps) {
   if (!car) return null;
 
   const imageUrl = car.image ? getStrapiImageUrl(car.image, 'large') : '';
@@ -20,7 +21,7 @@ export default function CarDisplayCard({ car }: CarDisplayCardProps) {
   const carId = car.id || car._id || '';
 
   return (
-    <Link href={`/cars/${carId}`} className="flex flex-col w-full h-full cursor-pointer">
+    <Link href={`${basePath}/cars/${carId}`} className="flex flex-col w-full h-full cursor-pointer">
       {/* Картинка машины - квадратная, полностью видна */}
       <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden flex-shrink-0">
         {imageUrl ? (

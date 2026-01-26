@@ -77,7 +77,8 @@ export default async function Home() {
           </nav>
         </div>
         {/* Car image on main page - fills entire space with header overlaid */}
-        <div className="relative h-[500px] sm:h-[580px] w-full overflow-hidden bg-[#DFDBC8]">
+        {/* Высота уменьшается с увеличением ширины экрана, всегда доходит до верха и краев */}
+        <div className="relative h-[500px] sm:h-[580px] hero-image-container w-full overflow-hidden bg-[#DFDBC8]">
           {/* Mobile hero image */}
           <Image
             src="/img/hero_mobile.png"
@@ -87,7 +88,7 @@ export default async function Home() {
             priority
             sizes="100vw"
           />
-          {/* Desktop hero image */}
+          {/* Desktop hero image - пропорциональное обрезание сверху и снизу, всегда доходит до верха и краев */}
           <Image
             src="/img/Mask group.png"
             alt="Car showcase"

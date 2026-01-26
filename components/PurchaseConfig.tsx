@@ -5,11 +5,13 @@ import Image from 'next/image';
 import { Car } from '@/types';
 import { useI18n } from '@/lib/i18n/context';
 
-interface SubscriptionConfigProps {
+interface PurchaseConfigProps {
   car: Car;
 }
 
-export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
+type PurchaseOption = 'fixed' | 'installment';
+
+export default function PurchaseConfig({ car }: PurchaseConfigProps) {
   const { t } = useI18n();
   
   // State for card flip
@@ -24,101 +26,35 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
     email: '',
   });
   
-  // Get base price for suscripcion
-  const baseSuscripcionPrice = car.pricePerMonthSuscripcion || car.pricePerMonth;
-  
-  // Default permanence options - always show all options
-  const defaultPermanenceOptions = [
-    { months: 6, price: baseSuscripcionPrice, available: false },
-    { months: 12, price: baseSuscripcionPrice, available: false },
-    { months: 24, price: baseSuscripcionPrice, available: false },
-    { months: 36, price: baseSuscripcionPrice, available: false },
-  ];
-
-  // Merge Strapi data with defaults to ensure all options are shown
-  // Only mark as available if explicitly provided in Strapi
-  const allMonths = [6, 12, 24, 36];
-  const permanenceOptions = allMonths.map(months => {
-    const strapiOption = car.permanenceOptions?.find(opt => opt.months === months);
-    const defaultOption = defaultPermanenceOptions.find(opt => opt.months === months);
-    
-    // If strapiOption exists, use it but ensure price is set
-    if (strapiOption) {
-      return {
-        ...strapiOption,
-        price: strapiOption.price && strapiOption.price > 0 ? strapiOption.price : baseSuscripcionPrice,
-      };
-    }
-    
-    // Otherwise use default option
-    return defaultOption || { months, price: baseSuscripcionPrice, available: false };
-  });
-  const defaultMileageOptions = [
-    { km: 800, included: true, price: undefined },
-    { km: 1000, included: false, price: 50 },
-    { km: 1500, included: false, price: 100 },
-  ];
-  const mileageOptions = car.mileageOptions || defaultMileageOptions;
-
-  console.log('[SubscriptionConfig] Data:', {
-    hasPermanenceOptions: !!car.permanenceOptions,
-    permanenceOptionsCount: permanenceOptions.length,
-    permanenceOptions: permanenceOptions,
-    hasMileageOptions: !!car.mileageOptions,
-    mileageOptionsCount: mileageOptions.length,
-    mileageOptions: mileageOptions,
-  });
-
-  const [selectedPermanence, setSelectedPermanence] = useState(() => {
-    // First try to find from Strapi options (prioritize Strapi data)
-    const strapiAvailable = car.permanenceOptions?.find(opt => opt.available);
-    if (strapiAvailable) {
-      return strapiAvailable.months;
-    }
-    // Fallback to first available option from merged array
-    const firstAvailable = permanenceOptions.find(opt => opt.available);
-    return firstAvailable?.months || 24; // Default to 24 if nothing available
-  });
-  const [selectedMileage, setSelectedMileage] = useState(
-    mileageOptions.find(opt => opt.included)?.km || 800
+  // Purchase option state
+  const [purchaseOption, setPurchaseOption] = useState<PurchaseOption>('fixed');
+  const [selectedInstallmentMonths, setSelectedInstallmentMonths] = useState<number>(
+    car.installmentOptions?.[0]?.months || 12
   );
-
-  const selectedPermanenceOption = permanenceOptions.find(opt => opt.months === selectedPermanence);
-  const selectedMileageOption = mileageOptions.find(opt => opt.km === selectedMileage);
   
-  const basePrice = selectedPermanenceOption?.price || baseSuscripcionPrice;
-  const mileagePrice = selectedMileageOption?.price || 0;
-  const originalSuscripcionPrice = car.priceOriginalSuscripcion || car.originalPrice;
-  const discount = originalSuscripcionPrice && originalSuscripcionPrice > basePrice 
-    ? originalSuscripcionPrice - basePrice 
-    : 0;
-  // Original base price (before discount) - used for display in summary
-  const originalBasePrice = originalSuscripcionPrice && originalSuscripcionPrice > basePrice 
-    ? originalSuscripcionPrice 
-    : basePrice;
-  // Final price: basePrice is already discounted, so just add mileage
-  const finalPrice = basePrice + mileagePrice;
-
-  // Calculate original price for each option (for strikethrough)
-  const getOriginalPrice = (optionPrice: number) => {
-    return originalSuscripcionPrice && originalSuscripcionPrice > optionPrice ? originalSuscripcionPrice : undefined;
-  };
-
+  // Calculate prices
+  const fixedPrice = car.purchasePrice || 0;
+  const selectedInstallment = car.installmentOptions?.find(opt => opt.months === selectedInstallmentMonths);
+  const finalPrice = purchaseOption === 'fixed' 
+    ? fixedPrice 
+    : (selectedInstallment?.totalPrice || fixedPrice);
+  const monthlyPayment = purchaseOption === 'installment' && selectedInstallment
+    ? selectedInstallment.monthlyPayment
+    : undefined;
+  
   // Handle Continue button click - flip the card
   const handleContinue = () => {
     setIsFlipped(true);
   };
-
-  // Handle phone input change - only allow numbers and spaces, preserve +34 prefix
+  
+  // Handle phone input change
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Remove +34 if user tries to delete it, keep only the number part
     let cleanValue = value.replace(/^\+34\s*/, '').replace(/[^\d\s]/g, '');
-    // Limit to reasonable length (9 digits for Spanish numbers)
     cleanValue = cleanValue.slice(0, 12);
     setFormData({ ...formData, phone: cleanValue });
   };
-
+  
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,8 +63,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
       alert('Por favor, completa los campos obligatorios (Nombre y Teléfono)');
       return;
     }
-
-    // Validate email format only if email is provided
+    
     if (formData.email.trim()) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email.trim())) {
@@ -136,9 +71,9 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
         return;
       }
     }
-
+    
     setIsSubmitting(true);
-
+    
     try {
       const response = await fetch('/api/send-email', {
         method: 'POST',
@@ -147,20 +82,21 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
         },
         body: JSON.stringify({
           carName: car.name,
-          permanence: selectedPermanence,
-          mileage: selectedMileage,
-          finalPrice,
+          purchaseOption: purchaseOption,
+          price: finalPrice,
+          installmentMonths: purchaseOption === 'installment' ? selectedInstallmentMonths : undefined,
+          monthlyPayment: monthlyPayment,
           name: formData.name,
           phone: `+34 ${formData.phone.trim()}`,
           email: formData.email.trim() || undefined,
-          type: 'suscripcion',
+          type: 'compra',
         }),
       });
-
+      
       if (!response.ok) {
         throw new Error('Error al enviar el formulario');
       }
-
+      
       setIsSubmitted(true);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -169,9 +105,9 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
-    <div id="subscription-form" className="relative h-full w-full" style={{ perspective: '1000px' }}>
+    <div id="purchase-form" className="relative h-full w-full" style={{ perspective: '1000px' }}>
       <div
         className="relative h-full w-full transition-transform duration-700"
         style={{
@@ -193,113 +129,106 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
           <div className="bg-[#EAEAEA] rounded-[20px] relative z-10" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)' }}>
             <div className="px-10 pt-6 pb-6">
               <h2 className="text-2xl font-semibold mb-6 text-gray-900 text-center">
-                {t('carPage.configuraSuscripcion')}
+                {t('carPage.configuraCompra')}
               </h2>
-
-              {/* Permanence Selection */}
+              
+              {/* Purchase Option Selection */}
               <div className="mb-6">
                 <h3 className="text-lg font-medium mb-3 text-gray-900 text-left">
-                  {t('carPage.permanencia')}
+                  {t('carPage.opcionCompra')}
                 </h3>
                 <div className="bg-[#EAEAEA] rounded-lg p-3" style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}>
-                  <div className="grid grid-cols-4 gap-2">
-                    {permanenceOptions.map((option, index) => {
-                      const originalPrice = getOriginalPrice(option.price);
-                      const isSelected = selectedPermanence === option.months && option.available;
-                      const isAvailable = option.available;
-                      
-                      return (
+                  <div className="grid grid-cols-2 gap-3">
+                    {/* Fixed Price Option */}
+                    <button
+                      onClick={() => setPurchaseOption('fixed')}
+                      className={`p-4 rounded-lg text-sm font-medium transition-all ${
+                        purchaseOption === 'fixed'
+                          ? 'bg-[#603361] text-white'
+                          : 'bg-[#F3F2EC] text-gray-900 hover:opacity-90'
+                      }`}
+                    >
+                      <div className="font-bold mb-1">{t('carPage.pagoUnico')}</div>
+                      <div className="text-xs">{fixedPrice}€</div>
+                    </button>
+                    
+                    {/* Installment Option */}
+                    <button
+                      onClick={() => setPurchaseOption('installment')}
+                      disabled={!car.installmentOptions || car.installmentOptions.length === 0}
+                      className={`p-4 rounded-lg text-sm font-medium transition-all ${
+                        !car.installmentOptions || car.installmentOptions.length === 0
+                          ? 'bg-[#C3C3C3] text-gray-500 cursor-not-allowed'
+                          : purchaseOption === 'installment'
+                          ? 'bg-[#603361] text-white'
+                          : 'bg-[#F3F2EC] text-gray-900 hover:opacity-90'
+                      }`}
+                    >
+                      <div className="font-bold mb-1">{t('carPage.financiacion')}</div>
+                      <div className="text-xs">{t('carPage.desde')} {car.installmentOptions?.[0]?.monthlyPayment || 0}€/mes</div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Installment Options Selection */}
+              {purchaseOption === 'installment' && car.installmentOptions && car.installmentOptions.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-lg font-medium mb-3 text-gray-900 text-left">
+                    {t('carPage.plazoFinanciacion')}
+                  </h3>
+                  <div className="bg-[#EAEAEA] rounded-lg p-3" style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}>
+                    <div className="grid grid-cols-3 gap-2">
+                      {car.installmentOptions.map((option, index) => (
                         <button
-                          key={`permanence-${option.months}-${index}`}
-                          onClick={() => isAvailable && setSelectedPermanence(option.months)}
-                          disabled={!isAvailable}
-                          className={`p-3 rounded-lg text-xs font-medium transition-all h-20 flex flex-col items-center justify-center ${
-                            !isAvailable
-                              ? 'bg-[#C3C3C3] text-gray-900 cursor-not-allowed'
-                              : isSelected
+                          key={index}
+                          onClick={() => setSelectedInstallmentMonths(option.months)}
+                          className={`p-3 rounded-lg text-xs font-medium transition-all ${
+                            selectedInstallmentMonths === option.months
                               ? 'bg-[#603361] text-white'
                               : 'bg-[#F3F2EC] text-gray-900 hover:opacity-90'
                           }`}
                         >
                           <div>{option.months} {t('carPage.meses')}</div>
-                          {!isAvailable ? (
-                            <div className="text-[10px] mt-1 text-center">
-                              <div>No</div>
-                              <div>disponible</div>
-                            </div>
-                          ) : (
-                            <div className="text-[10px] mt-1 text-center">
-                              {originalPrice ? (
-                                <>
-                                  <div className="font-bold">{option.price}€</div>
-                                  <div className="line-through" style={{ color: '#E10000' }}>{originalPrice}€</div>
-                                </>
-                              ) : (
-                                <div className="font-bold">{option.price}€</div>
-                              )}
-                            </div>
-                          )}
+                          <div className="text-[10px] mt-1">{option.monthlyPayment}€/mes</div>
                         </button>
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Mileage Selection */}
-              <div className="mb-6">
-                <h3 className="text-lg font-medium mb-3 text-gray-900 text-left">
-                  {t('carPage.personalizaKilometraje')}
-                </h3>
-                <select
-                  value={selectedMileage}
-                  onChange={(e) => setSelectedMileage(Number(e.target.value))}
-                  className="w-full p-3 bg-white rounded-lg text-gray-900 focus:outline-none"
-                  style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}
-                >
-                  {mileageOptions.map((option, index) => (
-                    <option key={`mileage-${option.km}-${index}`} value={option.km}>
-                      {option.km} {t('carPage.kmMesIncluido')}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              )}
             </div>
           </div>
-
+          
           {/* Bottom block - #F3F2EC */}
           <div className="bg-[#F3F2EC] rounded-b-[20px] flex-1 flex flex-col -mt-4 relative z-0">
             <div className="px-10 pt-10 pb-6">
               <h3 className="text-lg font-medium mb-3 text-gray-900">
-                {t('carPage.resumenSuscripcion')}
+                {t('carPage.resumenCompra')}
               </h3>
               <div className="space-y-2 text-gray-700 mb-4">
-                <div className="flex justify-between">
-                  <span>{t('carPage.precioMes')}:</span>
-                  <span className="font-semibold">{originalBasePrice}€</span>
-                </div>
-                {discount > 0 && (
+                {purchaseOption === 'installment' && monthlyPayment && (
                   <div className="flex justify-between">
-                    <span className="text-gray-700">{t('carPage.descuentoOferta')}:</span>
-                    <span className="font-semibold" style={{ color: '#E10000' }}>-{discount}€</span>
+                    <span>{t('carPage.cuotaMensual')}:</span>
+                    <span className="font-semibold">{monthlyPayment}€</span>
                   </div>
                 )}
-                {mileagePrice > 0 && (
+                {purchaseOption === 'installment' && selectedInstallment && (
                   <div className="flex justify-between">
-                    <span>{t('carPage.kmAdicionales')}:</span>
-                    <span className="font-semibold">+{mileagePrice}€</span>
+                    <span>{t('carPage.duracion')}:</span>
+                    <span className="font-semibold">{selectedInstallmentMonths} {t('carPage.meses')}</span>
                   </div>
                 )}
               </div>
               <div className="flex justify-between items-end pt-2 border-t-2 border-[#B4B4B4] mb-4">
-                <span className="text-lg font-semibold text-gray-900">{t('carPage.cuotaMensual')}:</span>
+                <span className="text-lg font-semibold text-gray-900">{t('carPage.precioTotal')}:</span>
                 <div className="text-right">
                   <div className="text-2xl font-bold text-gray-900">{finalPrice}€</div>
                   <div className="text-sm text-gray-700">{t('carPage.ivaIncluido')}</div>
                 </div>
               </div>
             </div>
-
+            
             {/* Continue Button */}
             <div className="px-10 pb-6">
               <button
@@ -311,7 +240,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
             </div>
           </div>
         </div>
-
+        
         {/* Back side - Contact Form */}
         <div
           className="absolute inset-0 h-full w-full rounded-2xl flex flex-col"
@@ -328,7 +257,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
               <h2 className="text-2xl font-semibold mb-6 text-gray-900 text-center">
                 {t('carPage.contactoFormulario')}
               </h2>
-
+              
               {isSubmitted ? (
                 <div className="flex flex-col items-center justify-center py-12 px-4">
                   <div className="mb-6 relative">
@@ -350,7 +279,6 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {/* Name Input */}
                   <div>
                     <label htmlFor="name" className="block text-lg font-medium mb-3 text-gray-900 text-left">
                       {t('carPage.nombre')}
@@ -367,8 +295,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                       disabled={isSubmitting}
                     />
                   </div>
-
-                  {/* Email Input */}
+                  
                   <div>
                     <label htmlFor="email" className="flex items-baseline text-lg font-medium mb-3 text-gray-900 text-left gap-1">
                       <span>{t('carPage.email')}</span>
@@ -385,14 +312,12 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                       disabled={isSubmitting}
                     />
                   </div>
-
-                  {/* Phone Input with Spanish flag and +34 */}
+                  
                   <div>
                     <label htmlFor="phone" className="block text-lg font-medium mb-3 text-gray-900 text-left">
                       {t('carPage.telefono')}
                     </label>
                     <div className="relative">
-                      {/* Flag and country code - positioned absolutely */}
                       <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none z-10">
                         <Image
                           src="/icons/spain.png"
@@ -429,41 +354,36 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
               )}
             </div>
           </div>
-
+          
           {/* Bottom block - #F3F2EC */}
           <div className="bg-[#F3F2EC] rounded-b-[20px] flex-1 flex flex-col -mt-4 relative z-0">
             <div className="px-10 pt-10 pb-6 flex-1">
               <h3 className="text-lg font-medium mb-3 text-gray-900">
-                {t('carPage.resumenSuscripcion')}
+                {t('carPage.resumenCompra')}
               </h3>
               <div className="space-y-2 text-gray-700 mb-4">
-                <div className="flex justify-between">
-                  <span>{t('carPage.precioMes')}:</span>
-                  <span className="font-semibold">{originalBasePrice}€</span>
-                </div>
-                {discount > 0 && (
+                {purchaseOption === 'installment' && monthlyPayment && (
                   <div className="flex justify-between">
-                    <span className="text-gray-700">{t('carPage.descuentoOferta')}:</span>
-                    <span className="font-semibold" style={{ color: '#E10000' }}>-{discount}€</span>
+                    <span>{t('carPage.cuotaMensual')}:</span>
+                    <span className="font-semibold">{monthlyPayment}€</span>
                   </div>
                 )}
-                {mileagePrice > 0 && (
+                {purchaseOption === 'installment' && selectedInstallment && (
                   <div className="flex justify-between">
-                    <span>{t('carPage.kmAdicionales')}:</span>
-                    <span className="font-semibold">+{mileagePrice}€</span>
+                    <span>{t('carPage.duracion')}:</span>
+                    <span className="font-semibold">{selectedInstallmentMonths} {t('carPage.meses')}</span>
                   </div>
                 )}
               </div>
               <div className="flex justify-between items-end pt-2 border-t-2 border-[#B4B4B4] mb-4">
-                <span className="text-lg font-semibold text-gray-900">{t('carPage.cuotaMensual')}:</span>
+                <span className="text-lg font-semibold text-gray-900">{t('carPage.precioTotal')}:</span>
                 <div className="text-right">
                   <div className="text-2xl font-bold text-gray-900">{finalPrice}€</div>
                   <div className="text-sm text-gray-700">{t('carPage.ivaIncluido')}</div>
                 </div>
               </div>
             </div>
-
-            {/* Submit Button */}
+            
             {!isSubmitted && (
               <div className="px-10 pb-6">
                 <button
@@ -482,4 +402,3 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
     </div>
   );
 }
-

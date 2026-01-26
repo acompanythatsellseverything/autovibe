@@ -65,9 +65,9 @@ export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) 
   };
 
   return (
-    <section className="bg-[#DFDBC8] py-16">
+    <section className="bg-[#DFDBC8] pt-8 sm:pt-10 md:pt-12 pb-16">
       {/* Заголовок - в контейнере с ограничением ширины */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-4 sm:mb-6 lg:mb-8">
         <div className="flex items-end justify-between">
           <h2 className="text-[25px] font-bold text-gray-900" style={{ fontFamily: 'Inter', fontWeight: 700, lineHeight: '100%', letterSpacing: '0%' }}>
             {t('home.featuredCars.title')}
@@ -111,7 +111,7 @@ export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) 
                   flexShrink: 0,
                 }}
               >
-                <CarDisplayCard car={car} />
+                <CarDisplayCard car={car} basePath="/suscripcion" />
               </div>
             ))}
           </div>

@@ -20,7 +20,7 @@ export default function FeatureCards() {
   ];
 
   return (
-    <section className="bg-[#DFDBC8] py-12 sm:py-14 md:py-16">
+    <section className="bg-[#DFDBC8] pt-8 sm:pt-10 md:pt-12 pb-8 sm:pb-10 md:pb-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 sm:gap-7 md:gap-8 md:grid-cols-3">
           {features.map((feature, index) => (

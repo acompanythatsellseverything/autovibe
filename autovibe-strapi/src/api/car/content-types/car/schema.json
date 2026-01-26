@@ -27,10 +27,6 @@
       "type": "text",
       "required": true
     },
-    "pricePerMonth": {
-      "type": "integer",
-      "required": true
-    },
     "location": {
       "type": "enumeration",
       "required": true,
@@ -64,6 +60,18 @@
       "type": "boolean",
       "default": true
     },
+    "availableForSuscripcion": {
+      "type": "boolean",
+      "default": true
+    },
+    "availableForEmpresas": {
+      "type": "boolean",
+      "default": true
+    },
+    "availableForCompra": {
+      "type": "boolean",
+      "default": true
+    },
     "featured": {
       "type": "boolean",
       "default": false
@@ -89,9 +97,6 @@
     "minPermanence": {
       "type": "integer"
     },
-    "originalPrice": {
-      "type": "integer"
-    },
     "detailedDescription": {
       "type": "text"
     },
@@ -99,6 +104,9 @@
       "type": "json"
     },
     "mileageOptions": {
+      "type": "json"
+    },
+    "pricingConfig": {
       "type": "json"
     }
   }

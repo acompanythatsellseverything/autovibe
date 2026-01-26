@@ -20,7 +20,7 @@ export default function EmpresasPageContent({ cars }: EmpresasPageContentProps) 
   const { t } = useI18n();
   const [filterType, setFilterType] = useState<FilterType>('suscripcion');
   const [suscripcionType, setSuscripcionType] = useState<SuscripcionType>('corta');
-  const maxCarPrice = Math.max(...cars.map(car => car.pricePerMonth || 0), 1000);
+  const maxCarPrice = Math.max(...cars.map(car => car.pricePerMonthEmpresas || car.pricePerMonth || 0), 1000);
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(1000);
   const [sortType, setSortType] = useState<SortType>('price-asc');
@@ -35,9 +35,14 @@ export default function EmpresasPageContent({ cars }: EmpresasPageContentProps) 
   const filteredAndSortedCars = useMemo(() => {
     let filtered = [...cars];
 
+    // Filter by service availability
+    filtered = filtered.filter(car => {
+      return car.availableForEmpresas !== false; // Show if enabled or undefined (backward compatibility)
+    });
+
     // Filter by price range
     filtered = filtered.filter(car => {
-      const price = car.pricePerMonth || 0;
+      const price = car.pricePerMonthEmpresas || car.pricePerMonth || 0;
       return price >= minPrice && price <= maxPrice;
     });
 
@@ -45,9 +50,9 @@ export default function EmpresasPageContent({ cars }: EmpresasPageContentProps) 
     filtered.sort((a, b) => {
       switch (sortType) {
         case 'price-asc':
-          return (a.pricePerMonth || 0) - (b.pricePerMonth || 0);
+          return (a.pricePerMonthEmpresas || a.pricePerMonth || 0) - (b.pricePerMonthEmpresas || b.pricePerMonth || 0);
         case 'price-desc':
-          return (b.pricePerMonth || 0) - (a.pricePerMonth || 0);
+          return (b.pricePerMonthEmpresas || b.pricePerMonth || 0) - (a.pricePerMonthEmpresas || a.pricePerMonth || 0);
         case 'name-asc':
           return (a.name || '').localeCompare(b.name || '');
         case 'name-desc':
@@ -236,7 +241,7 @@ export default function EmpresasPageContent({ cars }: EmpresasPageContentProps) 
         {filteredAndSortedCars.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 justify-items-center sm:justify-items-stretch">
             {filteredAndSortedCars.map((car) => (
-              <CarDisplayCard key={car.id || car._id} car={car} />
+              <CarDisplayCard key={car.id || car._id} car={car} basePath="/empresas" />
             ))}
           </div>
         ) : (
