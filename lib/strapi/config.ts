@@ -6,10 +6,6 @@ const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN || '';
 // Create axios instance for Strapi API
 export const strapiClient = axios.create({
   baseURL: `${STRAPI_URL}/api`,
-  headers: {
-    'Content-Type': 'application/json',
-    ...(STRAPI_API_TOKEN && { Authorization: `Bearer ${STRAPI_API_TOKEN}` }),
-  },
 });
 
 // Helper function to convert Strapi URL to proxy URL if needed
