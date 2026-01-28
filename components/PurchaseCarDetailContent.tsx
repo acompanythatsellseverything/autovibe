@@ -7,7 +7,7 @@ import PurchaseConfig from './PurchaseConfig';
 import { useI18n } from '@/lib/i18n/context';
 import HowItWorks from './HowItWorks';
 import ComparisonTable from './ComparisonTable';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 interface PurchaseCarDetailContentProps {
   car: Car;
@@ -16,13 +16,13 @@ interface PurchaseCarDetailContentProps {
 // Function to parse inline formatting (**bold**)
 function parseInlineFormatting(text: string): ReactNode[] {
   if (!text) return [];
-  
+
   const parts: ReactNode[] = [];
   const boldRegex = /\*\*([^*]+)\*\*/g;
   let lastIndex = 0;
   let match;
   let keyIndex = 0;
-  
+
   while ((match = boldRegex.exec(text)) !== null) {
     if (match.index > lastIndex) {
       const beforeText = text.substring(lastIndex, match.index);
@@ -30,42 +30,42 @@ function parseInlineFormatting(text: string): ReactNode[] {
         parts.push(beforeText);
       }
     }
-    
+
     parts.push(
       <strong key={`bold-${keyIndex++}`} className="font-bold">
         {match[1]}
       </strong>
     );
-    
+
     lastIndex = match.index + match[0].length;
   }
-  
+
   if (lastIndex < text.length) {
     const remainingText = text.substring(lastIndex);
     if (remainingText) {
       parts.push(remainingText);
     }
   }
-  
+
   if (parts.length === 0) {
     return [text];
   }
-  
+
   return parts;
 }
 
 // Function to parse formatted text
 function parseFormattedText(text: string): ReactNode[] {
   if (!text) return [];
-  
+
   const lines = text.split('\n');
   const result: ReactNode[] = [];
   let currentList: string[] = [];
   let keyCounter = 0;
-  
+
   lines.forEach((line, lineIndex) => {
     const trimmedLine = line.trim();
-    
+
     if (trimmedLine.startsWith('##') && trimmedLine.endsWith('##') && trimmedLine.length > 4) {
       if (currentList.length > 0) {
         result.push(
@@ -77,7 +77,7 @@ function parseFormattedText(text: string): ReactNode[] {
         );
         currentList = [];
       }
-      
+
       const headingText = trimmedLine.slice(2, -2).trim();
       result.push(
         <h3 key={`heading-${keyCounter++}`} className="text-[18px] sm:text-[19px] md:text-[20px] lg:text-[21px] font-normal text-gray-900 mb-2 mt-4">
@@ -100,7 +100,7 @@ function parseFormattedText(text: string): ReactNode[] {
         );
         currentList = [];
       }
-      
+
       if (trimmedLine) {
         result.push(
           <p key={`para-${keyCounter++}`} className="text-base sm:text-lg leading-relaxed text-gray-700 mb-2">
@@ -112,7 +112,7 @@ function parseFormattedText(text: string): ReactNode[] {
       }
     }
   });
-  
+
   if (currentList.length > 0) {
     result.push(
       <ul key={`list-${keyCounter++}`} className="list-disc list-inside mb-3 space-y-1 text-lg leading-relaxed text-gray-700">
@@ -122,12 +122,13 @@ function parseFormattedText(text: string): ReactNode[] {
       </ul>
     );
   }
-  
+
   return result;
 }
 
 export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailContentProps) {
   const { t } = useI18n();
+  const [isFormFlipped, setIsFormFlipped] = useState(false);
 
   const additionalImages = car.additionalImages || [];
   const largeImage = additionalImages.length > 0 ? additionalImages[0] : null;
@@ -135,7 +136,18 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
   const currentImageUrl = largeImage ? getStrapiFullImageUrl(largeImage) : '';
 
   const purchasePrice = car.purchasePrice || 0;
-  // Note: No originalPrice for purchase, only for suscripcion/empresas
+
+  // Listen for card flip events from PurchaseConfig
+  useEffect(() => {
+    const handleFlipEvent = (event: CustomEvent) => {
+      setIsFormFlipped(event.detail.isFlipped);
+    };
+
+    window.addEventListener('cardFlip' as any, handleFlipEvent);
+    return () => {
+      window.removeEventListener('cardFlip' as any, handleFlipEvent);
+    };
+  }, []);
 
   return (
     <main className="py-6 sm:py-8">
@@ -145,7 +157,7 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
           <h1 className="hidden lg:block text-2xl sm:text-3xl md:text-4xl font-normal text-gray-900" style={{ fontFamily: 'Inter', paddingTop: '0.5rem' }}>
             {car.name}
           </h1>
-          
+
           <div className="flex flex-nowrap items-center justify-end gap-3 sm:gap-4">
             <div className="text-right flex-shrink-0">
               <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
@@ -155,8 +167,8 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
                 {t('carPage.ivaIncl')}
               </div>
             </div>
-            
-            <button 
+
+            <button
               onClick={() => {
                 const formElement = document.getElementById('purchase-form');
                 if (formElement) {
@@ -178,9 +190,13 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
           {car.name}
         </h1>
 
-        <div className="mb-8 sm:mb-10 md:mb-12 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-start">
-          <div className="h-full flex flex-col">
-            <div className="relative mb-3 sm:mb-4 overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px]">
+        {/* Main content grid with aligned form and images */}
+        <div className="mb-8 sm:mb-10 md:mb-12 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-stretch">
+          {/* Image section - expands when form flips */}
+          {/* Image section — locked to 700px */}
+          <div className="h-[720px] flex flex-col">
+            {/* Main Image */}
+            <div className="relative flex-[4] overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100">
               {currentImageUrl ? (
                 <Image
                   src={currentImageUrl}
@@ -197,28 +213,28 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
               )}
             </div>
 
+            {/* Thumbnails */}
             {thumbnailImages.length > 0 && (
-              <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
+              <div className="mt-3 grid grid-cols-3 gap-2 flex-[1]">
                 {thumbnailImages.map((image, thumbIndex) => {
                   const imageUrl = image ? getStrapiImageUrl(image, 'medium') : '';
-                  
+
                   return (
                     <div
                       key={thumbIndex}
-                      className="relative aspect-[16/9] overflow-visible rounded-md sm:rounded-lg"
+                      className="relative overflow-hidden rounded-lg"
+                      style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}
                     >
                       {imageUrl ? (
-                        <div className="relative h-full w-full rounded-md sm:rounded-lg" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}>
-                          <Image
-                            src={imageUrl}
-                            alt={`${car.name} ${thumbIndex + 2}`}
-                            fill
-                            className="object-cover rounded-md sm:rounded-lg"
-                            sizes="(max-width: 1024px) 33vw, 22vw"
-                          />
-                        </div>
+                        <Image
+                          src={imageUrl}
+                          alt={`${car.name} ${thumbIndex + 2}`}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 1024px) 33vw, 22vw"
+                        />
                       ) : (
-                        <div className="flex h-full items-center justify-center bg-gray-200 rounded-md sm:rounded-lg" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}>
+                        <div className="flex h-full items-center justify-center bg-gray-200">
                           <p className="text-xs text-gray-400">{thumbIndex + 2}</p>
                         </div>
                       )}
@@ -229,7 +245,9 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
             )}
           </div>
 
-          <div className="h-full flex">
+
+          {/* Form section - properly aligned */}
+          <div className="h-full flex lg:self-stretch">
             <PurchaseConfig car={car} />
           </div>
         </div>
