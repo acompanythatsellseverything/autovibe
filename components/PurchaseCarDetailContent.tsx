@@ -150,7 +150,7 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
   }, []);
 
   return (
-    <main className="py-6 sm:py-8">
+    <main className="py-6 mt-24 md:mt-0 sm:py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Title and Price Section */}
         <div className="mb-6 sm:mb-8 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-start">
@@ -194,7 +194,7 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
         <div className="mb-8 sm:mb-10 md:mb-12 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-stretch">
           {/* Image section - expands when form flips */}
           {/* Image section — locked to 700px */}
-          <div className="h-[720px] flex flex-col">
+          <div className="md:h-[720px] h-[300] flex flex-col">
             {/* Main Image */}
             <div className="relative flex-[4] overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100">
               {currentImageUrl ? (
