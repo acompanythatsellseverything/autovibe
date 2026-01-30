@@ -150,7 +150,7 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
   }, []);
 
   return (
-    <main className="py-6 mt-24 md:mt-0 sm:py-8">
+    <main className="py-6 mt-[84px] md:mt-0 sm:py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Title and Price Section */}
         <div className="mb-6 sm:mb-8 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-start">

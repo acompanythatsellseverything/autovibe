@@ -152,15 +152,15 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
   const originalPrice = car.priceOriginalSuscripcion || car.originalPrice;
 
   return (
-    <main className="py-6 mt-24 md:mt-0 sm:py-8">
+    <main className="py-6 mt-[84px] md:mt-0 sm:py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Title and Price Section */}
         <div className="mb-6 sm:mb-8 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-start">
-          <h1 className="hidden lg:block text-2xl sm:text-3xl md:text-4xl font-normal text-gray-900" style={{ fontFamily: 'Inter', paddingTop: '0.5rem' }}>
+          <h1 className="hidden lg:block text-2xl sm:text-3xl md:text-4xl font-normal text-gray-900" style={{ fontFamily: 'Inter',  }}>
             {car.name}
           </h1>
           
-          <div className="flex flex-nowrap items-start gap-0.5 sm:gap-2">
+          <div className="flex flex-nowrap items-center gap-0.5 sm:gap-2">
             <div className="text-right flex-shrink-0">
               <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
                 {minPermanence} {t('carPage.meses')}
@@ -170,7 +170,7 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
               </div>
             </div>
             
-            <div className="w-[1px] sm:w-[2px] h-8 sm:h-10 md:h-12 bg-[#B4B4B4] mx-0.5 sm:mx-1 md:mx-2 flex-shrink-0" />
+            <div className="w-[1px] sm:w-[2px] h-10 sm:h-10 md:h-12 bg-[#B4B4B4] mx-0.5 sm:mx-1 md:mx-2 flex-shrink-0" />
             
             <div className="w-0.5 sm:w-2 md:w-4 flex-shrink-0" />
             
@@ -198,7 +198,7 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
                   formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
               }}
-              className="bg-[#FB3B55] text-white px-2.5 sm:px-5 md:px-6 lg:px-8 py-1.5 sm:py-2.5 md:py-2.5 lg:py-3 rounded-md sm:rounded-lg font-semibold text-[11px] sm:text-sm md:text-base lg:text-lg hover:bg-[#E02A44] transition-colors flex-shrink-0"
+              className="bg-[#FB3B55] text-white px-2.5 sm:px-5 md:px-6 lg:px-8 py-2 sm:py-2.5 md:py-2.5 lg:py-3 rounded-md sm:rounded-lg font-semibold text-[11px] sm:text-sm md:text-base lg:text-lg hover:bg-[#E02A44] transition-colors flex-shrink-0"
             >
               {t('carPage.continuar')}
             </button>
