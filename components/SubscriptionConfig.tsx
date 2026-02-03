@@ -109,12 +109,10 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
     setIsFlipped(true);
   };
 
-  // Handle phone input change - only allow numbers and spaces, preserve +34 prefix
+  // Handle phone input change
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Remove +34 if user tries to delete it, keep only the number part
     let cleanValue = value.replace(/^\+34\s*/, '').replace(/[^\d\s]/g, '');
-    // Limit to reasonable length (9 digits for Spanish numbers)
     cleanValue = cleanValue.slice(0, 12);
     setFormData({ ...formData, phone: cleanValue });
   };
@@ -128,7 +126,6 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
       return;
     }
 
-    // Validate email format only if email is provided
     if (formData.email.trim()) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email.trim())) {
@@ -181,7 +178,17 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
       >
         {/* Front side - Configuration */}
         <div
-          className="relative h-full w-full rounded-2xl flex flex-col"
+          className="
+            relative 
+            w-full 
+            h-[720px] 
+            min-h-[600px] 
+            max-h-[800px] 
+            rounded-2xl 
+            flex 
+            flex-col 
+            overflow-hidden
+          "
           style={{
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
@@ -190,7 +197,10 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
           }}
         >
           {/* Top block - #EAEAEA */}
-          <div className="bg-[#EAEAEA] rounded-[20px] relative z-10" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)' }}>
+          <div
+            className="bg-[#EAEAEA] rounded-t-[20px] relative z-10 shrink-0"
+            style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)' }}
+          >
             <div className="px-10 pt-6 pb-6">
               <h2 className="text-2xl font-semibold mb-6 text-gray-900 text-center">
                 {t('carPage.configuraSuscripcion')}
@@ -198,10 +208,10 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
 
               {/* Permanence Selection */}
               <div className="mb-6">
-                <h3 className="text-lg font-medium mb-3 text-gray-900 text-left">
+                <h3 className="text-lg font-medium mb-3 text-gray-900">
                   {t('carPage.permanencia')}
                 </h3>
-                <div className="bg-[#EAEAEA] rounded-lg p-3" style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}>
+                <div className="bg-[#EAEAEA] rounded-lg p-3 shadow-sm">
                   <div className="grid grid-cols-4 gap-2">
                     {permanenceOptions.map((option, index) => {
                       const originalPrice = getOriginalPrice(option.price);
@@ -247,8 +257,8 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
               </div>
 
               {/* Mileage Selection */}
-              <div className="mb-6">
-                <h3 className="text-lg font-medium mb-3 text-gray-900 text-left">
+              <div>
+                <h3 className="text-lg font-medium mb-3 text-gray-900">
                   {t('carPage.personalizaKilometraje')}
                 </h3>
                 <select
@@ -268,8 +278,8 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
           </div>
 
           {/* Bottom block - #F3F2EC */}
-          <div className="bg-[#F3F2EC] rounded-b-[20px] flex-1 flex flex-col -mt-4 relative z-0">
-            <div className="px-10 pt-10 pb-6">
+          <div className="bg-[#F3F2EC] flex-1 flex flex-col overflow-y-auto">
+            <div className="px-10 pt-8 pb-6">
               <h3 className="text-lg font-medium mb-3 text-gray-900">
                 {t('carPage.resumenSuscripcion')}
               </h3>
@@ -291,7 +301,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                   </div>
                 )}
               </div>
-              <div className="flex justify-between items-end pt-2 border-t-2 border-[#B4B4B4] mb-4">
+              <div className="flex justify-between items-end pt-3 border-t border-[#B4B4B4]">
                 <span className="text-lg font-semibold text-gray-900">{t('carPage.cuotaMensual')}:</span>
                 <div className="text-right">
                   <div className="text-2xl font-bold text-gray-900">{finalPrice}€</div>
@@ -300,8 +310,8 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
               </div>
             </div>
 
-            {/* Continue Button */}
-            <div className="px-10 pb-6">
+            {/* Sticky CTA */}
+            <div className="px-10 pb-6 mt-auto">
               <button
                 onClick={handleContinue}
                 className="w-full bg-[#FB3B55] text-white py-4 rounded-3xl font-semibold text-lg hover:bg-[#E02A44] transition-colors"
@@ -314,7 +324,17 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
 
         {/* Back side - Contact Form */}
         <div
-          className="absolute inset-0 h-full w-full rounded-2xl flex flex-col"
+          className="
+            absolute inset-0 
+            w-full 
+            h-[720px] 
+            min-h-[600px] 
+            max-h-[800px]
+            rounded-2xl 
+            flex 
+            flex-col 
+            overflow-hidden
+          "
           style={{
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
@@ -322,8 +342,11 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
             transform: 'rotateY(180deg)',
           }}
         >
-          {/* Top block - #EAEAEA */}
-          <div className="bg-[#EAEAEA] rounded-[20px] relative z-10" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)' }}>
+          {/* ================= TOP BLOCK ================= */}
+          <div
+            className="bg-[#EAEAEA] rounded-t-[20px] relative z-10 shrink-0"
+            style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)' }}
+          >
             <div className="px-10 pt-6 pb-6">
               <h2 className="text-2xl font-semibold mb-6 text-gray-900 text-center">
                 {t('carPage.contactoFormulario')}
@@ -333,33 +356,53 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                 <div className="flex flex-col items-center justify-center py-12 px-4">
                   <div className="mb-6 relative">
                     <div className="w-20 h-20 bg-[#28a745] rounded-full flex items-center justify-center animate-scale-in">
-                      <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      <svg
+                        className="w-12 h-12 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={3}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     </div>
-                    <div className="absolute inset-0 bg-[#28a745] rounded-full opacity-20 animate-ping"></div>
+                    <div className="absolute inset-0 bg-[#28a745] rounded-full opacity-20 animate-ping" />
                   </div>
+
                   <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
                     ¡Gracias!
                     <br />
-                    <span className="text-xl font-normal">Te contactaremos pronto.</span>
+                    <span className="text-xl font-normal">
+                      Te contactaremos pronto.
+                    </span>
                   </h3>
+
                   <p className="text-base text-gray-600 text-center max-w-md">
-                    {t('carPage.mensajeEnvioExitoso') || 'Nos pondremos en contacto contigo muy pronto.'}
+                    {t('carPage.mensajeEnvioExitoso') ||
+                      'Nos pondremos en contacto contigo muy pronto.'}
                   </p>
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {/* Name Input */}
+                  {/* Name */}
                   <div>
-                    <label htmlFor="name" className="block text-lg font-medium mb-3 text-gray-900 text-left">
+                    <label
+                      htmlFor="name"
+                      className="block text-lg font-medium mb-3 text-gray-900"
+                    >
                       {t('carPage.nombre')}
                     </label>
                     <input
                       type="text"
                       id="name"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       className="w-full p-3 bg-white rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#603361]"
                       style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}
                       placeholder={t('carPage.nombre')}
@@ -368,17 +411,24 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                     />
                   </div>
 
-                  {/* Email Input */}
+                  {/* Email */}
                   <div>
-                    <label htmlFor="email" className="flex items-baseline text-lg font-medium mb-3 text-gray-900 text-left gap-1">
+                    <label
+                      htmlFor="email"
+                      className="flex items-baseline text-lg font-medium mb-3 text-gray-900 gap-1"
+                    >
                       <span>{t('carPage.email')}</span>
-                      <span className="text-gray-500 text-sm font-normal">{t('carPage.opcional')}</span>
+                      <span className="text-gray-500 text-sm font-normal">
+                        {t('carPage.opcional')}
+                      </span>
                     </label>
                     <input
                       type="email"
                       id="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       className="w-full p-3 bg-white rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#603361]"
                       style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}
                       placeholder={t('carPage.email')}
@@ -386,13 +436,16 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                     />
                   </div>
 
-                  {/* Phone Input with Spanish flag and +34 */}
+                  {/* Phone */}
                   <div>
-                    <label htmlFor="phone" className="block text-lg font-medium mb-3 text-gray-900 text-left">
+                    <label
+                      htmlFor="phone"
+                      className="block text-lg font-medium mb-3 text-gray-900"
+                    >
                       {t('carPage.telefono')}
                     </label>
+
                     <div className="relative">
-                      {/* Flag and country code - positioned absolutely */}
                       <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none z-10">
                         <Image
                           src="/icons/spain.png"
@@ -400,24 +453,21 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                           width={24}
                           height={24}
                           className="rounded-sm"
-                          style={{ 
-                            width: '24px', 
-                            height: '24px',
-                            objectFit: 'cover',
-                            borderRadius: '2px'
-                          }}
                         />
-                        <span className="text-gray-900 font-medium text-base">+34</span>
+                        <span className="text-gray-900 font-medium text-base">
+                          +34
+                        </span>
                       </div>
+
                       <input
                         type="tel"
                         id="phone"
                         value={formData.phone}
                         onChange={handlePhoneChange}
                         className="w-full p-3 bg-white rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#603361]"
-                        style={{ 
+                        style={{
                           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                          paddingLeft: '82px'
+                          paddingLeft: '82px',
                         }}
                         placeholder="123 456 789"
                         required
@@ -430,12 +480,13 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
             </div>
           </div>
 
-          {/* Bottom block - #F3F2EC */}
-          <div className="bg-[#F3F2EC] rounded-b-[20px] flex-1 flex flex-col -mt-4 relative z-0">
+          {/* ================= BOTTOM BLOCK (SCROLLABLE) ================= */}
+          <div className="bg-[#F3F2EC] flex-1 flex flex-col overflow-y-auto -mt-4 relative z-0">
             <div className="px-10 pt-10 pb-6 flex-1">
               <h3 className="text-lg font-medium mb-3 text-gray-900">
                 {t('carPage.resumenSuscripcion')}
               </h3>
+
               <div className="space-y-2 text-gray-700 mb-4">
                 <div className="flex justify-between">
                   <span>{t('carPage.precioMes')}:</span>
@@ -454,22 +505,33 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                   </div>
                 )}
               </div>
-              <div className="flex justify-between items-end pt-2 border-t-2 border-[#B4B4B4] mb-4">
-                <span className="text-lg font-semibold text-gray-900">{t('carPage.cuotaMensual')}:</span>
+
+              <div className="flex justify-between items-end pt-3 border-t border-[#B4B4B4]">
+                <span className="text-lg font-semibold text-gray-900">
+                  {t('carPage.cuotaMensual')}:
+                </span>
+
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-gray-900">{finalPrice}€</div>
-                  <div className="text-sm text-gray-700">{t('carPage.ivaIncluido')}</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {finalPrice}€
+                  </div>
+                  <div className="text-sm text-gray-700">
+                    {t('carPage.ivaIncluido')}
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Submit Button */}
             {!isSubmitted && (
-              <div className="px-10 pb-6">
+              <div className="px-10 pb-6 mt-auto">
                 <button
                   type="button"
                   onClick={handleSubmit}
-                  disabled={isSubmitting || !formData.name.trim() || !formData.phone.trim()}
+                  disabled={
+                    isSubmitting ||
+                    !formData.name.trim() ||
+                    !formData.phone.trim()
+                  }
                   className="w-full bg-[#FB3B55] text-white py-4 rounded-3xl font-semibold text-lg hover:bg-[#E02A44] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? t('carPage.enviando') : t('carPage.enviar')}
@@ -482,4 +544,3 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
     </div>
   );
 }
-
