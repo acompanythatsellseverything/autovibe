@@ -34,7 +34,7 @@ async function sendTelegramMessage(message: string): Promise<boolean> {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, message, phone } = body;
+    const { name, phone } = body;
 
     if (!name?.trim() || !phone?.trim()) {
       return NextResponse.json(
@@ -47,11 +47,8 @@ export async function POST(request: NextRequest) {
     const text =
       `📞 <b>Solicitud de llamada</b>\n\n` +
       `👤 <b>Nombre:</b> ${(name as string).trim()}\n` +
-      `📱 <b>Teléfono:</b> ${(phone as string).trim()}\n` +
-      (message?.trim()
-        ? `\n💬 <b>Mensaje:</b>\n${(message as string).trim()}\n`
-        : '') +
-      `\n📅 ${date}`;
+      `📱 <b>Teléfono:</b> ${(phone as string).trim()}\n\n` +
+      `📅 ${date}`;
 
     const sent = await sendTelegramMessage(text);
 

@@ -11,7 +11,6 @@ type Props = {
 export default function CallbackRequestForm({ isOpen, onClose }: Props) {
   const { t } = useI18n();
   const [name, setName] = useState('');
-  const [message, setMessage] = useState('');
   const [phone, setPhone] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorText, setErrorText] = useState('');
@@ -60,7 +59,6 @@ export default function CallbackRequestForm({ isOpen, onClose }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: trimName,
-          message: message.trim(),
           phone: trimPhone,
         }),
       });
@@ -72,7 +70,6 @@ export default function CallbackRequestForm({ isOpen, onClose }: Props) {
       }
       setStatus('success');
       setName('');
-      setMessage('');
       setPhone('');
     } catch {
       setErrorText('Error de conexión');
@@ -155,20 +152,6 @@ export default function CallbackRequestForm({ isOpen, onClose }: Props) {
                   className="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-gray-900 placeholder-gray-500 focus:border-[#603361] focus:ring-1 focus:ring-[#603361] outline-none transition"
                   placeholder="+34 600 000 000"
                   autoComplete="tel"
-                  disabled={status === 'sending'}
-                />
-              </div>
-              <div>
-                <label htmlFor="callback-message" className="block text-sm font-medium text-gray-700 mb-1">
-                  {t('callbackRequest.message')}
-                </label>
-                <textarea
-                  id="callback-message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  rows={3}
-                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-gray-900 placeholder-gray-500 focus:border-[#603361] focus:ring-1 focus:ring-[#603361] outline-none resize-none transition"
-                  placeholder={t('callbackRequest.message')}
                   disabled={status === 'sending'}
                 />
               </div>
