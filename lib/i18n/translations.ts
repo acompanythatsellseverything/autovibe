@@ -12,6 +12,16 @@ export const translations = {
       llamaMe: 'Llama me!',
       miCuenta: 'Mi Cuenta',
     },
+    callbackRequest: {
+      title: 'Solicitar llamada',
+      name: 'Nombre',
+      message: 'Mensaje',
+      phone: 'Tu teléfono',
+      submit: 'Enviar solicitud',
+      sending: 'Enviando...',
+      successMessage: '¡Enviado! Te llamaremos pronto.',
+      close: 'Cerrar',
+    },
     // Home page
     home: {
       hero: {
@@ -262,6 +272,16 @@ export const translations = {
       elClub: 'The Club',
       llamaMe: 'Call me!',
       miCuenta: 'My Account',
+    },
+    callbackRequest: {
+      title: 'Request a call',
+      name: 'Name',
+      message: 'Message',
+      phone: 'Your phone',
+      submit: 'Send request',
+      sending: 'Sending...',
+      successMessage: 'Sent! We will call you soon.',
+      close: 'Close',
     },
     // Home page
     home: {
@@ -514,6 +534,16 @@ export const translations = {
       llamaMe: 'Зателефонуй!',
       miCuenta: 'Мій акаунт',
     },
+    callbackRequest: {
+      title: 'Запросити дзвінок',
+      name: "Ім'я",
+      message: 'Повідомлення',
+      phone: 'Ваш телефон',
+      submit: 'Надіслати заявку',
+      sending: 'Надсилаємо...',
+      successMessage: 'Надіслано! Ми передзвонимо найближчим часом.',
+      close: 'Закрити',
+    },
     // Home page
     home: {
       hero: {
@@ -764,6 +794,16 @@ export const translations = {
       elClub: 'Клуб',
       llamaMe: 'Позвони мне!',
       miCuenta: 'Мой аккаунт',
+    },
+    callbackRequest: {
+      title: 'Заказать звонок',
+      name: 'Имя',
+      message: 'Сообщение',
+      phone: 'Ваш телефон',
+      submit: 'Отправить заявку',
+      sending: 'Отправляем...',
+      successMessage: 'Отправлено! Мы перезвоним в ближайшее время.',
+      close: 'Закрыть',
     },
     // Home page
     home: {
