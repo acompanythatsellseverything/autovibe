@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { Car } from '@/types';
-import { getStrapiImageUrl, getStrapiFullImageUrl, getCarCoverImage } from '@/lib/strapi/config';
+import { getStrapiImageUrl, getStrapiFullImageUrl } from '@/lib/strapi/config';
 import SubscriptionConfig from './SubscriptionConfig';
 import { useI18n } from '@/lib/i18n/context';
 import HowItWorks from './HowItWorks';
@@ -129,12 +129,10 @@ function parseFormattedText(text: string): ReactNode[] {
 export default function CarDetailContent({ car }: CarDetailContentProps) {
   const { t } = useI18n();
 
-  // Cover for suscripcion (long-term), then additional images as gallery
-  const coverImage = getCarCoverImage(car, 'suscripcion');
+  // Only additional images in gallery (no cover image on detail page)
   const additionalImages = car.additionalImages || [];
-  const allImages = [coverImage, ...additionalImages].filter(Boolean);
-  const largeImage = allImages.length > 0 ? allImages[0] : null;
-  const thumbnailImages = allImages.slice(1, 4).filter(Boolean);
+  const largeImage = additionalImages.length > 0 ? additionalImages[0] : null;
+  const thumbnailImages = additionalImages.slice(1, 4).filter(Boolean);
 
   console.log('[CarDetailContent] Image data:', {
     additionalImagesCount: additionalImages.length,
