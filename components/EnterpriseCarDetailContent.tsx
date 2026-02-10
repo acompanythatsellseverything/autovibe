@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { Car } from '@/types';
-import { getStrapiImageUrl, getStrapiFullImageUrl } from '@/lib/strapi/config';
+import { getStrapiImageUrl, getStrapiFullImageUrl, getCarCoverImage } from '@/lib/strapi/config';
 import EnterpriseRentalConfig from './EnterpriseRentalConfig';
 import { useI18n } from '@/lib/i18n/context';
 import HowItWorks from './HowItWorks';
@@ -129,9 +129,11 @@ function parseFormattedText(text: string): ReactNode[] {
 export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailContentProps) {
   const { t } = useI18n();
 
+  const coverImage = getCarCoverImage(car, 'empresas');
   const additionalImages = car.additionalImages || [];
-  const largeImage = additionalImages.length > 0 ? additionalImages[0] : null;
-  const thumbnailImages = additionalImages.slice(1, 4).filter(Boolean);
+  const allImages = [coverImage, ...additionalImages].filter(Boolean);
+  const largeImage = allImages.length > 0 ? allImages[0] : null;
+  const thumbnailImages = allImages.slice(1, 4).filter(Boolean);
   const currentImageUrl = largeImage ? getStrapiFullImageUrl(largeImage) : '';
 
   const minMonths = car.rentalMinMonths || 1;

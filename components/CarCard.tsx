@@ -29,13 +29,13 @@ export default function CarCard({ car }: CarCardProps) {
       
       <div className="relative">
         {/* Car Image with Neon Ring Frame */}
-        <div className="relative aspect-[4/3] overflow-hidden">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
           
           {imageUrl ? (
             <img
               src={imageUrl}
               alt={carName || 'Car image'}
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover rounded-xl"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';

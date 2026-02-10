@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { Car } from '@/types';
-import { getStrapiImageUrl, getStrapiFullImageUrl } from '@/lib/strapi/config';
+import { getStrapiImageUrl, getStrapiFullImageUrl, getCarCoverImage } from '@/lib/strapi/config';
 import PurchaseConfig from './PurchaseConfig';
 import { useI18n } from '@/lib/i18n/context';
 import HowItWorks from './HowItWorks';
@@ -130,9 +130,11 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
   const { t } = useI18n();
   const [isFormFlipped, setIsFormFlipped] = useState(false);
 
+  const coverImage = getCarCoverImage(car, 'compra');
   const additionalImages = car.additionalImages || [];
-  const largeImage = additionalImages.length > 0 ? additionalImages[0] : null;
-  const thumbnailImages = additionalImages.slice(1, 4).filter(Boolean);
+  const allImages = [coverImage, ...additionalImages].filter(Boolean);
+  const largeImage = allImages.length > 0 ? allImages[0] : null;
+  const thumbnailImages = allImages.slice(1, 4).filter(Boolean);
   const currentImageUrl = largeImage ? getStrapiFullImageUrl(largeImage) : '';
 
   const purchasePrice = car.purchasePrice || 0;

@@ -198,6 +198,8 @@ export function normalizeCar(car: any): Car {
         });
         return img;
       })(),
+      image_compra: rawData.image_compra || undefined,
+      image_empresas: rawData.image_empresas || undefined,
       additionalImages: (() => {
         console.log('[normalizeCar] Additional images:', {
           hasData: !!rawData.additionalImages,
@@ -218,7 +220,7 @@ export function normalizeCar(car: any): Car {
             .filter((f: string) => f.length > 0) // Remove empty strings
         : [],
       // Only plain text string
-      category: sanitizeText(rawData.category || 'suv') as 'suv' | 'sedan' | 'hatchback' | 'convertible' | 'coupe',
+      category: sanitizeText(rawData.category || 'suv') as 'suv' | 'sedan' | 'hatchback' | 'convertible' | 'coupe' | 'city hatchback' | 'furgon' | 'moto',
       // Only boolean (1️⃣ Protection: boolean conversion)
       available: rawData.available !== undefined && rawData.available !== null 
         ? Boolean(rawData.available) 
@@ -358,6 +360,8 @@ export function normalizeCar(car: any): Car {
       pricePerMonth: 0,
       location: '',
       image: null,
+      image_compra: undefined,
+      image_empresas: undefined,
       features: [],
       category: 'suv',
       available: false,

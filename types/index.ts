@@ -76,11 +76,15 @@ export interface Car {
   location: string;
   // Only image object (no styles)
   image: StrapiImage | any;
+  /** Cover image for purchase (compra) section */
+  image_compra?: StrapiImage | any;
+  /** Cover image for short-term rental (empresas) section */
+  image_empresas?: StrapiImage | any;
   additionalImages?: (StrapiImage | any)[]; // Additional images for gallery
   // Only array of plain text strings
   features: string[];
   // Only plain text string
-  category: 'suv' | 'sedan' | 'hatchback' | 'convertible' | 'coupe';
+  category: 'suv' | 'sedan' | 'hatchback' | 'convertible' | 'coupe' | 'city hatchback' | 'furgon' | 'moto';
   // Only boolean
   available: boolean;
   featured?: boolean;

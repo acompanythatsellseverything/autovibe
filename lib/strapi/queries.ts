@@ -2,71 +2,64 @@ import { strapiClient } from './config';
 import { normalizeCar, normalizeTestimonial, normalizeFAQ, normalizeFeature } from './utils';
 import { Car } from '@/types';
 
-// Fetch all cars
-export async function getCars(featured?: boolean) {
-  try {
-    // 5️⃣ Use publicationState=live to get only published content
-    const params: any = {
-      'filters[available][$eq]': true,
-      'publicationState': 'live', // 5️⃣ Only published content
-      sort: 'createdAt:asc', // Первая добавленная - первая, последняя - последняя
-    };
+// Fetch all cars (tries multiple param styles to avoid Strapi 400)
+function parseCarsResponse(carsData: any, featured?: boolean): Car[] {
+  if (!Array.isArray(carsData)) return [];
+  let list = carsData
+    .filter((car: any) => car !== null && car !== undefined)
+    .map(normalizeCar)
+    .filter((car: Car) => {
+      if (!car?.id || typeof car.name !== 'string' || car.name.length === 0) return false;
+      if (typeof car.pricePerMonth !== 'number') return false;
+      if (featured && !car.featured) return false;
+      return true;
+    });
+  if (!featured) {
+    list = list.filter((c: Car) => c.available !== false);
+  }
+  list.sort((a: Car, b: Car) => (a.id || '').localeCompare(b.id || ''));
+  return list;
+}
 
-    // Try both populate syntaxes for compatibility
-    // Strapi v5: populate[image]=*
-    // Strapi v4: populate=image
-    params['populate[image]'] = '*';
-    params['populate'] = 'image'; // Fallback for v4
+export async function getCars(featured?: boolean): Promise<Car[]> {
+  const attempts: Record<string, string | number | boolean>[] = [
+    { populate: 'image,image_compra,image_empresas', 'filters[available][$eq]': true, sort: 'createdAt:asc' },
+    { populate: 'image,image_compra,image_empresas' },
+    { populate: '*' },
+    { populate: 'image' },
+    {}, // last: no params (parseCarsResponse filters by available/featured client-side)
+  ];
+  if (featured) {
+    attempts.slice(0, -1).forEach((p) => { p['filters[featured][$eq]'] = true; });
+  }
 
-    if (featured) {
-      params['filters[featured][$eq]'] = true;
-      // Убрано ограничение pagination[limit] чтобы показывать все featured машины
-    }
-
-    const response = await strapiClient.get('/cars', { params });
-
-    // 1️⃣ Protection: Ensure data is an array
-    const carsData = response.data?.data;
-    if (!Array.isArray(carsData)) {
-      console.warn('Strapi returned non-array data for cars:', carsData);
-      return [];
-    }
-
-    // 1️⃣ Protection: Filter out null/undefined and normalize
-    const cars = carsData
-      .filter((car: any) => car !== null && car !== undefined)
-      .map(normalizeCar)
-      .filter((car: Car) => {
-        // Strict validation - only return cars with all required fields
-        return car && 
-               car.id && 
-               typeof car.name === 'string' && 
-               car.name.length > 0 &&
-               typeof car.pricePerMonth === 'number';
-      });
-
-    return cars;
-  } catch (error: any) {
-    // If Content Type doesn't exist (404), return empty array silently
-    if (error?.response?.status === 404) {
-      return [];
-    }
-    // Handle connection errors (e.g., during build when Strapi is not available)
-    if (error?.code === 'ECONNREFUSED' || error?.code === 'ENOTFOUND' || error?.message?.includes('ECONNREFUSED')) {
-      console.warn('Strapi connection refused (likely during build). Returning empty array.');
-      return [];
-    }
-    // Handle AggregateError
-    if (error instanceof AggregateError) {
-      const firstError = error.errors?.[0];
-      if (firstError?.code === 'ECONNREFUSED' || firstError?.code === 'ENOTFOUND') {
-        console.warn('Strapi connection refused in AggregateError (likely during build). Returning empty array.');
+  for (let i = 0; i < attempts.length; i++) {
+    const params = attempts[i];
+    try {
+      const response = await strapiClient.get('/cars', { params });
+      const carsData = response.data?.data;
+      const cars = parseCarsResponse(carsData, featured);
+      return cars;
+    } catch (err: any) {
+      if (err?.response?.status === 400 && i < attempts.length - 1) continue;
+      if (err?.response?.status === 404) return [];
+      if (err?.code === 'ECONNREFUSED' || err?.code === 'ENOTFOUND') {
+        console.warn('Strapi connection refused. Returning empty array.');
         return [];
       }
+      if (err instanceof AggregateError && err.errors?.[0]) {
+        const e = err.errors[0] as any;
+        if (e?.code === 'ECONNREFUSED' || e?.code === 'ENOTFOUND') {
+          console.warn('Strapi connection refused (AggregateError). Returning empty array.');
+          return [];
+        }
+      }
+      console.error('Error fetching cars:', err);
+      return [];
     }
-    console.error('Error fetching cars:', error);
-    return [];
   }
+
+  return [];
 }
 
 // Fetch featured cars
@@ -83,59 +76,34 @@ export async function getCarById(id: string) {
     
     // Try using filters approach (like getCars) first, then direct ID access
     const attempts = [
-      // Approach 1: Use filters with publicationState - populate all images and subscription data
+      // Approach 1: Filter + populate (no publicationState — Car has draftAndPublish: false)
       {
         method: 'filter',
         params: {
           'filters[id][$eq]': id,
-          'publicationState': 'live',
-          'populate[image]': '*',
-          'populate[additionalImages]': '*',
-          'populate': 'image,additionalImages',
+          populate: 'image,image_compra,image_empresas,additionalImages',
         },
       },
-      // Approach 2: Use filters without publicationState - populate all
+      // Approach 2: Filter + populate *
       {
         method: 'filter',
         params: {
           'filters[id][$eq]': id,
-          'populate[image]': '*',
-          'populate[additionalImages]': '*',
-          'populate': 'image,additionalImages',
+          populate: '*',
         },
       },
-      // Approach 3: Use populate all with filters
-      {
-        method: 'filter',
-        params: {
-          'filters[id][$eq]': id,
-          'publicationState': 'live',
-          'populate': '*',
-        },
-      },
-      // Approach 4: Direct ID access with publicationState - populate all
+      // Approach 3: Direct ID + populate
       {
         method: 'direct',
         params: {
-          'populate[image]': '*',
-          'populate[additionalImages]': '*',
-          'populate': 'image,additionalImages',
-          'publicationState': 'live',
+          populate: 'image,image_compra,image_empresas,additionalImages',
         },
       },
-      // Approach 5: Direct ID access with populate all
+      // Approach 4: Direct ID + populate *
       {
         method: 'direct',
         params: {
-          'populate': '*',
-          'publicationState': 'live',
-        },
-      },
-      // Approach 6: Direct ID access with populate all (no publicationState)
-      {
-        method: 'direct',
-        params: {
-          'populate': '*',
+          populate: '*',
         },
       },
       // Approach 7: Direct ID access minimal

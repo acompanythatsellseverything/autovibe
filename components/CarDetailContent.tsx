@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { Car } from '@/types';
-import { getStrapiImageUrl, getStrapiFullImageUrl } from '@/lib/strapi/config';
+import { getStrapiImageUrl, getStrapiFullImageUrl, getCarCoverImage } from '@/lib/strapi/config';
 import SubscriptionConfig from './SubscriptionConfig';
 import { useI18n } from '@/lib/i18n/context';
 import HowItWorks from './HowItWorks';
@@ -129,9 +129,12 @@ function parseFormattedText(text: string): ReactNode[] {
 export default function CarDetailContent({ car }: CarDetailContentProps) {
   const { t } = useI18n();
 
+  // Cover for suscripcion (long-term), then additional images as gallery
+  const coverImage = getCarCoverImage(car, 'suscripcion');
   const additionalImages = car.additionalImages || [];
-  const largeImage = additionalImages.length > 0 ? additionalImages[0] : null;
-  const thumbnailImages = additionalImages.slice(1, 4).filter(Boolean);
+  const allImages = [coverImage, ...additionalImages].filter(Boolean);
+  const largeImage = allImages.length > 0 ? allImages[0] : null;
+  const thumbnailImages = allImages.slice(1, 4).filter(Boolean);
 
   console.log('[CarDetailContent] Image data:', {
     additionalImagesCount: additionalImages.length,
@@ -163,7 +166,7 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
           <div className="flex flex-nowrap items-center gap-0.5 sm:gap-2">
             <div className="text-right flex-shrink-0">
               <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
-                {minPermanence} {t('carPage.meses')}
+                {minPermanence} {minPermanence === 1 ? t('carPage.mes') : t('carPage.meses')}
               </div>
               <div className="text-[9px] sm:text-xs md:text-sm font-normal text-gray-700 whitespace-nowrap">
                 permanencia mínima

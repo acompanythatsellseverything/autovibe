@@ -6,14 +6,31 @@ import Image from 'next/image';
 import CarDisplayCard from '@/components/CarDisplayCard';
 import { useI18n } from '@/lib/i18n/context';
 
+type HomeSectionKey = 'featuredCars' | 'carsForSale' | 'shortTermRental';
+
 interface FeaturedCarsSectionProps {
   cars: any[];
+  /** Section for title/verMas and link. Default: long-term (suscripcion). */
+  sectionKey?: HomeSectionKey;
+  /** Base path for cards and "ver más" link. Determines which cover image is shown (image / image_compra / image_empresas). */
+  basePath?: string;
 }
 
+const SECTION_DEFAULTS: Record<HomeSectionKey, string> = {
+  featuredCars: '/suscripcion',
+  carsForSale: '/compra',
+  shortTermRental: '/empresas',
+};
+
 /**
- * Простая односторонняя галерея машин на главной странице
+ * Галерея машин на главной: долгосрочная (suscripcion), покупка (compra) или короткосрочная аренда (empresas).
+ * Для каждой секции показывается своя обложка (image / image_compra / image_empresas).
  */
-export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) {
+export default function FeaturedCarsSection({
+  cars,
+  sectionKey = 'featuredCars',
+  basePath = SECTION_DEFAULTS[sectionKey],
+}: FeaturedCarsSectionProps) {
   const { t } = useI18n();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -70,14 +87,14 @@ export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-4 sm:mb-6 lg:mb-8">
         <div className="flex items-end justify-between">
           <h2 className="text-[25px] font-bold text-gray-900" style={{ fontFamily: 'Inter', fontWeight: 700, lineHeight: '100%', letterSpacing: '0%' }}>
-            {t('home.featuredCars.title')}
+            {t(`home.${sectionKey}.title`)}
           </h2>
           <Link
-            href="/suscripcion"
+            href={basePath}
             className="text-[#FB3B55] hover:text-[#FB3B55]/80 no-underline md:underline text-lg md:text-[20px] font-normal whitespace-nowrap"
             style={{ fontFamily: 'Inter', fontWeight: 400, lineHeight: '100%', letterSpacing: '0%' }}
           >
-            {t('home.featuredCars.verMas')}
+            {t(`home.${sectionKey}.verMas`)}
           </Link>
         </div>
       </div>
@@ -111,7 +128,7 @@ export default function FeaturedCarsSection({ cars }: FeaturedCarsSectionProps) 
                   flexShrink: 0,
                 }}
               >
-                <CarDisplayCard car={car} basePath="/suscripcion" />
+                <CarDisplayCard car={car} basePath={basePath} />
               </div>
             ))}
           </div>

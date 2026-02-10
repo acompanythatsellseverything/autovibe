@@ -14,7 +14,7 @@ import FeaturedCarsSection from '@/components/FeaturedCarsSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import BrandCarousel from '@/components/BrandCarousel';
 import {
-  getFeaturedCars,
+  getCars,
   getFeatures,
   getTestimonials,
   getFAQs,
@@ -24,15 +24,22 @@ export const revalidate = 60; // Revalidate every 60 seconds
 
 async function getData() {
   try {
-    const [cars, features, testimonials, faqs] = await Promise.all([
-      getFeaturedCars(),
+    const [allCars, features, testimonials, faqs] = await Promise.all([
+      getCars(),
       getFeatures(),
       getTestimonials(),
       getFAQs(),
     ]);
 
+    const cars = allCars || [];
+    const carsSuscripcion = cars.filter((c: any) => c.featured && c.availableForSuscripcion);
+    const carsCompra = cars.filter((c: any) => c.availableForCompra);
+    const carsEmpresas = cars.filter((c: any) => c.availableForEmpresas);
+
     return {
-      cars: cars || [],
+      carsSuscripcion,
+      carsCompra,
+      carsEmpresas,
       features: features || [],
       testimonials: testimonials || [],
       faqs: faqs || [],
@@ -40,7 +47,9 @@ async function getData() {
   } catch (error) {
     console.error('Error fetching data:', error);
     return {
-      cars: [],
+      carsSuscripcion: [],
+      carsCompra: [],
+      carsEmpresas: [],
       features: [],
       testimonials: [],
       faqs: [],
@@ -49,7 +58,7 @@ async function getData() {
 }
 
 export default async function Home() {
-  const { cars, features, testimonials, faqs } = await getData();
+  const { carsSuscripcion, carsCompra, carsEmpresas, features, testimonials, faqs } = await getData();
   const isStrapiConfigured = !!process.env.NEXT_PUBLIC_STRAPI_URL;
 
   return (
@@ -114,13 +123,23 @@ export default async function Home() {
         {/* Call to Action Section */}
         <HomeHero />
 
+        {/* Long-term (suscripcion) - image */}
+        {carsSuscripcion.length > 0 && (
+          <FeaturedCarsSection cars={carsSuscripcion} sectionKey="featuredCars" basePath="/suscripcion" />
+        )}
+        {/* Purchase (compra) - image_compra, other prices */}
+        {carsCompra.length > 0 && (
+          <FeaturedCarsSection cars={carsCompra} sectionKey="carsForSale" basePath="/compra" />
+        )}
+        {/* Short-term (empresas) - image_empresas, other prices */}
+        {carsEmpresas.length > 0 && (
+          <FeaturedCarsSection cars={carsEmpresas} sectionKey="shortTermRental" basePath="/empresas" />
+        )}
+
         {!isStrapiConfigured && <StrapiNotice />}
 
         {/* Feature Cards Section with Images */}
         <FeatureCards />
-
-        {/* Featured Cars Section */}
-        {cars && cars.length > 0 && <FeaturedCarsSection cars={cars} />}
 
         {/* Testimonials Section */}
         <TestimonialsSection />

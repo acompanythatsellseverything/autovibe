@@ -231,7 +231,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                               : 'bg-[#F3F2EC] text-gray-900 hover:opacity-90'
                           }`}
                         >
-                          <div>{option.months} {t('carPage.meses')}</div>
+                          <div>{option.months} {option.months === 1 ? t('carPage.mes') : t('carPage.meses')}</div>
                           {!isAvailable ? (
                             <div className="text-[10px] mt-1 text-center">
                               <div>No</div>

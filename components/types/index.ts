@@ -80,7 +80,7 @@ export interface Car {
   // Only array of plain text strings
   features: string[];
   // Only plain text string
-  category: 'suv' | 'sedan' | 'hatchback' | 'convertible' | 'coupe';
+  category: 'suv' | 'sedan' | 'hatchback' | 'convertible' | 'coupe' | 'city hatchback' | 'furgon' | 'moto';
   // Only boolean
   available: boolean;
   featured?: boolean;

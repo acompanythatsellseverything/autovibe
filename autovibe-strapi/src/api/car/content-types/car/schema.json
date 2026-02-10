@@ -45,6 +45,22 @@
         "images"
       ]
     },
+    "image_empresas": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "image_compra": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
     "category": {
       "type": "enumeration",
       "required": true,
@@ -53,7 +69,10 @@
         "suv",
         "sedan",
         "hatchback",
-        "convertible"
+        "convertible",
+        "city hatchback",
+        "furgon",
+        "moto"
       ]
     },
     "available": {

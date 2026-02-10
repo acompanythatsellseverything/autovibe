@@ -204,7 +204,7 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
                             : 'bg-[#F3F2EC] text-gray-900 hover:opacity-90'
                             }`}
                         >
-                          <div>{option.months} {t('carPage.meses')}</div>
+                          <div>{option.months} {option.months === 1 ? t('carPage.mes') : t('carPage.meses')}</div>
                           <div className="text-[10px] mt-1">
                             {option.monthlyPayment}€/mes
                           </div>
@@ -235,7 +235,7 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
                     <div className="flex justify-between">
                       <span>{t('carPage.duracion')}:</span>
                       <span className="font-semibold">
-                        {selectedInstallmentMonths} {t('carPage.meses')}
+                        {selectedInstallmentMonths} {selectedInstallmentMonths === 1 ? t('carPage.mes') : t('carPage.meses')}
                       </span>
                     </div>
                   </>
@@ -448,7 +448,7 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
                   <div className="flex justify-between">
                     <span>{t('carPage.duracion')}:</span>
                     <span className="font-semibold">
-                      {selectedInstallmentMonths} {t('carPage.meses')}
+                      {selectedInstallmentMonths} {selectedInstallmentMonths === 1 ? t('carPage.mes') : t('carPage.meses')}
                     </span>
                   </div>
                 )}

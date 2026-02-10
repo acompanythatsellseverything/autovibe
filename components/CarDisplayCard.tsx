@@ -1,7 +1,7 @@
 'use client';
 
 import { Car } from '@/types';
-import { getStrapiImageUrl } from '@/lib/strapi/config';
+import { getStrapiImageUrl, getCarCoverImage, type CarImageMode } from '@/lib/strapi/config';
 import Link from 'next/link';
 
 interface CarDisplayCardProps {
@@ -9,13 +9,21 @@ interface CarDisplayCardProps {
   basePath?: string; // e.g., '/empresas', '/suscripcion', '/compra', '/cars'
 }
 
+function basePathToMode(basePath: string): CarImageMode {
+  if (basePath === '/compra') return 'compra';
+  if (basePath === '/empresas') return 'empresas';
+  return 'suscripcion';
+}
+
 /**
- * Простой универсальный компонент карточки машины
+ * Простой универсальный компонент карточки машины.
+ * Показывает обложку в зависимости от раздела: suscripcion / compra / empresas.
  */
 export default function CarDisplayCard({ car, basePath = '/cars' }: CarDisplayCardProps) {
   if (!car) return null;
 
-  const imageUrl = car.image ? getStrapiImageUrl(car.image, 'large') : '';
+  const coverImage = getCarCoverImage(car, basePathToMode(basePath));
+  const imageUrl = coverImage ? getStrapiImageUrl(coverImage, 'large') : '';
   const carName = car.name || 'Car';
   const carDescription = car.description || '';
   const carId = car.id || car._id || '';
@@ -23,13 +31,13 @@ export default function CarDisplayCard({ car, basePath = '/cars' }: CarDisplayCa
   return (
     <Link href={`${basePath}/cars/${carId}`} className="flex flex-col w-full h-full cursor-pointer">
       {/* Картинка машины - квадратная, полностью видна */}
-      <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden flex-shrink-0">
+      <div className="relative w-full aspect-square mb-4 rounded-xl overflow-hidden flex-shrink-0">
         {imageUrl ? (
-          <div className="w-full h-full p-2 box-border flex items-center justify-center">
+          <div className="w-full h-full p-2 box-border flex items-center justify-center rounded-xl overflow-hidden">
             <img
               src={imageUrl}
               alt={carName}
-              className="object-contain w-full h-full"
+              className="object-contain w-full h-full rounded-xl"
               onError={(e) => {
                 (e.target as HTMLImageElement).style.display = 'none';
               }}
