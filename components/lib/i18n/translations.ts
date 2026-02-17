@@ -85,6 +85,14 @@ export const translations = {
         },
       },
     },
+    // How it works (Como funciona)
+    howItWorks: {
+      title: 'Cómo funciona',
+      step1: { title: 'Pide tu coche', description: 'Elige el que quieras de nuestro catálogo o dinos qué modelo buscas. Tu gestor personal te llama en menos de 5 minutos.' },
+      step2: { title: 'Recibe tu propuesta', description: 'Te enviamos un presupuesto claro con dos opciones — Smart Leasing y Drivovo Subscription — y tú decides cuál te viene mejor.' },
+      step3: { title: 'Firma online', description: 'Todo se firma por internet con firma digital. Nada de papeleo, sin sorpresas en las comisiones y sin moverte de casa.' },
+      step4: { title: 'A rodar', description: 'Tu coche te espera cuando lo necesites. Ya viene matriculado, asegurado y listo para lo que le eches.' },
+    },
     // Footer
     footer: {
       legal: {
@@ -125,7 +133,7 @@ export const translations = {
         permanenciaLarga: 'Permanencia larga',
         permanenciaLargaDesc: '12, 24, 36 meses de permanencia',
         permanenciaCorta: 'Permanencia corta',
-        permanenciaCortaDesc: '1-30 días',
+        permanenciaCortaDesc: '1-24 meses',
         comprarCoche: 'Comprar coche',
         comprarCocheDesc: 'Nuestros coches de ocasión',
         vamos: 'Vamos!!!',
@@ -142,7 +150,7 @@ export const translations = {
         permanenciaLarga: 'Permanencia larga',
         permanenciaLargaDesc: '12, 24, 36 meses de permanencia',
         permanenciaCorta: 'Permanencia corta',
-        permanenciaCortaDesc: '1-30 días',
+        permanenciaCortaDesc: '1-24 meses',
         comprarCoche: 'Comprar coche',
         comprarCocheDesc: 'Nuestros coches de ocasión',
         vamos: 'Vamos!!!',
@@ -159,7 +167,7 @@ export const translations = {
         permanenciaLarga: 'Permanencia larga',
         permanenciaLargaDesc: '12, 24, 36 meses de permanencia',
         permanenciaCorta: 'Permanencia corta',
-        permanenciaCortaDesc: '1-30 días',
+        permanenciaCortaDesc: '1-24 meses',
         comprarCoche: 'Comprar coche',
         comprarCocheDesc: 'Nuestros coches de ocasión',
         vamos: 'Vamos!!!',
@@ -231,9 +239,11 @@ export const translations = {
       resumenSuscripcion: 'Resumen de tu suscripción',
       precioMes: 'Precio al mes',
       descuentoOferta: 'Descuento por oferta',
-      kmAdicionales: 'Km adicionales',
+      kmAdicionales: 'Personaliza tu kilometraje',
       cuotaMensual: 'Cuota mensual',
       ivaIncluido: 'IVA incluido',
+      masIva: '+21% IVA',
+      iva21Percent: '21% IVA',
       sobreEsteCoche: 'Sobre este coche',
       caracteristicas: 'Características',
       nombre: 'Nombre',
@@ -267,7 +277,7 @@ export const translations = {
       inicio: 'Home',
       suscripcion: 'Subscription',
       compra: 'Purchase',
-      empresas: 'Business',
+      empresas: 'For Business',
       elClub: 'The Club',
       llamaMe: 'Call me!',
       miCuenta: 'My Account',
@@ -281,16 +291,16 @@ export const translations = {
       },
       featuredCars: {
         title: 'Most requested, available now',
-        verMas: 'view 5 more models >',
+        verMas: 'View more',
         noCars: 'No cars available at this time.',
       },
       carsForSale: {
         title: 'Cars for sale',
-        verMas: 'view more >',
+        verMas: 'View more',
       },
       shortTermRental: {
         title: 'Short-term rental',
-        verMas: 'view more >',
+        verMas: 'View more',
       },
     },
     // Contract Options
@@ -313,7 +323,7 @@ export const translations = {
             'Adjust your payment plan and buy the car at the residual value we agreed upon from the beginning.',
         },
         option4: {
-          title: 'Buy now without interest',
+          title: 'Buy-out without interest',
           description:
             'Take advantage of the special price of your contract (without interest) and the car is yours now.',
         },
@@ -345,6 +355,14 @@ export const translations = {
         },
       },
     },
+    // How it works (Como funciona)
+    howItWorks: {
+      title: 'How it works',
+      step1: { title: 'Request your car', description: 'Choose the one you want from our catalogue or tell us which model you are looking for. Your personal manager will call you in less than 5 minutes.' },
+      step2: { title: 'Receive your quote', description: 'We send you a clear quote with two options — Smart Leasing and Drivovo Subscription — and you decide which one suits you best.' },
+      step3: { title: 'Sign online', description: 'Everything is signed online with a digital signature. No paperwork, no commission surprises, and all from home.' },
+      step4: { title: 'Hit the road', description: 'Your car is waiting for you when you need it. It comes registered, insured and ready to go.' },
+    },
     // Footer
     footer: {
       legal: {
@@ -372,7 +390,7 @@ export const translations = {
         horario: 'Mon-Fri 9:00 – 18:00',
         atencion: 'Customer service: 613 259 610',
         nuevos: 'New clients: 611 713 755',
-        asistencia: 'Immediate assistance for accidents',
+        asistencia: 'Urgent accident assistance.',
       },
       copyright: '© Copyright AutoVibe 2026',
     },
@@ -385,7 +403,7 @@ export const translations = {
         permanenciaLarga: 'Long permanence',
         permanenciaLargaDesc: '12, 24, 36 months permanence',
         permanenciaCorta: 'Short permanence',
-        permanenciaCortaDesc: '1-30 days',
+        permanenciaCortaDesc: '1-24 months',
         comprarCoche: 'Buy car',
         comprarCocheDesc: 'Our used cars',
         vamos: 'Let\'s go!!!',
@@ -402,7 +420,7 @@ export const translations = {
         permanenciaLarga: 'Long permanence',
         permanenciaLargaDesc: '12, 24, 36 months permanence',
         permanenciaCorta: 'Short permanence',
-        permanenciaCortaDesc: '1-30 days',
+        permanenciaCortaDesc: '1-24 months',
         comprarCoche: 'Buy car',
         comprarCocheDesc: 'Our used cars',
         vamos: 'Let\'s go!!!',
@@ -419,7 +437,7 @@ export const translations = {
         permanenciaLarga: 'Long permanence',
         permanenciaLargaDesc: '12, 24, 36 months permanence',
         permanenciaCorta: 'Short permanence',
-        permanenciaCortaDesc: '1-30 days',
+        permanenciaCortaDesc: '1-24 months',
         comprarCoche: 'Buy car',
         comprarCocheDesc: 'Our used cars',
         vamos: 'Let\'s go!!!',
@@ -463,13 +481,13 @@ export const translations = {
       suscripcion: 'Subscription',
       autovibe: 'AutoVibe',
       features: {
-        eligeTiempo: 'Choose how long you want it',
-        ajustaKm: 'Adjust km each month',
-        llevamosCasa: 'We bring it to your home',
-        todoOnline: 'Everything online, no paperwork',
-        ayudamosAccidente: 'We help you if you have an accident',
-        cocheSustitucion: 'Free replacement car',
-        sinEntrada: 'No down payment or large deposit',
+        eligeTiempo: 'Choose your rental period',
+        ajustaKm: 'Adjust monthly mileage',
+        llevamosCasa: 'Home delivery',
+        todoOnline: '100% online paperwork',
+        ayudamosAccidente: 'Accident support',
+        cocheSustitucion: 'Replacement car',
+        sinEntrada: 'No deposit or downpayment',
         mantenimiento: 'Maintenance, MOT, taxes and assistance',
         seguro: 'Full coverage insurance included',
       },
@@ -494,6 +512,8 @@ export const translations = {
       kmAdicionales: 'Additional km',
       cuotaMensual: 'Monthly fee',
       ivaIncluido: 'VAT included',
+      masIva: '+21% VAT',
+      iva21Percent: '21% VAT',
       sobreEsteCoche: 'About this car',
       caracteristicas: 'Features',
       nombre: 'Name',
@@ -526,10 +546,10 @@ export const translations = {
     header: {
       inicio: 'Головна',
       suscripcion: 'Підписка',
-      compra: 'Купівля',
-      empresas: 'Бізнес',
+      compra: 'Продаж',
+      empresas: 'Для бізнесу',
       elClub: 'Клуб',
-      llamaMe: 'Зателефонуй!',
+      llamaMe: 'Зателефонуйте!',
       miCuenta: 'Мій акаунт',
     },
     // Home page
@@ -540,17 +560,17 @@ export const translations = {
         verCoches: 'Переглянути автомобілі!',
       },
       featuredCars: {
-        title: 'Найбільш затребувані, доступні зараз',
-        verMas: 'переглянути ще 5 моделей >',
+        title: 'Найпопулярніші, доступні зараз',
+        verMas: 'Ще',
         noCars: 'Наразі автомобілі недоступні.',
       },
       carsForSale: {
         title: 'Автомобілі на продаж',
-        verMas: 'переглянути ще >',
+        verMas: 'Ще',
       },
       shortTermRental: {
         title: 'Оренда на короткий термін',
-        verMas: 'переглянути ще >',
+        verMas: 'Ще',
       },
     },
     // Contract Options
@@ -558,12 +578,12 @@ export const translations = {
       title: 'Твій контракт закінчується — у тебе є 4 опції',
       options: {
         option1: {
-          title: 'Поверни без клопоту',
+          title: 'Повернення',
           description:
             'Ти привозиш, ми закриваємо все, і ти йдеш. Нуль комісій, нуль ускладнень.',
         },
         option2: {
-          title: 'Зміни або продовж',
+          title: 'Зміна або продовження авто',
           description:
             'Візьми інший автомобіль з нашого парку або залишся ще на кілька місяців з тим, що маєш. Ти вирішуєш.',
         },
@@ -573,7 +593,7 @@ export const translations = {
             'Налаштуй свій план оплати та купи автомобіль за залишковою вартістю, яку ми домовилися з самого початку.',
         },
         option4: {
-          title: 'Купи зараз без відсотків',
+          title: 'Викуп без відсотків',
           description:
             'Скористайся спеціальною ціною свого контракту (без відсотків), і автомобіль вже твій.',
         },
@@ -605,6 +625,14 @@ export const translations = {
         },
       },
     },
+    // How it works (Como funciona)
+    howItWorks: {
+      title: 'Як це працює',
+      step1: { title: 'Замов свій автомобіль', description: 'Обери будь-який з нашого каталогу або скажи, яку модель шукаєш. Твій персональний менеджер передзвонить менш ніж за 5 хвилин.' },
+      step2: { title: 'Отримай пропозицію', description: 'Надсилаємо тобі чіткий бюджет з двома опціями — Smart Leasing та Drivovo Subscription — і ти вирішуєш, що підходить краще.' },
+      step3: { title: 'Підпиши онлайн', description: 'Усе підписується в інтернеті електронним підписом. Жодного папероволоки, ніяких сюрпризів з комісіями, не виходячи з дому.' },
+      step4: { title: 'В дорогу', description: 'Твій автомобіль чекає, коли він тобі знадобиться. Вже з реєстрацією, страхуванням і готовий до поїздок.' },
+    },
     // Footer
     footer: {
       legal: {
@@ -632,7 +660,7 @@ export const translations = {
         horario: 'Пн-Пт 9:00 – 18:00',
         atencion: 'Служба підтримки: 613 259 610',
         nuevos: 'Нові клієнти: 611 713 755',
-        asistencia: 'Негайна допомога при аварії',
+        asistencia: 'Допомога при аварії',
       },
       copyright: '© Copyright AutoVibe 2026',
     },
@@ -645,7 +673,7 @@ export const translations = {
         permanenciaLarga: 'Довга постійність',
         permanenciaLargaDesc: '12, 24, 36 місяців постійності',
         permanenciaCorta: 'Коротка постійність',
-        permanenciaCortaDesc: '1-30 днів',
+        permanenciaCortaDesc: '1-24 міс.',
         comprarCoche: 'Купити автомобіль',
         comprarCocheDesc: 'Наші вживані автомобілі',
         vamos: 'Поїхали!!!',
@@ -662,7 +690,7 @@ export const translations = {
         permanenciaLarga: 'Довга постійність',
         permanenciaLargaDesc: '12, 24, 36 місяців постійності',
         permanenciaCorta: 'Коротка постійність',
-        permanenciaCortaDesc: '1-30 днів',
+        permanenciaCortaDesc: '1-24 міс.',
         comprarCoche: 'Купити автомобіль',
         comprarCocheDesc: 'Наші вживані автомобілі',
         vamos: 'Поїхали!!!',
@@ -679,7 +707,7 @@ export const translations = {
         permanenciaLarga: 'Довга постійність',
         permanenciaLargaDesc: '12, 24, 36 місяців постійності',
         permanenciaCorta: 'Коротка постійність',
-        permanenciaCortaDesc: '1-30 днів',
+        permanenciaCortaDesc: '1-24 міс.',
         comprarCoche: 'Купити автомобіль',
         comprarCocheDesc: 'Наші вживані автомобілі',
         vamos: 'Поїхали!!!',
@@ -723,15 +751,15 @@ export const translations = {
       suscripcion: 'Підписка',
       autovibe: 'AutoVibe',
       features: {
-        eligeTiempo: 'Обери, скільки часу ти хочеш',
-        ajustaKm: 'Налаштуй км щомісяця',
-        llevamosCasa: 'Ми привеземо до твого дому',
+        eligeTiempo: 'Визнач тривалість підписки',
+        ajustaKm: 'Обери бажаний кілометраж',
+        llevamosCasa: 'Доставка на дім',
         todoOnline: 'Все онлайн, без паперів',
-        ayudamosAccidente: 'Ми допоможемо, якщо у тебе аварія',
-        cocheSustitucion: 'Безкоштовний замінювальний автомобіль',
-        sinEntrada: 'Без першого внеску та великого депозиту',
-        mantenimiento: 'Обслуговування, техогляд, податки та допомога',
-        seguro: 'Страхування на весь ризик включено',
+        ayudamosAccidente: 'Допомога при аварійних ситуаціях',
+        cocheSustitucion: 'Безкоштовна заміна авто',
+        sinEntrada: 'Без першого внеску та депозиту',
+        mantenimiento: 'Включені всі податки, обслуговування та техогляд',
+        seguro: 'Повне страхування',
       },
     },
     // Car Detail Page
@@ -754,6 +782,8 @@ export const translations = {
       kmAdicionales: 'Додаткові км',
       cuotaMensual: 'Щомісячна плата',
       ivaIncluido: 'з ПДВ',
+      masIva: '+21% ПДВ',
+      iva21Percent: '21% ПДВ',
       sobreEsteCoche: 'Про цей автомобіль',
       caracteristicas: 'Характеристики',
       nombre: 'Ім\'я',
@@ -786,10 +816,10 @@ export const translations = {
     header: {
       inicio: 'Главная',
       suscripcion: 'Подписка',
-      compra: 'Покупка',
-      empresas: 'Бизнес',
+      compra: 'Продажа',
+      empresas: 'Для Бизнеса',
       elClub: 'Клуб',
-      llamaMe: 'Позвони мне!',
+      llamaMe: 'Перезвоните мне!',
       miCuenta: 'Мой аккаунт',
     },
     // Home page
@@ -800,17 +830,17 @@ export const translations = {
         verCoches: 'Посмотреть автомобили!',
       },
       featuredCars: {
-        title: 'Самые востребованные, доступны сейчас',
-        verMas: 'посмотреть еще 5 моделей >',
+        title: 'Самые востребованные, доступные сейчас',
+        verMas: 'Еще',
         noCars: 'Автомобили недоступны в данный момент.',
       },
       carsForSale: {
         title: 'Автомобили на продажу',
-        verMas: 'посмотреть еще >',
+        verMas: 'Еще',
       },
       shortTermRental: {
         title: 'Аренда на короткий срок',
-        verMas: 'посмотреть еще >',
+        verMas: 'Еще',
       },
     },
     // Contract Options
@@ -818,12 +848,12 @@ export const translations = {
       title: 'Твой контракт заканчивается — у тебя есть 4 опции',
       options: {
         option1: {
-          title: 'Верни без хлопот',
+          title: 'Возврат',
           description:
             'Ты привозишь, мы закрываем всё, и ты уходишь. Ноль комиссий, ноль осложнений.',
         },
         option2: {
-          title: 'Смени или продли',
+          title: 'Смена или продление авто',
           description:
             'Возьми другой автомобиль из нашего парка или останься еще на несколько месяцев с тем, что есть. Ты решаешь.',
         },
@@ -833,7 +863,7 @@ export const translations = {
             'Настрой свой план оплаты и купи автомобиль по остаточной стоимости, которую мы договорились с самого начала.',
         },
         option4: {
-          title: 'Купи сейчас без процентов',
+          title: 'Выкуп без процентов',
           description:
             'Воспользуйся специальной ценой своего контракта (без процентов), и автомобиль уже твой.',
         },
@@ -865,6 +895,14 @@ export const translations = {
         },
       },
     },
+    // How it works (Como funciona)
+    howItWorks: {
+      title: 'Как это работает',
+      step1: { title: 'Закажи свой автомобиль', description: 'Выбери любой из нашего каталога или скажи, какую модель ищешь. Твой персональный менеджер перезвонит менее чем за 5 минут.' },
+      step2: { title: 'Получи предложение', description: 'Отправляем тебе понятную смету с двумя опциями — Smart Leasing и Drivovo Subscription — и ты решаешь, что подходит лучше.' },
+      step3: { title: 'Подпиши онлайн', description: 'Всё подписывается в интернете электронной подписью. Никакой бумажной волокиты, никаких сюрпризов с комиссиями, не выходя из дома.' },
+      step4: { title: 'В путь', description: 'Твой автомобиль ждёт, когда он тебе понадобится. Уже с регистрацией, страховкой и готов к поездкам.' },
+    },
     // Footer
     footer: {
       legal: {
@@ -892,7 +930,7 @@ export const translations = {
         horario: 'Пн-Пт 9:00 – 18:00',
         atencion: 'Служба поддержки: 613 259 610',
         nuevos: 'Новые клиенты: 611 713 755',
-        asistencia: 'Немедленная помощь при аварии',
+        asistencia: 'Помощь при аварии',
       },
       copyright: '© Copyright AutoVibe 2026',
     },
@@ -905,7 +943,7 @@ export const translations = {
         permanenciaLarga: 'Долгая постоянность',
         permanenciaLargaDesc: '12, 24, 36 месяцев постоянности',
         permanenciaCorta: 'Короткая постоянность',
-        permanenciaCortaDesc: '1-30 дней',
+        permanenciaCortaDesc: '1-24 мес.',
         comprarCoche: 'Купить автомобиль',
         comprarCocheDesc: 'Наши подержанные автомобили',
         vamos: 'Поехали!!!',
@@ -922,7 +960,7 @@ export const translations = {
         permanenciaLarga: 'Долгая постоянность',
         permanenciaLargaDesc: '12, 24, 36 месяцев постоянности',
         permanenciaCorta: 'Короткая постоянность',
-        permanenciaCortaDesc: '1-30 дней',
+        permanenciaCortaDesc: '1-24 мес.',
         comprarCoche: 'Купить автомобиль',
         comprarCocheDesc: 'Наши подержанные автомобили',
         vamos: 'Поехали!!!',
@@ -939,7 +977,7 @@ export const translations = {
         permanenciaLarga: 'Долгая постоянность',
         permanenciaLargaDesc: '12, 24, 36 месяцев постоянности',
         permanenciaCorta: 'Короткая постоянность',
-        permanenciaCortaDesc: '1-30 дней',
+        permanenciaCortaDesc: '1-24 мес.',
         comprarCoche: 'Купить автомобиль',
         comprarCocheDesc: 'Наши подержанные автомобили',
         vamos: 'Поехали!!!',
@@ -983,15 +1021,15 @@ export const translations = {
       suscripcion: 'Подписка',
       autovibe: 'AutoVibe',
       features: {
-        eligeTiempo: 'Выбери, сколько времени ты хочешь',
-        ajustaKm: 'Настрой км ежемесячно',
-        llevamosCasa: 'Мы привезем к твоему дому',
+        eligeTiempo: 'Определи продолжительность подписки',
+        ajustaKm: 'Выбери желаемый километраж',
+        llevamosCasa: 'Доставка на дом',
         todoOnline: 'Всё онлайн, без бумаг',
-        ayudamosAccidente: 'Мы поможем, если у тебя авария',
-        cocheSustitucion: 'Бесплатная замена автомобиля',
-        sinEntrada: 'Без первого взноса и большого депозита',
-        mantenimiento: 'Обслуживание, техосмотр, налоги и помощь',
-        seguro: 'Страхование на весь риск включено',
+        ayudamosAccidente: 'Помощь при аварийных ситуациях',
+        cocheSustitucion: 'Бесплатная подмена авто',
+        sinEntrada: 'Без первого взноса и депозита',
+        mantenimiento: 'Включены все налоги, обслуживание и техосмотр',
+        seguro: 'Полная страховка',
       },
     },
     // Car Detail Page
@@ -1014,6 +1052,8 @@ export const translations = {
       kmAdicionales: 'Дополнительные км',
       cuotaMensual: 'Ежемесячная плата',
       ivaIncluido: 'с НДС',
+      masIva: '+21% НДС',
+      iva21Percent: '21% НДС',
       sobreEsteCoche: 'Об этом автомобиле',
       caracteristicas: 'Характеристики',
       nombre: 'Имя',

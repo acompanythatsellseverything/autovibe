@@ -149,8 +149,10 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
   const currentImageUrl = largeImage ? getStrapiFullImageUrl(largeImage) : '';
 
   const minPermanence = car.minPermanence || 12;
-  const displayPrice = car.pricePerMonthSuscripcion || car.pricePerMonth;
-  const originalPrice = car.priceOriginalSuscripcion || car.originalPrice;
+  // Strapi: pricePerMonthSuscripcion = price with discount for 12+, priceOriginalSuscripcion = original (full) price for 12+
+  const originalPrice12 = car.priceOriginalSuscripcion ?? car.pricePerMonth ?? 0;
+  const discountedPrice12 = car.pricePerMonthSuscripcion ?? originalPrice12;
+  const hasDiscount = typeof car.pricePerMonthSuscripcion === 'number' && car.pricePerMonthSuscripcion < originalPrice12;
 
   return (
     <main className="py-6 mt-[84px] md:mt-0 sm:py-8">
@@ -177,12 +179,14 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
             
             <div className="text-left flex-shrink-0 ml-1 sm:ml-0">
               <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
-                {t('carPage.cuotaMensualDe')} {originalPrice && originalPrice > displayPrice ? (
+                {t('carPage.cuotaMensualDe')}{' '}
+                {hasDiscount ? (
                   <>
-                    <span className="line-through" style={{ color: '#E10000' }}>{originalPrice}€</span> <span>{displayPrice}€</span>
+                    <span className="line-through" style={{ color: '#E10000' }}>{originalPrice12}€</span>
+                    <span className="ml-1">{discountedPrice12}€</span>
                   </>
                 ) : (
-                  <span>{displayPrice}€</span>
+                  <span>{discountedPrice12}€</span>
                 )}
               </div>
               <div className="text-[9px] sm:text-xs md:text-sm font-normal text-gray-700 whitespace-nowrap text-right">

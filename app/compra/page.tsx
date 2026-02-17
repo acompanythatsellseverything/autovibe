@@ -11,8 +11,6 @@ export default async function CompraPage() {
   return (
     <div className="min-h-screen bg-[#DFDBC8]">
       <Header />
-      {/* Spacer for fixed header on mobile */}
-      <div className="h-20 sm:h-24 md:h-28 lg:h-0"></div>
       <CompraPageContent cars={cars} />
       <Footer />
     </div>

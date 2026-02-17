@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { Car } from '@/types';
 import { useI18n } from '@/lib/i18n/context';
 
+const VAT_RATE = 1.21; // Strapi prices are with IVA; display without: price / 1.21
+
 interface EnterpriseRentalConfigProps {
   car: Car;
 }
@@ -48,6 +50,9 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
   }, [selectedMonths, car.rentalPrices, car.pricePerMonth]);
   
   const totalPrice = selectedPrice * selectedMonths;
+  // Display prices without IVA (Strapi stores with tax), rounded to whole euros
+  const selectedPriceDisplay = Math.round(selectedPrice / VAT_RATE);
+  const totalPriceDisplay = Math.round(totalPrice / VAT_RATE);
   
   const handleMonthsChange = (delta: number) => {
     const newMonths = selectedMonths + delta;
@@ -196,18 +201,18 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
               <div className="space-y-2 text-gray-700 mb-4">
                 <div className="flex justify-between">
                   <span>{t('carPage.precioMes')}:</span>
-                  <span className="font-semibold">{selectedPrice}€</span>
+                  <span className="font-semibold">{selectedPriceDisplay}€</span>
                 </div>
                 <div className="flex justify-between">
                   <span>{t('carPage.duracion')}:</span>
                   <span className="font-semibold">{selectedMonths} {selectedMonths === 1 ? 'mes' : 'meses'}</span>
                 </div>
               </div>
-              <div className="flex justify-between items-end pt-2 border-t-2 border-[#B4B4B4] mb-4">
+              <div className="flex justify-between items-start pt-2 border-t-2 border-[#B4B4B4] mb-4">
                 <span className="text-lg font-semibold text-gray-900">{t('carPage.total')}:</span>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-gray-900">{totalPrice}€</div>
-                  <div className="text-sm text-gray-700">{t('carPage.ivaIncluido')}</div>
+                  <div className="text-2xl font-bold text-gray-900">{totalPriceDisplay}€</div>
+                  <div className="text-sm text-gray-700">{t('carPage.masIva')}</div>
                 </div>
               </div>
             </div>
@@ -350,18 +355,18 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
               <div className="space-y-2 text-gray-700 mb-4">
                 <div className="flex justify-between">
                   <span>{t('carPage.precioMes')}:</span>
-                  <span className="font-semibold">{selectedPrice}€</span>
+                  <span className="font-semibold">{selectedPriceDisplay}€</span>
                 </div>
                 <div className="flex justify-between">
                   <span>{t('carPage.duracion')}:</span>
                   <span className="font-semibold">{selectedMonths} {selectedMonths === 1 ? 'mes' : 'meses'}</span>
                 </div>
               </div>
-              <div className="flex justify-between items-end pt-2 border-t-2 border-[#B4B4B4] mb-4">
+              <div className="flex justify-between items-start pt-2 border-t-2 border-[#B4B4B4] mb-4">
                 <span className="text-lg font-semibold text-gray-900">{t('carPage.total')}:</span>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-gray-900">{totalPrice}€</div>
-                  <div className="text-sm text-gray-700">{t('carPage.ivaIncluido')}</div>
+                  <div className="text-2xl font-bold text-gray-900">{totalPriceDisplay}€</div>
+                  <div className="text-sm text-gray-700">{t('carPage.masIva')}</div>
                 </div>
               </div>
             </div>

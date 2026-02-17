@@ -132,33 +132,33 @@ export function normalizeCar(car: any): Car {
           : undefined;
       })(),
       installmentOptions: (() => {
-        if (rawData.pricingConfig?.installmentOptions !== undefined) {
-          if (Array.isArray(rawData.pricingConfig.installmentOptions)) {
-            return rawData.pricingConfig.installmentOptions.map((opt: any) => {
-              if (typeof opt === 'object' && opt !== null) {
-                return {
-                  months: typeof opt.months === 'number' ? opt.months : 0,
-                  totalPrice: typeof opt.totalPrice === 'number' ? opt.totalPrice : 0,
-                  monthlyPayment: typeof opt.monthlyPayment === 'number' ? opt.monthlyPayment : 0,
-                };
-              }
-              return { months: 0, totalPrice: 0, monthlyPayment: 0 };
-            }).filter((opt: any) => opt.months > 0 && opt.totalPrice > 0);
-          }
+        const source = rawData.pricingConfig?.installmentOptions ?? rawData.installmentOptions;
+        if (!Array.isArray(source)) return undefined;
+        return source.map((opt: any) => {
+          if (typeof opt !== 'object' || opt === null) return { months: 0 as number | string, totalPrice: 0, monthlyPayment: 0 };
+          const months = opt.months;
+          const isRange = typeof months === 'string' && /^\d+-\d+$/.test(String(months).trim());
+          return {
+            months: isRange ? String(months).trim() : (typeof months === 'number' && !isNaN(months) ? months : 0),
+            totalPrice: typeof opt.totalPrice === 'number' ? opt.totalPrice : 0,
+            monthlyPayment: typeof opt.monthlyPayment === 'number' ? opt.monthlyPayment : 0,
+          };
+        }).filter((opt: any) => opt.months !== 0 && opt.months !== '0');
+      })(),
+      subscriptionRangeOptions: (() => {
+        // Strapi permanenceOptions as string array: ["1-3", "3-6", "6-12", "12+"]
+        if (Array.isArray(rawData.permanenceOptions)) {
+          const fromPermanence = rawData.permanenceOptions
+            .filter((o: any) => typeof o === 'string' && String(o).trim().length > 0)
+            .map((o: any) => String(o).trim()) as string[];
+          if (fromPermanence.length > 0) return fromPermanence;
         }
-        if (Array.isArray(rawData.installmentOptions)) {
-          return rawData.installmentOptions.map((opt: any) => {
-            if (typeof opt === 'object' && opt !== null) {
-              return {
-                months: typeof opt.months === 'number' ? opt.months : 0,
-                totalPrice: typeof opt.totalPrice === 'number' ? opt.totalPrice : 0,
-                monthlyPayment: typeof opt.monthlyPayment === 'number' ? opt.monthlyPayment : 0,
-              };
-            }
-            return { months: 0, totalPrice: 0, monthlyPayment: 0 };
-          }).filter((opt: any) => opt.months > 0 && opt.totalPrice > 0);
-        }
-        return undefined;
+        const opts = rawData.pricingConfig?.installmentOptions ?? rawData.installmentOptions;
+        if (!Array.isArray(opts)) return undefined;
+        const ranges = opts
+          .map((opt: any) => (opt && typeof opt.months === 'string' && (/^\d+-\d+$|^\d+\+$/.test(String(opt.months).trim()))) ? String(opt.months).trim() : null)
+          .filter(Boolean) as string[];
+        return ranges.length > 0 ? ranges : undefined;
       })(),
       // Legacy fields - computed for backward compatibility
       pricePerMonth: (() => {

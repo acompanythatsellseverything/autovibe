@@ -69,6 +69,8 @@ export interface Car {
     totalPrice: number;
     monthlyPayment: number;
   }>;
+  /** Subscription duration ranges from Strapi permanenceOptions (e.g. ["1-3", "3-6", "6-12", "12+"]) */
+  subscriptionRangeOptions?: string[];
   // Legacy fields - computed for backward compatibility
   pricePerMonth: number;
   originalPrice?: number;

@@ -1,9 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { Car } from '@/types';
 import { useI18n } from '@/lib/i18n/context';
+
+// Duration ranges from Strapi: 1-3 +20%, 3-6 +10%, 6-12 (12 not inclusive) +5%, 12+ (12 inclusive) +0%
+const DURATION_RANGES = [
+  { range: '1-3', multiplier: 1.20 },
+  { range: '3-6', multiplier: 1.10 },
+  { range: '6-12', multiplier: 1.05 },
+  { range: '12+', multiplier: 1.00 },
+] as const;
+
+// Mileage: 800 no change, 1250 +10€/mes, 1500 +6%, 2500 +25%
+const MILEAGE_OPTIONS = [
+  { km: 800, monthlyAddEuro: 0, percentAdd: 0 },
+  { km: 1250, monthlyAddEuro: 10, percentAdd: 0 },
+  { km: 1500, monthlyAddEuro: 0, percentAdd: 6 },
+  { km: 2500, monthlyAddEuro: 0, percentAdd: 25 },
+] as const;
 
 interface SubscriptionConfigProps {
   car: Car;
@@ -12,96 +28,45 @@ interface SubscriptionConfigProps {
 export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
   const { t } = useI18n();
   
-  // State for card flip
   const [isFlipped, setIsFlipped] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
-  // Form state
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-  });
-  
-  // Get base price for suscripcion
-  const baseSuscripcionPrice = car.pricePerMonthSuscripcion || car.pricePerMonth;
-  
-  // Default permanence options - always show all options
-  const defaultPermanenceOptions = [
-    { months: 6, price: baseSuscripcionPrice, available: false },
-    { months: 12, price: baseSuscripcionPrice, available: false },
-    { months: 24, price: baseSuscripcionPrice, available: false },
-    { months: 36, price: baseSuscripcionPrice, available: false },
-  ];
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
 
-  // Merge Strapi data with defaults to ensure all options are shown
-  // Only mark as available if explicitly provided in Strapi
-  const allMonths = [6, 12, 24, 36];
-  const permanenceOptions = allMonths.map(months => {
-    const strapiOption = car.permanenceOptions?.find(opt => opt.months === months);
-    const defaultOption = defaultPermanenceOptions.find(opt => opt.months === months);
-    
-    // If strapiOption exists, use it but ensure price is set
-    if (strapiOption) {
-      return {
-        ...strapiOption,
-        price: strapiOption.price && strapiOption.price > 0 ? strapiOption.price : baseSuscripcionPrice,
-      };
-    }
-    
-    // Otherwise use default option
-    return defaultOption || { months, price: baseSuscripcionPrice, available: false };
-  });
-  const defaultMileageOptions = [
-    { km: 800, included: true, price: undefined },
-    { km: 1000, included: false, price: 50 },
-    { km: 1500, included: false, price: 100 },
-  ];
-  const mileageOptions = car.mileageOptions || defaultMileageOptions;
-
-  console.log('[SubscriptionConfig] Data:', {
-    hasPermanenceOptions: !!car.permanenceOptions,
-    permanenceOptionsCount: permanenceOptions.length,
-    permanenceOptions: permanenceOptions,
-    hasMileageOptions: !!car.mileageOptions,
-    mileageOptionsCount: mileageOptions.length,
-    mileageOptions: mileageOptions,
-  });
-
-  const [selectedPermanence, setSelectedPermanence] = useState(() => {
-    // First try to find from Strapi options (prioritize Strapi data)
-    const strapiAvailable = car.permanenceOptions?.find(opt => opt.available);
-    if (strapiAvailable) {
-      return strapiAvailable.months;
-    }
-    // Fallback to first available option from merged array
-    const firstAvailable = permanenceOptions.find(opt => opt.available);
-    return firstAvailable?.months || 24; // Default to 24 if nothing available
-  });
-  const [selectedMileage, setSelectedMileage] = useState(
-    mileageOptions.find(opt => opt.included)?.km || 800
-  );
-
-  const selectedPermanenceOption = permanenceOptions.find(opt => opt.months === selectedPermanence);
-  const selectedMileageOption = mileageOptions.find(opt => opt.km === selectedMileage);
-  
-  const basePrice = selectedPermanenceOption?.price || baseSuscripcionPrice;
-  const mileagePrice = selectedMileageOption?.price || 0;
-  const originalSuscripcionPrice = car.priceOriginalSuscripcion || car.originalPrice;
-  const discount = originalSuscripcionPrice && originalSuscripcionPrice > basePrice 
-    ? originalSuscripcionPrice - basePrice 
+  // Strapi: pricePerMonthSuscripcion = price with discount for 12+, priceOriginalSuscripcion = original (full) price for 12+
+  const originalPrice12 = car.priceOriginalSuscripcion ?? car.pricePerMonth ?? 0;
+  const discountedBase12 = car.pricePerMonthSuscripcion;
+  const discountAmount = (typeof discountedBase12 === 'number' && discountedBase12 < originalPrice12)
+    ? originalPrice12 - discountedBase12
     : 0;
-  // Original base price (before discount) - used for display in summary
-  const originalBasePrice = originalSuscripcionPrice && originalSuscripcionPrice > basePrice 
-    ? originalSuscripcionPrice 
-    : basePrice;
-  // Final price: basePrice is already discounted, so just add mileage
-  const finalPrice = basePrice + mileagePrice;
 
-  // Calculate original price for each option (for strikethrough)
-  const getOriginalPrice = (optionPrice: number) => {
-    return originalSuscripcionPrice && originalSuscripcionPrice > optionPrice ? originalSuscripcionPrice : undefined;
+  // Available ranges from Strapi permanenceOptions ["1-3", "3-6", "6-12", "12+"] or default all
+  const availableRanges = useMemo(() => {
+    const fromStrapi = car.subscriptionRangeOptions?.length
+      ? car.subscriptionRangeOptions
+      : ['1-3', '3-6', '6-12', '12+'];
+    return DURATION_RANGES.filter((r) => fromStrapi.includes(r.range));
+  }, [car.subscriptionRangeOptions]);
+
+  const [selectedRange, setSelectedRange] = useState<string>(() => availableRanges[availableRanges.length - 1]?.range ?? '12+');
+  const [selectedMileage, setSelectedMileage] = useState(800);
+
+  // All calculations from original price: range → then mileage → then subtract discount
+  const rangeConfig = DURATION_RANGES.find((r) => r.range === selectedRange);
+  const priceAfterRange = rangeConfig ? Math.round(originalPrice12 * rangeConfig.multiplier) : originalPrice12;
+
+  const mileageConfig = MILEAGE_OPTIONS.find((m) => m.km === selectedMileage);
+  const mileageAddEuro = mileageConfig?.monthlyAddEuro ?? 0;
+  const mileageAddPercent = mileageConfig?.percentAdd ?? 0;
+  const mileageAddOn = mileageAddEuro + Math.round(priceAfterRange * (mileageAddPercent / 100));
+
+  const subtotalBeforeDiscount = priceAfterRange + mileageAddOn;
+  const finalPrice = subtotalBeforeDiscount - discountAmount;
+  const displayMileageAddOn = mileageAddOn > 0;
+
+  const priceForRangeOption = (range: string) => {
+    const cfg = DURATION_RANGES.find((r) => r.range === range);
+    return cfg ? Math.round(originalPrice12 * cfg.multiplier) : originalPrice12;
   };
 
   // Handle Continue button click - flip the card
@@ -144,7 +109,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
         },
         body: JSON.stringify({
           carName: car.name,
-          permanence: selectedPermanence,
+          permanence: selectedRange,
           mileage: selectedMileage,
           finalPrice,
           name: formData.name,
@@ -206,49 +171,27 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                 {t('carPage.configuraSuscripcion')}
               </h2>
 
-              {/* Permanence Selection */}
+              {/* Permanence Selection - ranges 1-3, 3-6, 6-12, 12+ (price changes, range not shown in summary) */}
               <div className="mb-6">
                 <h3 className="text-lg font-medium mb-3 text-gray-900">
                   {t('carPage.permanencia')}
                 </h3>
                 <div className="bg-[#EAEAEA] rounded-lg p-3 shadow-sm">
-                  <div className="grid grid-cols-4 gap-2">
-                    {permanenceOptions.map((option, index) => {
-                      const originalPrice = getOriginalPrice(option.price);
-                      const isSelected = selectedPermanence === option.months && option.available;
-                      const isAvailable = option.available;
-                      
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {availableRanges.map(({ range }) => {
+                      const price = priceForRangeOption(range);
+                      const isSelected = selectedRange === range;
                       return (
                         <button
-                          key={`permanence-${option.months}-${index}`}
-                          onClick={() => isAvailable && setSelectedPermanence(option.months)}
-                          disabled={!isAvailable}
-                          className={`p-3 rounded-lg text-xs font-medium transition-all h-20 flex flex-col items-center justify-center ${
-                            !isAvailable
-                              ? 'bg-[#C3C3C3] text-gray-900 cursor-not-allowed'
-                              : isSelected
-                              ? 'bg-[#603361] text-white'
-                              : 'bg-[#F3F2EC] text-gray-900 hover:opacity-90'
+                          key={`permanence-${range}`}
+                          onClick={() => setSelectedRange(range)}
+                          className={`p-3 rounded-lg text-xs font-medium transition-all min-h-[5rem] flex flex-col items-center justify-center gap-0.5 ${
+                            isSelected ? 'bg-[#603361] text-white' : 'bg-[#F3F2EC] text-gray-900 hover:opacity-90'
                           }`}
                         >
-                          <div>{option.months} {option.months === 1 ? t('carPage.mes') : t('carPage.meses')}</div>
-                          {!isAvailable ? (
-                            <div className="text-[10px] mt-1 text-center">
-                              <div>No</div>
-                              <div>disponible</div>
-                            </div>
-                          ) : (
-                            <div className="text-[10px] mt-1 text-center">
-                              {originalPrice ? (
-                                <>
-                                  <div className="font-bold">{option.price}€</div>
-                                  <div className="line-through" style={{ color: '#E10000' }}>{originalPrice}€</div>
-                                </>
-                              ) : (
-                                <div className="font-bold">{option.price}€</div>
-                              )}
-                            </div>
-                          )}
+                          <div>{range}</div>
+                          <div>{t('carPage.meses')}</div>
+                          <div className="text-[10px] font-bold">{price}€</div>
                         </button>
                       );
                     })}
@@ -256,7 +199,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                 </div>
               </div>
 
-              {/* Mileage Selection */}
+              {/* Mileage Selection - fixed 800, 1250, 1500, 2500 km */}
               <div>
                 <h3 className="text-lg font-medium mb-3 text-gray-900">
                   {t('carPage.personalizaKilometraje')}
@@ -267,9 +210,9 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                   className="w-full p-3 bg-white rounded-lg text-gray-900 focus:outline-none"
                   style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}
                 >
-                  {mileageOptions.map((option, index) => (
-                    <option key={`mileage-${option.km}-${index}`} value={option.km}>
-                      {option.km} {t('carPage.kmMesIncluido')}
+                  {MILEAGE_OPTIONS.map((opt) => (
+                    <option key={`mileage-${opt.km}`} value={opt.km}>
+                      {opt.km} {t('carPage.kmMesIncluido')}
                     </option>
                   ))}
                 </select>
@@ -286,22 +229,22 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
               <div className="space-y-2 text-gray-700 mb-4">
                 <div className="flex justify-between">
                   <span>{t('carPage.precioMes')}:</span>
-                  <span className="font-semibold">{originalBasePrice}€</span>
+                  <span className="font-semibold">{priceAfterRange}€</span>
                 </div>
-                {discount > 0 && (
+                {displayMileageAddOn && (
                   <div className="flex justify-between">
-                    <span className="text-gray-700">{t('carPage.descuentoOferta')}:</span>
-                    <span className="font-semibold" style={{ color: '#E10000' }}>-{discount}€</span>
+                    <span>{t('carPage.kmAdicionales')} ({selectedMileage} km):</span>
+                    <span className="font-semibold">+{mileageAddOn}€</span>
                   </div>
                 )}
-                {mileagePrice > 0 && (
+                {discountAmount > 0 && (
                   <div className="flex justify-between">
-                    <span>{t('carPage.kmAdicionales')}:</span>
-                    <span className="font-semibold">+{mileagePrice}€</span>
+                    <span className="text-gray-700">{t('carPage.descuentoOferta')}:</span>
+                    <span className="font-semibold" style={{ color: '#E10000' }}>-{discountAmount}€</span>
                   </div>
                 )}
               </div>
-              <div className="flex justify-between items-end pt-3 border-t border-[#B4B4B4]">
+              <div className="flex justify-between items-start pt-3 border-t border-[#B4B4B4]">
                 <span className="text-lg font-semibold text-gray-900">{t('carPage.cuotaMensual')}:</span>
                 <div className="text-right">
                   <div className="text-2xl font-bold text-gray-900">{finalPrice}€</div>
@@ -490,23 +433,23 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
               <div className="space-y-2 text-gray-700 mb-4">
                 <div className="flex justify-between">
                   <span>{t('carPage.precioMes')}:</span>
-                  <span className="font-semibold">{originalBasePrice}€</span>
+                  <span className="font-semibold">{priceAfterRange}€</span>
                 </div>
-                {discount > 0 && (
+                {displayMileageAddOn && (
                   <div className="flex justify-between">
-                    <span className="text-gray-700">{t('carPage.descuentoOferta')}:</span>
-                    <span className="font-semibold" style={{ color: '#E10000' }}>-{discount}€</span>
+                    <span>{t('carPage.kmAdicionales')} ({selectedMileage} km):</span>
+                    <span className="font-semibold">+{mileageAddOn}€</span>
                   </div>
                 )}
-                {mileagePrice > 0 && (
+                {discountAmount > 0 && (
                   <div className="flex justify-between">
-                    <span>{t('carPage.kmAdicionales')}:</span>
-                    <span className="font-semibold">+{mileagePrice}€</span>
+                    <span className="text-gray-700">{t('carPage.descuentoOferta')}:</span>
+                    <span className="font-semibold" style={{ color: '#E10000' }}>-{discountAmount}€</span>
                   </div>
                 )}
               </div>
 
-              <div className="flex justify-between items-end pt-3 border-t border-[#B4B4B4]">
+              <div className="flex justify-between items-start pt-3 border-t border-[#B4B4B4]">
                 <span className="text-lg font-semibold text-gray-900">
                   {t('carPage.cuotaMensual')}:
                 </span>

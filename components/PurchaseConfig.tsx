@@ -242,7 +242,7 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
                 )}
               </div>
 
-              <div className="flex justify-between items-end pt-3 border-t border-[#B4B4B4]">
+              <div className="flex justify-between items-start pt-3 border-t border-[#B4B4B4]">
                 <span className="text-lg font-semibold text-gray-900">
                   {t('carPage.precioTotal')}:
                 </span>
@@ -454,7 +454,7 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
                 )}
               </div>
 
-              <div className="flex justify-between items-end pt-3 border-t border-[#B4B4B4]">
+              <div className="flex justify-between items-start pt-3 border-t border-[#B4B4B4]">
                 <span className="text-lg font-semibold text-gray-900">
                   {t('carPage.precioTotal')}:
                 </span>

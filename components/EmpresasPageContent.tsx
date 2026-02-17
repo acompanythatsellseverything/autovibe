@@ -71,11 +71,11 @@ export default function EmpresasPageContent({ cars }: EmpresasPageContentProps) 
   };
 
   return (
-    <main className="pb-8">
+    <main className="py-8 lg:pt-8">
       {/* Spacer for fixed header on mobile */}
       <div className="h-20 sm:h-24 md:h-28 lg:h-0"></div>
       {/* Reviews Section */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8 pt-8 lg:pt-12">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8 mt-2 lg:mt-0">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2">
             <div className="flex items-center">
@@ -107,38 +107,8 @@ export default function EmpresasPageContent({ cars }: EmpresasPageContentProps) 
 
       {/* Filters Section - Permanencia corta selected */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8">
-        {/* Three filter buttons in a row */}
+        {/* Three filter buttons - same order everywhere: Permanencia larga, Permanencia corta, Comprar coche */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          {/* Permanencia corta - First position, selected on Empresas page */}
-          <Link
-            href="/empresas"
-            className={`relative bg-[#DFDBC8] rounded-[20px] border-[2px] p-4 transition-all ${
-              filterType === 'suscripcion' && suscripcionType === 'corta'
-                ? 'border-[#FB3B55]'
-                : 'border-black'
-            }`}
-          >
-            {filterType === 'suscripcion' && suscripcionType === 'corta' && (
-              <span className="absolute bg-[#FB3B55] text-white text-xs px-2 py-1 rounded-2xl whitespace-nowrap" style={{ top: '-2px', right: '-2px' }}>
-                {t('pages.empresas.vamos')}
-              </span>
-            )}
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-3">
-                <img src="/icons/schedule.svg" alt="Schedule" className="w-6 h-6" />
-                <div className="text-left">
-                  <div className="text-gray-900 font-medium">{t('pages.empresas.permanenciaCorta')}</div>
-                  <div className="text-sm" style={{ color: '#000000' }}>{t('pages.empresas.permanenciaCortaDesc')}</div>
-                </div>
-              </div>
-              {!(filterType === 'suscripcion' && suscripcionType === 'corta') && (
-                <svg width="24" height="24" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <RightArr />
-                </svg>
-              )}
-            </div>
-          </Link>
-
           {/* Permanencia larga */}
           <Link
             href="/suscripcion?type=larga"
@@ -169,7 +139,37 @@ export default function EmpresasPageContent({ cars }: EmpresasPageContentProps) 
             </div>
           </Link>
 
-          {/* Compra - navigates to /compra */}
+          {/* Permanencia corta - selected on Empresas page */}
+          <Link
+            href="/empresas"
+            className={`relative bg-[#DFDBC8] rounded-[20px] border-[2px] p-4 transition-all ${
+              filterType === 'suscripcion' && suscripcionType === 'corta'
+                ? 'border-[#FB3B55]'
+                : 'border-black'
+            }`}
+          >
+            {filterType === 'suscripcion' && suscripcionType === 'corta' && (
+              <span className="absolute bg-[#FB3B55] text-white text-xs px-2 py-1 rounded-2xl whitespace-nowrap" style={{ top: '-2px', right: '-2px' }}>
+                {t('pages.empresas.vamos')}
+              </span>
+            )}
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center gap-3">
+                <img src="/icons/schedule.svg" alt="Schedule" className="w-6 h-6" />
+                <div className="text-left">
+                  <div className="text-gray-900 font-medium">{t('pages.empresas.permanenciaCorta')}</div>
+                  <div className="text-sm" style={{ color: '#000000' }}>{t('pages.empresas.permanenciaCortaDesc')}</div>
+                </div>
+              </div>
+              {!(filterType === 'suscripcion' && suscripcionType === 'corta') && (
+                <svg width="24" height="24" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <RightArr />
+                </svg>
+              )}
+            </div>
+          </Link>
+
+          {/* Comprar coche - navigates to /compra */}
           <Link
             href="/compra"
             className={`relative bg-[#DFDBC8] rounded-[20px] border-[2px] p-4 transition-all ${

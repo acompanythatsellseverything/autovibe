@@ -209,9 +209,7 @@ export function getStrapiFullImageUrl(image: any): string {
 }
 
 /** Section type for car cover images */
-export type CarImageMode = 'suscripcion' | 'compra' | 'empresas';
-
-/**
+export type CarImageMode = 'suscripcion' | 'compra' | 'empresas';/**
  * Returns the cover image for the given section.
  * - suscripcion (long-term): image
  * - compra (purchase): image_compra, fallback image if missing
@@ -224,4 +222,3 @@ export function getCarCoverImage(car: { image?: any; image_compra?: any; image_e
   if (mode === 'empresas' && car.image_empresas) return car.image_empresas;
   return car.image ?? null;
 }
-

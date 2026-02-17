@@ -9,6 +9,8 @@ import HowItWorks from './HowItWorks';
 import ComparisonTable from './ComparisonTable';
 import { ReactNode } from 'react';
 
+const VAT_RATE = 1.21; // Strapi prices are with IVA; display without: price / 1.21
+
 interface EnterpriseCarDetailContentProps {
   car: Car;
 }
@@ -137,8 +139,9 @@ export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailC
 
   const minMonths = car.rentalMinMonths || 1;
   const maxMonths = car.rentalMaxMonths || 12;
-  const displayPrice = car.pricePerMonthEmpresas || car.pricePerMonth;
-  const originalPrice = car.priceOriginalEmpresas || car.originalPrice;
+  // Strapi prices include IVA; show without (X/1.21), rounded to whole euros. Empresas has no discount/original price.
+  const displayPriceWithVat = car.pricePerMonthEmpresas || car.pricePerMonth;
+  const displayPrice = Math.round(displayPriceWithVat / VAT_RATE);
 
   return (
     <main className="py-6 sm:py-8">
@@ -164,16 +167,10 @@ export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailC
             
             <div className="text-left flex-shrink-0 ml-1 sm:ml-0">
               <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
-                {originalPrice && originalPrice > displayPrice ? (
-                  <>
-                    <span className="line-through" style={{ color: '#E10000' }}>{originalPrice}€</span> <span>{displayPrice}€</span>
-                  </>
-                ) : (
-                  <span>{displayPrice}€</span>
-                )}/mes
+                <span>{displayPrice}€</span>/mes
               </div>
               <div className="text-[9px] sm:text-xs md:text-sm font-normal text-gray-700 whitespace-nowrap text-right">
-                {t('carPage.ivaIncl')}
+                {t('carPage.masIva')}
               </div>
             </div>
             
