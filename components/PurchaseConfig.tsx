@@ -26,15 +26,21 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
     email: '',
   });
 
+  // Normalize months from API (can be number or string) to number
+  const toMonthsNumber = (m: number | string | undefined): number =>
+    typeof m === 'number' && !isNaN(m) ? m : (parseInt(String(m ?? ''), 10) || 12);
+
   // Purchase option state
   const [purchaseOption, setPurchaseOption] = useState<PurchaseOption>('fixed');
   const [selectedInstallmentMonths, setSelectedInstallmentMonths] = useState<number>(
-    car.installmentOptions?.[0]?.months || 12
+    () => toMonthsNumber(car.installmentOptions?.[0]?.months)
   );
 
   // Calculate prices
   const fixedPrice = car.purchasePrice || 0;
-  const selectedInstallment = car.installmentOptions?.find(opt => opt.months === selectedInstallmentMonths);
+  const selectedInstallment = car.installmentOptions?.find(
+    opt => toMonthsNumber(opt.months) === selectedInstallmentMonths
+  );
   const finalPrice = purchaseOption === 'fixed'
     ? fixedPrice
     : (selectedInstallment?.totalPrice || fixedPrice);
@@ -198,8 +204,8 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
                       {car.installmentOptions?.map((option, index) => (
                         <button
                           key={index}
-                          onClick={() => setSelectedInstallmentMonths(option.months)}
-                          className={`p-3 rounded-lg text-xs font-medium transition-all ${selectedInstallmentMonths === option.months
+                          onClick={() => setSelectedInstallmentMonths(toMonthsNumber(option.months))}
+                          className={`p-3 rounded-lg text-xs font-medium transition-all ${selectedInstallmentMonths === toMonthsNumber(option.months)
                             ? 'bg-[#603361] text-white'
                             : 'bg-[#F3F2EC] text-gray-900 hover:opacity-90'
                             }`}
