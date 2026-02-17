@@ -42,6 +42,11 @@ export const translations = {
         title: 'Alquiler a corto plazo',
         verMas: 'ver más >',
       },
+      featureCardsMain: {
+        card1: { title: 'Tú decides cuánto tiempo', description: 'Desde 1 mes hasta 3 años. Sin ataduras, sin rollos.' },
+        card2: { title: 'Tu próximo coche te espera', description: 'Nuevos y usados, pocos kilómetros, muchas opciones.' },
+        card3: { title: 'Súmate a El Club!', description: 'Donde conducir sin ataduras es normal.' },
+      },
     },
     // Contract Options
     contractOptions: {
@@ -322,6 +327,11 @@ export const translations = {
       shortTermRental: {
         title: 'Short-term rental',
         verMas: 'View more >',
+      },
+      featureCardsMain: {
+        card1: { title: 'You choose how long', description: 'From 1 month to 3 years. No ties, no hassle.' },
+        card2: { title: 'Your next car is waiting', description: 'New and used, low mileage, many options.' },
+        card3: { title: 'Join the Club!', description: 'Where driving without ties is the norm.' },
       },
     },
     // Contract Options
@@ -604,6 +614,11 @@ export const translations = {
         title: 'Оренда на короткий термін',
         verMas: 'Ще >',
       },
+      featureCardsMain: {
+        card1: { title: 'Ти вирішуєш, як довго', description: 'Від 1 місяця до 3 років. Без зв\'язків, без клопоту.' },
+        card2: { title: 'Твоя наступна тачка чекає', description: 'Нові та вживані, малий пробіг, багато варіантів.' },
+        card3: { title: 'Приєднуйся до Клубу!', description: 'Де керувати без обмежень — норма.' },
+      },
     },
     // Contract Options
     contractOptions: {
@@ -884,6 +899,11 @@ export const translations = {
       shortTermRental: {
         title: 'Аренда на короткий срок',
         verMas: 'Еще >',
+      },
+      featureCardsMain: {
+        card1: { title: 'Ты решаешь, как долго', description: 'От 1 месяца до 3 лет. Без обязательств, без лишнего.' },
+        card2: { title: 'Твоя следующая тачка ждёт', description: 'Новые и с пробегом, мало км, много вариантов.' },
+        card3: { title: 'Присоединяйся к Клубу!', description: 'Где ездить без ограничений — норма.' },
       },
     },
     // Contract Options

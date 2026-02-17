@@ -178,7 +178,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={() => setCallbackFormOpen(true)}
-                  className="flex items-center gap-1 sm:gap-1.5 xl:gap-2 rounded-xl sm:rounded-2xl bg-[#F4A709] px-2 sm:px-3 xl:px-4 py-1.5 sm:py-2 text-[12px] sm:text-[14px] md:text-[16px] xl:text-[20px] font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#E59808] whitespace-nowrap"
+                  className={`flex items-center gap-1 sm:gap-1.5 xl:gap-2 rounded-xl sm:rounded-2xl bg-[#F4A709] px-2 sm:px-3 xl:px-4 py-1.5 sm:py-2 font-normal leading-[100%] tracking-[0%] text-white transition-colors hover:bg-[#E59808] whitespace-nowrap ${locale === 'ru' ? 'text-[10px] sm:text-[12px] md:text-[14px] xl:text-[16px]' : 'text-[12px] sm:text-[14px] md:text-[16px] xl:text-[20px]'}`}
                 >
                   <Phone className="h-3 w-3 sm:h-3.5 sm:w-3.5 xl:h-4 xl:w-4 flex-shrink-0" />
                   <span>{t('header.llamaMe')}</span>
@@ -413,7 +413,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={() => { setCallbackFormOpen(true); setMobileMenuOpen(false); }}
-                  className="flex items-center justify-center gap-1.5 rounded-3xl bg-[#F4A709] px-4 py-2 text-base font-normal text-white transition-colors hover:bg-[#E59808] whitespace-nowrap flex-1"
+                  className={`flex items-center justify-center gap-1.5 rounded-3xl bg-[#F4A709] px-3 sm:px-4 py-2 font-normal text-white transition-colors hover:bg-[#E59808] whitespace-nowrap flex-1 ${locale === 'ru' ? 'text-sm' : 'text-base'}`}
                 >
                   <Phone className="h-5 w-5 flex-shrink-0" />
                   <span>{t('header.llamaMe')}</span>
