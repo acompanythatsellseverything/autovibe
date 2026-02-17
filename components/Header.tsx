@@ -304,7 +304,7 @@ export default function Header() {
     {/* Mobile menu drawer - slides from left - outside header for proper z-index */}
     <div
       className={`fixed inset-0 z-[100] lg:hidden transition-opacity duration-300 ${
-        mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        mobileMenuOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none'
       }`}
       onClick={() => setMobileMenuOpen(false)}
     >
@@ -408,37 +408,37 @@ export default function Header() {
           {/* Menu items */}
           <div className="px-6 py-8">
             <div className="flex flex-col space-y-6">
-              {/* Llama me!, Mi Cuenta и WhatsApp - на одной линии */}
-              <div className="flex items-center justify-center gap-2">
+              {/* Llama me!, Mi Cuenta и WhatsApp - на одной линии: узкие блоки и отступы, ширина у «Перезвонить» */}
+              <div className="flex items-center justify-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => { setCallbackFormOpen(true); setMobileMenuOpen(false); }}
-                  className={`flex items-center justify-center gap-1.5 rounded-3xl bg-[#F4A709] px-3 sm:px-4 py-2 font-normal text-white transition-colors hover:bg-[#E59808] whitespace-nowrap flex-1 ${locale === 'ru' ? 'text-sm' : 'text-base'}`}
+                  className="flex items-center justify-center gap-1 rounded-3xl bg-[#F4A709] px-2.5 py-1.5 min-w-0 flex-1 font-normal text-white transition-colors hover:bg-[#E59808] whitespace-nowrap text-sm"
                 >
-                  <Phone className="h-5 w-5 flex-shrink-0" />
+                  <Phone className="h-4 w-4 flex-shrink-0" />
                   <span>{t('header.llamaMe')}</span>
                 </button>
-                <span className="flex items-center justify-center gap-1.5 rounded-3xl bg-[#603361] px-4 py-2 text-base font-normal text-white whitespace-nowrap cursor-default flex-1">
+                <span className="flex items-center justify-center gap-1 rounded-3xl bg-[#603361] px-2.5 py-1.5 text-sm font-normal text-white whitespace-nowrap cursor-default flex-shrink-0">
                   <Image
                     src="/icons/account_circle.svg"
                     alt="Account"
-                    width={20}
-                    height={20}
-                    className="h-5 w-5 flex-shrink-0"
+                    width={16}
+                    height={16}
+                    className="h-4 w-4 flex-shrink-0"
                   />
                   <span>{t('header.miCuenta')}</span>
                 </span>
-                {/* WhatsApp Icon - справа от Mi Cuenta */}
+                {/* WhatsApp - компактно */}
                 <a
                   href="https://api.whatsapp.com/send?phone=34643729918"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center h-10 w-10 rounded-full bg-[#25D366] hover:bg-[#20BA5A] transition-colors shadow-lg hover:shadow-xl flex-shrink-0"
+                  className="flex items-center justify-center h-8 w-8 rounded-full bg-[#25D366] hover:bg-[#20BA5A] transition-colors shadow-lg hover:shadow-xl flex-shrink-0"
                   title="Contactar por WhatsApp"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <svg
-                    className="h-5 w-5 text-white"
+                    className="h-4 w-4 text-white"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"

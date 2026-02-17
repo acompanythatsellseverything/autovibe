@@ -178,15 +178,19 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
             <div className="w-0.5 sm:w-2 md:w-4 flex-shrink-0" />
             
             <div className="text-left flex-shrink-0 ml-1 sm:ml-0">
-              <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
-                {t('carPage.cuotaMensualDe')}{' '}
+              <div className="text-xs sm:text-base md:text-lg font-semibold whitespace-nowrap">
+                <span className="lg:hidden">{t('carPage.cuotaMensualDeShort')}</span>
+                <span className="hidden lg:inline">{t('carPage.cuotaMensualDe')}</span>{' '}
                 {hasDiscount ? (
                   <>
-                    <span className="line-through" style={{ color: '#E10000' }}>{originalPrice12}€</span>
-                    <span className="ml-1">{discountedPrice12}€</span>
+                    <span className="hidden lg:inline text-gray-900">
+                      <span className="line-through" style={{ color: '#E10000' }}>{originalPrice12}€</span>
+                      <span className="ml-1">{discountedPrice12}€</span>
+                    </span>
+                    <span className="lg:hidden" style={{ color: '#E10000' }}>{discountedPrice12}€</span>
                   </>
                 ) : (
-                  <span>{discountedPrice12}€</span>
+                  <span className="text-gray-900">{discountedPrice12}€</span>
                 )}
               </div>
               <div className="text-[9px] sm:text-xs md:text-sm font-normal text-gray-700 whitespace-nowrap text-right">

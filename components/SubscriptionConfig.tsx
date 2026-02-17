@@ -185,13 +185,13 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                         <button
                           key={`permanence-${range}`}
                           onClick={() => setSelectedRange(range)}
-                          className={`px-2 py-2.5 sm:p-3 rounded-lg text-[11px] sm:text-xs font-medium transition-all min-h-[4rem] sm:min-h-[5rem] flex flex-col items-center justify-center gap-0.5 ${
+                          className={`p-2 sm:p-3 rounded-lg text-xs font-medium transition-all min-h-[4rem] sm:min-h-[5rem] min-w-0 flex flex-col items-center justify-center gap-0.5 ${
                             isSelected ? 'bg-[#603361] text-white' : 'bg-[#F3F2EC] text-gray-900 hover:opacity-90'
                           }`}
                         >
                           <div>{range}</div>
                           <div>{t('carPage.meses')}</div>
-                          <div className="text-[9px] sm:text-[10px] font-bold">{price}€</div>
+                          <div className="text-[10px] sm:text-[10px] font-bold">{price}€</div>
                         </button>
                       );
                     })}

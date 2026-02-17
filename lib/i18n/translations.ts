@@ -241,6 +241,7 @@ export const translations = {
     carPage: {
       mesesPermanenciaMinima: 'meses permanencia mínima',
       cuotaMensualDe: 'cuota mensual de',
+      cuotaMensualDeShort: 'mensual',
       desde: 'desde',
       ivaIncl: 'IVA incl.',
       continuar: 'Continuar',
@@ -527,6 +528,7 @@ export const translations = {
     carPage: {
       mesesPermanenciaMinima: 'months minimum rental',
       cuotaMensualDe: 'monthly fee of',
+      cuotaMensualDeShort: 'monthly',
       desde: 'from',
       ivaIncl: 'VAT incl.',
       continuar: 'Continue',
@@ -813,6 +815,7 @@ export const translations = {
     carPage: {
       mesesPermanenciaMinima: 'місяців мінімальної оренди',
       cuotaMensualDe: 'щомісячна плата',
+      cuotaMensualDeShort: 'щомісячно',
       desde: 'від',
       ivaIncl: 'з ПДВ',
       continuar: 'Продовжити',
@@ -1099,6 +1102,7 @@ export const translations = {
     carPage: {
       mesesPermanenciaMinima: 'месяцев минимальной аренды',
       cuotaMensualDe: 'ежемесячная плата',
+      cuotaMensualDeShort: 'ежемесячно',
       desde: 'от',
       ivaIncl: 'с НДС',
       continuar: 'Продолжить',
