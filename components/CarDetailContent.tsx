@@ -169,7 +169,7 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
                 {minPermanence} {minPermanence === 1 ? t('carPage.mes') : t('carPage.meses')}
               </div>
               <div className="text-[9px] sm:text-xs md:text-sm font-normal text-gray-700 whitespace-nowrap">
-                permanencia mínima
+                {t('carPage.permanenciaMinimaLabel')}
               </div>
             </div>
             
