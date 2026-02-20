@@ -170,7 +170,7 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
                     </button>
                     <div className="text-center min-w-[120px]">
                       <div className="text-3xl font-bold text-gray-900">{selectedMonths}</div>
-                      <div className="text-sm text-gray-700">{selectedMonths === 1 ? 'mes' : 'meses'}</div>
+                      <div className="text-sm text-gray-700">{selectedMonths === 1 ? t('carPage.mes') : t('carPage.meses')}</div>
                     </div>
                     <button
                       onClick={() => handleMonthsChange(1)}
@@ -185,7 +185,7 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
                     </button>
                   </div>
                   <div className="mt-3 text-center text-xs text-gray-600">
-                    {minMonths} - {maxMonths} meses disponibles
+                    {minMonths} - {maxMonths} {t('carPage.mesesDisponibles')}
                   </div>
                 </div>
               </div>
@@ -193,7 +193,7 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
           </div>
           
           {/* Bottom block - #F3F2EC */}
-          <div className="bg-[#F3F2EC] rounded-b-[20px] flex-1 flex flex-col -mt-4 relative z-0">
+          <div className="bg-[#F3F2EC] rounded-b-[20px] flex-1 flex flex-col -mt-5 relative z-0">
             <div className="px-10 pt-10 pb-6">
               <h3 className="text-lg font-medium mb-3 text-gray-900">
                 {t('carPage.resumenRenta')}
@@ -205,7 +205,7 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
                 </div>
                 <div className="flex justify-between">
                   <span>{t('carPage.duracion')}:</span>
-                  <span className="font-semibold">{selectedMonths} {selectedMonths === 1 ? 'mes' : 'meses'}</span>
+                  <span className="font-semibold">{selectedMonths} {selectedMonths === 1 ? t('carPage.mes') : t('carPage.meses')}</span>
                 </div>
               </div>
               <div className="flex justify-between items-start pt-2 border-t-2 border-[#B4B4B4] mb-4">
@@ -257,9 +257,9 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
                     <div className="absolute inset-0 bg-[#28a745] rounded-full opacity-20 animate-ping"></div>
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
-                    ¡Gracias!
+                    {t('carPage.graciasTitle')}
                     <br />
-                    <span className="text-xl font-normal">Te contactaremos pronto.</span>
+                    <span className="text-xl font-normal">{t('carPage.graciasSubtitle')}</span>
                   </h3>
                   <p className="text-base text-gray-600 text-center max-w-md">
                     {t('carPage.mensajeEnvioExitoso') || 'Nos pondremos en contacto contigo muy pronto.'}
@@ -347,7 +347,7 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
           </div>
           
           {/* Bottom block - #F3F2EC */}
-          <div className="bg-[#F3F2EC] rounded-b-[20px] flex-1 flex flex-col -mt-4 relative z-0">
+          <div className="bg-[#F3F2EC] rounded-b-[20px] flex-1 flex flex-col -mt-5 relative z-0">
             <div className="px-10 pt-10 pb-6 flex-1">
               <h3 className="text-lg font-medium mb-3 text-gray-900">
                 {t('carPage.resumenRenta')}
@@ -359,7 +359,7 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
                 </div>
                 <div className="flex justify-between">
                   <span>{t('carPage.duracion')}:</span>
-                  <span className="font-semibold">{selectedMonths} {selectedMonths === 1 ? 'mes' : 'meses'}</span>
+                  <span className="font-semibold">{selectedMonths} {selectedMonths === 1 ? t('carPage.mes') : t('carPage.meses')}</span>
                 </div>
               </div>
               <div className="flex justify-between items-start pt-2 border-t-2 border-[#B4B4B4] mb-4">

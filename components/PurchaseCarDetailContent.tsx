@@ -159,8 +159,8 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
             {car.name}
           </h1>
 
-          <div className="flex flex-nowrap items-center justify-end gap-3 sm:gap-4">
-            <div className="text-right flex-shrink-0">
+          <div className="flex flex-nowrap items-center justify-between gap-3 sm:gap-4 md:justify-end">
+            <div className="text-left flex-shrink-0 md:text-right">
               <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
                 <span>{purchasePrice}€</span>
               </div>

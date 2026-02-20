@@ -1,4 +1,5 @@
 import { Car, Testimonial, FAQ, Feature } from '@/types';
+import { SUBSCRIPTION_DISCOUNT_EUROS } from '@/lib/strapi/config';
 
 // Helper to sanitize text content from Strapi - STRICT version
 // Removes ALL HTML, styles, scripts, and anything that could affect layout
@@ -64,7 +65,19 @@ export function normalizeCar(car: any): Car {
       console.error('[normalizeCar] Car rawData is null or undefined');
       throw new Error('Car rawData is null or undefined');
     }
-    
+
+    const originalPrice12 = (() => {
+      if (rawData.pricingConfig?.priceOriginalSuscripcion !== undefined && typeof rawData.pricingConfig.priceOriginalSuscripcion === 'number')
+        return rawData.pricingConfig.priceOriginalSuscripcion;
+      if (typeof rawData.priceOriginalSuscripcion === 'number' && !isNaN(rawData.priceOriginalSuscripcion)) return rawData.priceOriginalSuscripcion;
+      return typeof rawData.pricePerMonth === 'number' && !isNaN(rawData.pricePerMonth) ? rawData.pricePerMonth : 0;
+    })();
+    const subscriptionDiscountEuros =
+      typeof rawData.subscriptionDiscountEuros === 'number' && !isNaN(rawData.subscriptionDiscountEuros)
+        ? Math.max(0, rawData.subscriptionDiscountEuros)
+        : SUBSCRIPTION_DISCOUNT_EUROS;
+    const pricePerMonthSuscripcionComputed = Math.max(0, originalPrice12 - subscriptionDiscountEuros);
+
     // Return ONLY clean, normalized data - no styles, no HTML, just primitives
     const normalizedCar: Car = {
       id: car.id?.toString() || car._id?.toString() || '',
@@ -74,15 +87,13 @@ export function normalizeCar(car: any): Car {
       brand: sanitizeText(rawData.brand || ''),
       model: sanitizeText(rawData.model || ''),
       description: sanitizeText(rawData.description || ''),
-      // Pricing configuration - parse from single JSON field
+      // Pricing configuration - parse from single JSON field (no pricePerMonthSuscripcion; subscription price = original - SUBSCRIPTION_DISCOUNT_EUROS)
       pricingConfig: (() => {
-        // Try to get pricingConfig from rawData
         if (rawData.pricingConfig && typeof rawData.pricingConfig === 'object') {
-          return rawData.pricingConfig;
+          const { pricePerMonthSuscripcion: _, ...rest } = rawData.pricingConfig as any;
+          return Object.keys(rest).length > 0 ? rest : undefined;
         }
-        // If not found, try to construct from individual fields (backward compatibility)
         const config: any = {};
-        if (typeof rawData.pricePerMonthSuscripcion === 'number') config.pricePerMonthSuscripcion = rawData.pricePerMonthSuscripcion;
         if (typeof rawData.priceOriginalSuscripcion === 'number') config.priceOriginalSuscripcion = rawData.priceOriginalSuscripcion;
         if (typeof rawData.pricePerMonthEmpresas === 'number') config.pricePerMonthEmpresas = rawData.pricePerMonthEmpresas;
         if (typeof rawData.priceOriginalEmpresas === 'number') config.priceOriginalEmpresas = rawData.priceOriginalEmpresas;
@@ -90,15 +101,8 @@ export function normalizeCar(car: any): Car {
         if (Array.isArray(rawData.installmentOptions)) config.installmentOptions = rawData.installmentOptions;
         return Object.keys(config).length > 0 ? config : undefined;
       })(),
-      // Extract individual fields from pricingConfig for easy access
-      pricePerMonthSuscripcion: (() => {
-        if (rawData.pricingConfig?.pricePerMonthSuscripcion !== undefined) {
-          return typeof rawData.pricingConfig.pricePerMonthSuscripcion === 'number' ? rawData.pricingConfig.pricePerMonthSuscripcion : undefined;
-        }
-        return typeof rawData.pricePerMonthSuscripcion === 'number' && !isNaN(rawData.pricePerMonthSuscripcion)
-          ? rawData.pricePerMonthSuscripcion
-          : undefined;
-      })(),
+      pricePerMonthSuscripcion: pricePerMonthSuscripcionComputed,
+      subscriptionDiscountEuros: subscriptionDiscountEuros > 0 ? subscriptionDiscountEuros : undefined,
       priceOriginalSuscripcion: (() => {
         if (rawData.pricingConfig?.priceOriginalSuscripcion !== undefined) {
           return typeof rawData.pricingConfig.priceOriginalSuscripcion === 'number' ? rawData.pricingConfig.priceOriginalSuscripcion : undefined;
@@ -160,19 +164,7 @@ export function normalizeCar(car: any): Car {
           .filter(Boolean) as string[];
         return ranges.length > 0 ? ranges : undefined;
       })(),
-      // Legacy fields - computed for backward compatibility
-      pricePerMonth: (() => {
-        // Use suscripcion price if available
-        if (rawData.pricingConfig?.pricePerMonthSuscripcion !== undefined) {
-          return typeof rawData.pricingConfig.pricePerMonthSuscripcion === 'number' ? rawData.pricingConfig.pricePerMonthSuscripcion : 0;
-        }
-        if (typeof rawData.pricePerMonthSuscripcion === 'number' && !isNaN(rawData.pricePerMonthSuscripcion)) {
-          return rawData.pricePerMonthSuscripcion;
-        }
-        return typeof rawData.pricePerMonth === 'number' && !isNaN(rawData.pricePerMonth) 
-          ? rawData.pricePerMonth 
-          : 0;
-      })(),
+      pricePerMonth: pricePerMonthSuscripcionComputed,
       originalPrice: (() => {
         // Use suscripcion original price if available
         if (rawData.pricingConfig?.priceOriginalSuscripcion !== undefined) {
@@ -249,21 +241,7 @@ export function normalizeCar(car: any): Car {
           value: rawData.permanenceOptions,
         });
         if (Array.isArray(rawData.permanenceOptions)) {
-          // Get base price for suscripcion (from pricingConfig or direct field)
-          const basePrice = (() => {
-            if (rawData.pricingConfig?.pricePerMonthSuscripcion !== undefined) {
-              return typeof rawData.pricingConfig.pricePerMonthSuscripcion === 'number' 
-                ? rawData.pricingConfig.pricePerMonthSuscripcion 
-                : 0;
-            }
-            if (typeof rawData.pricePerMonthSuscripcion === 'number' && !isNaN(rawData.pricePerMonthSuscripcion)) {
-              return rawData.pricePerMonthSuscripcion;
-            }
-            return typeof rawData.pricePerMonth === 'number' && !isNaN(rawData.pricePerMonth)
-              ? rawData.pricePerMonth
-              : 0;
-          })();
-          
+          const basePrice = pricePerMonthSuscripcionComputed;
           return rawData.permanenceOptions.map((opt: any) => {
             // Handle case when opt is a string or number (from Strapi JSON field)
             if (typeof opt === 'string' || typeof opt === 'number') {

@@ -127,6 +127,12 @@
     },
     "pricingConfig": {
       "type": "json"
+    },
+    "subscriptionDiscountEuros": {
+      "type": "float",
+      "required": false,
+      "default": 0,
+      "min": 0
     }
   }
 }

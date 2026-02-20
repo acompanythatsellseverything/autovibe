@@ -45,9 +45,8 @@ export interface Car {
   brand: string;
   model: string;
   description: string;
-  // Pricing configuration - all in one JSON field from Strapi
+  // Pricing configuration - all in one JSON field from Strapi (subscription price = original - discount, not stored here)
   pricingConfig?: {
-    pricePerMonthSuscripcion?: number;
     priceOriginalSuscripcion?: number;
     pricePerMonthEmpresas?: number;
     priceOriginalEmpresas?: number;
@@ -61,6 +60,8 @@ export interface Car {
   // Computed fields for easy access (from pricingConfig)
   pricePerMonthSuscripcion?: number;
   priceOriginalSuscripcion?: number;
+  /** Subscription discount in euros per month (from Strapi subscriptionDiscountEuros). */
+  subscriptionDiscountEuros?: number;
   pricePerMonthEmpresas?: number;
   priceOriginalEmpresas?: number;
   purchasePrice?: number;

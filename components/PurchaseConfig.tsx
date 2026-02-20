@@ -146,7 +146,7 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
         >
 
           <div
-            className="bg-[#EAEAEA] rounded-t-[20px] relative z-10 shrink-0"
+            className="bg-[#EAEAEA] rounded-t-[20px] rounded-b-[20px] relative z-10 shrink-0"
             style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)' }}
           >
             <div className="px-10 pt-6 pb-6">
@@ -224,7 +224,7 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
           </div>
 
 
-          <div className="bg-[#F3F2EC] flex-1 flex flex-col overflow-y-auto">
+          <div className="bg-[#F3F2EC] flex-1 flex flex-col overflow-y-auto -mt-5 relative z-0">
             <div className="px-10 pt-8 pb-6">
               <h3 className="text-lg font-medium mb-3 text-gray-900">
                 {t('carPage.resumenCompra')}
@@ -299,7 +299,7 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
         >
           {/* ================= TOP BLOCK ================= */}
           <div
-            className="bg-[#EAEAEA] rounded-t-[20px] relative z-10 shrink-0"
+            className="bg-[#EAEAEA] rounded-t-[20px] rounded-b-[20px] relative z-10 shrink-0"
             style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)' }}
           >
             <div className="px-10 pt-6 pb-6">
@@ -329,10 +329,10 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
                   </div>
 
                   <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
-                    ¡Gracias!
+                    {t('carPage.graciasTitle')}
                     <br />
                     <span className="text-xl font-normal">
-                      Te contactaremos pronto.
+                      {t('carPage.graciasSubtitle')}
                     </span>
                   </h3>
 
@@ -436,7 +436,7 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
           </div>
 
           {/* ================= BOTTOM BLOCK (SCROLLABLE) ================= */}
-          <div className="bg-[#F3F2EC] flex-1 flex flex-col overflow-y-auto -mt-4 relative z-0">
+          <div className="bg-[#F3F2EC] flex-1 flex flex-col overflow-y-auto -mt-5 relative z-0">
             <div className="px-10 pt-10 pb-6 flex-1">
               <h3 className="text-lg font-medium mb-3 text-gray-900">
                 {t('carPage.resumenCompra')}

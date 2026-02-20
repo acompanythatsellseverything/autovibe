@@ -3,6 +3,12 @@ import axios from 'axios';
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN || '';
 
+/** Subscription discount in euros per month (12+). Stored separately, not in Strapi. Applied as: pricePerMonthSuscripcion = originalPrice12 - this value. */
+export const SUBSCRIPTION_DISCOUNT_EUROS =
+  typeof process.env.NEXT_PUBLIC_SUBSCRIPTION_DISCOUNT_EUROS !== 'undefined'
+    ? Math.max(0, Number(process.env.NEXT_PUBLIC_SUBSCRIPTION_DISCOUNT_EUROS) || 0)
+    : 0;
+
 // Create axios instance for Strapi API
 export const strapiClient = axios.create({
   baseURL: `${STRAPI_URL}/api`,

@@ -528,6 +528,14 @@ export interface ApiCarCar extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     stripePriceId: Schema.Attribute.String;
     stripeProductId: Schema.Attribute.String;
+    subscriptionDiscountEuros: Schema.Attribute.Float &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

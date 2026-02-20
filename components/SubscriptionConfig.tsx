@@ -26,7 +26,7 @@ interface SubscriptionConfigProps {
 }
 
 export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   
   const [isFlipped, setIsFlipped] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -163,7 +163,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
         >
           {/* Top block - #EAEAEA */}
           <div
-            className="bg-[#EAEAEA] rounded-t-[20px] relative z-10 shrink-0"
+            className="bg-[#EAEAEA] rounded-t-[20px] rounded-b-[20px] relative z-10 shrink-0"
             style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)' }}
           >
             <div className="px-10 pt-6 pb-6">
@@ -176,8 +176,8 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                 <h3 className="text-lg font-medium mb-3 text-gray-900">
                   {t('carPage.permanencia')}
                 </h3>
-                <div className="bg-[#EAEAEA] rounded-lg p-2 sm:p-3 shadow-sm">
-                  <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+                <div className={`bg-[#EAEAEA] rounded-lg shadow-sm ${locale === 'ru' ? 'p-2 sm:p-3' : 'p-2.5 sm:p-3'}`}>
+                  <div className={`grid grid-cols-4 sm:gap-2 ${locale === 'ru' ? 'gap-1.5' : 'gap-2'}`}>
                     {availableRanges.map(({ range }) => {
                       const price = priceForRangeOption(range);
                       const isSelected = selectedRange === range;
@@ -185,9 +185,11 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                         <button
                           key={`permanence-${range}`}
                           onClick={() => setSelectedRange(range)}
-                          className={`p-2 sm:p-3 rounded-lg text-xs font-medium transition-all min-h-[4rem] sm:min-h-[5rem] min-w-0 flex flex-col items-center justify-center gap-0.5 ${
-                            isSelected ? 'bg-[#603361] text-white' : 'bg-[#F3F2EC] text-gray-900 hover:opacity-90'
-                          }`}
+                          className={`rounded-lg text-xs font-medium transition-all flex flex-col items-center justify-center gap-0.5 ${
+                            locale === 'ru'
+                              ? 'p-2 sm:p-3 min-h-[4rem] sm:min-h-[5rem] min-w-0'
+                              : 'p-2.5 sm:p-3 min-h-[4.5rem] sm:min-h-[5rem]'
+                          } ${isSelected ? 'bg-[#603361] text-white' : 'bg-[#F3F2EC] text-gray-900 hover:opacity-90'}`}
                         >
                           <div>{range}</div>
                           <div>{t('carPage.meses')}</div>
@@ -221,7 +223,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
           </div>
 
           {/* Bottom block - #F3F2EC */}
-          <div className="bg-[#F3F2EC] flex-1 flex flex-col overflow-y-auto">
+          <div className="bg-[#F3F2EC] flex-1 flex flex-col overflow-y-auto -mt-5 relative z-0">
             <div className="px-10 pt-8 pb-6">
               <h3 className="text-lg font-medium mb-3 text-gray-900">
                 {t('carPage.resumenSuscripcion')}
@@ -287,7 +289,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
         >
           {/* ================= TOP BLOCK ================= */}
           <div
-            className="bg-[#EAEAEA] rounded-t-[20px] relative z-10 shrink-0"
+            className="bg-[#EAEAEA] rounded-t-[20px] rounded-b-[20px] relative z-10 shrink-0"
             style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)' }}
           >
             <div className="px-10 pt-6 pb-6">
@@ -317,10 +319,10 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
                   </div>
 
                   <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
-                    ¡Gracias!
+                    {t('carPage.graciasTitle')}
                     <br />
                     <span className="text-xl font-normal">
-                      Te contactaremos pronto.
+                      {t('carPage.graciasSubtitle')}
                     </span>
                   </h3>
 
@@ -424,7 +426,7 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
           </div>
 
           {/* ================= BOTTOM BLOCK (SCROLLABLE) ================= */}
-          <div className="bg-[#F3F2EC] flex-1 flex flex-col overflow-y-auto -mt-4 relative z-0">
+          <div className="bg-[#F3F2EC] flex-1 flex flex-col overflow-y-auto -mt-5 relative z-0">
             <div className="px-10 pt-10 pb-6 flex-1">
               <h3 className="text-lg font-medium mb-3 text-gray-900">
                 {t('carPage.resumenSuscripcion')}
