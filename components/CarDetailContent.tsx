@@ -4,10 +4,12 @@ import Image from 'next/image';
 import { Car } from '@/types';
 import { getStrapiImageUrl, getStrapiFullImageUrl } from '@/lib/strapi/config';
 import SubscriptionConfig from './SubscriptionConfig';
+import ImageGallery from './ImageGallery';
 import { useI18n } from '@/lib/i18n/context';
 import HowItWorks from './HowItWorks';
 import ComparisonTable from './ComparisonTable';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState, useMemo } from 'react';
+import { trackViewContent } from '@/lib/analytics/events';
 
 interface CarDetailContentProps {
   car: Car;
@@ -128,23 +130,31 @@ function parseFormattedText(text: string): ReactNode[] {
 
 export default function CarDetailContent({ car }: CarDetailContentProps) {
   const { t } = useI18n();
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+
+  useEffect(() => {
+    trackViewContent({
+      content_name: car.name,
+      content_category: 'suscripcion',
+      content_type: 'vehicle',
+      content_ids: [car.id || car._id || ''],
+      value: car.pricePerMonthSuscripcion || car.pricePerMonth,
+      currency: 'EUR',
+    });
+  }, [car.id, car._id]);
 
   // Only additional images in gallery (no cover image on detail page)
   const additionalImages = car.additionalImages || [];
   const largeImage = additionalImages.length > 0 ? additionalImages[0] : null;
   const thumbnailImages = additionalImages.slice(1, 4).filter(Boolean);
 
-  console.log('[CarDetailContent] Image data:', {
-    additionalImagesCount: additionalImages.length,
-    thumbnailImagesCount: thumbnailImages.length,
-    largeImage: !!largeImage,
-  });
-  
-  console.log('[CarDetailContent] Subscription data:', {
-    permanenceOptions: car.permanenceOptions,
-    mileageOptions: car.mileageOptions,
-    minPermanence: car.minPermanence,
-  });
+  // All image URLs for the gallery carousel
+  const allImageUrls = useMemo(() => {
+    return additionalImages
+      .map((img) => (img ? getStrapiFullImageUrl(img) : ''))
+      .filter(Boolean);
+  }, [additionalImages]);
 
   const currentImageUrl = largeImage ? getStrapiFullImageUrl(largeImage) : '';
 
@@ -227,7 +237,10 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
           {/* Image section — locked to 720px on desktop */}
           <div className="md:h-[720px] h-[300px] flex flex-col">
             {/* Main Image */}
-            <div className="relative flex-[4] overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100">
+            <div
+              className="relative flex-[4] overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 cursor-pointer"
+              onClick={() => { setGalleryIndex(0); setGalleryOpen(true); }}
+            >
               {currentImageUrl ? (
                 <Image
                   src={currentImageUrl}
@@ -249,12 +262,13 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
               <div className="mt-3 grid grid-cols-3 gap-2 flex-[1]">
                 {thumbnailImages.map((image, thumbIndex) => {
                   const imageUrl = image ? getStrapiImageUrl(image, 'medium') : '';
-                  
+
                   return (
                     <div
                       key={thumbIndex}
-                      className="relative overflow-hidden rounded-lg"
+                      className="relative overflow-hidden rounded-lg cursor-pointer"
                       style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}
+                      onClick={() => { setGalleryIndex(thumbIndex + 1); setGalleryOpen(true); }}
                     >
                       {imageUrl ? (
                         <Image
@@ -298,6 +312,13 @@ export default function CarDetailContent({ car }: CarDetailContentProps) {
         <HowItWorks />
       </div>
       <ComparisonTable />
+      <ImageGallery
+        images={allImageUrls}
+        alt={car.name}
+        initialIndex={galleryIndex}
+        isOpen={galleryOpen}
+        onClose={() => setGalleryOpen(false)}
+      />
     </main>
   );
 }

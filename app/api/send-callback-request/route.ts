@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendServerEvent, hashForMeta } from '@/lib/analytics/server';
+import { generateEventId } from '@/lib/analytics/event-id';
 
 async function sendTelegramMessage(message: string): Promise<boolean> {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -51,6 +53,36 @@ export async function POST(request: NextRequest) {
       `📅 ${date}`;
 
     const sent = await sendTelegramMessage(text);
+
+    // Send Meta CAPI Lead event (server-side, best-effort)
+    const eventId = body.event_id || generateEventId();
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+      || request.headers.get('x-real-ip')
+      || undefined;
+    const userAgent = request.headers.get('user-agent') || undefined;
+
+    const userData: Record<string, string | undefined> = {
+      client_ip_address: ip,
+      client_user_agent: userAgent,
+      fbp: body.fbp,
+      fbc: body.fbc,
+    };
+
+    if (phone) {
+      userData.ph = await hashForMeta((phone as string).trim().replace(/\s+/g, ''));
+    }
+
+    sendServerEvent({
+      event_name: 'Lead',
+      event_id: eventId,
+      event_source_url: body.event_source_url || '',
+      user_data: userData,
+      custom_data: {
+        lead_type: 'callback',
+        form_name: 'callback_request',
+        placement: 'modal',
+      },
+    }).catch(() => {});
 
     if (sent) {
       return NextResponse.json({

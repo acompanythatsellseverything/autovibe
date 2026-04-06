@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import CallbackRequestForm from '@/components/CallbackRequestForm';
+import { trackContactClick } from '@/lib/analytics/events';
 
 export default function WhatsAppStickyButton() {
   const [isVisible, setIsVisible] = useState(false);
@@ -59,6 +60,7 @@ export default function WhatsAppStickyButton() {
         rel="noopener noreferrer"
         className={`${roundButtonClass} bg-[#25D366] hover:bg-[#20BA5A]`}
         title="Contactar por WhatsApp"
+        onClick={() => trackContactClick({ contact_method: 'whatsapp', placement: 'sticky_button' })}
         style={{
           boxShadow: '0 8px 24px rgba(37, 211, 102, 0.4)',
         }}

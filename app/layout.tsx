@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { I18nProvider } from "@/lib/i18n/context";
 import WhatsAppStickyButton from "@/components/WhatsAppStickyButton";
+import MetaPixel from "@/components/MetaPixel";
+import CookieBanner from "@/components/CookieBanner";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,8 +39,10 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <I18nProvider>
+          <MetaPixel />
           {children}
           <WhatsAppStickyButton />
+          <CookieBanner />
         </I18nProvider>
       </body>
     </html>

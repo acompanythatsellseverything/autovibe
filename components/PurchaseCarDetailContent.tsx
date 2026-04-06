@@ -7,7 +7,9 @@ import PurchaseConfig from './PurchaseConfig';
 import { useI18n } from '@/lib/i18n/context';
 import HowItWorks from './HowItWorks';
 import ComparisonTable from './ComparisonTable';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState, useMemo } from 'react';
+import { trackViewContent } from '@/lib/analytics/events';
+import ImageGallery from './ImageGallery';
 
 interface PurchaseCarDetailContentProps {
   car: Car;
@@ -129,12 +131,31 @@ function parseFormattedText(text: string): ReactNode[] {
 export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailContentProps) {
   const { t } = useI18n();
   const [isFormFlipped, setIsFormFlipped] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+
+  useEffect(() => {
+    trackViewContent({
+      content_name: car.name,
+      content_category: 'compra',
+      content_type: 'vehicle',
+      content_ids: [car.id || car._id || ''],
+      value: car.purchasePrice,
+      currency: 'EUR',
+    });
+  }, [car.id, car._id]);
 
   // Only additional images in gallery (no cover image on detail page)
   const additionalImages = car.additionalImages || [];
   const largeImage = additionalImages.length > 0 ? additionalImages[0] : null;
   const thumbnailImages = additionalImages.slice(1, 4).filter(Boolean);
   const currentImageUrl = largeImage ? getStrapiFullImageUrl(largeImage) : '';
+
+  const allImageUrls = useMemo(() => {
+    return additionalImages
+      .map((img) => (img ? getStrapiFullImageUrl(img) : ''))
+      .filter(Boolean);
+  }, [additionalImages]);
 
   const purchasePrice = car.purchasePrice || 0;
 
@@ -197,7 +218,10 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
           {/* Image section — locked to 700px */}
           <div className="md:h-[720px] h-[300] flex flex-col">
             {/* Main Image */}
-            <div className="relative flex-[4] overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100">
+            <div
+              className="relative flex-[4] overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 cursor-pointer"
+              onClick={() => { setGalleryIndex(0); setGalleryOpen(true); }}
+            >
               {currentImageUrl ? (
                 <Image
                   src={currentImageUrl}
@@ -223,8 +247,9 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
                   return (
                     <div
                       key={thumbIndex}
-                      className="relative overflow-hidden rounded-lg"
+                      className="relative overflow-hidden rounded-lg cursor-pointer"
                       style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}
+                      onClick={() => { setGalleryIndex(thumbIndex + 1); setGalleryOpen(true); }}
                     >
                       {imageUrl ? (
                         <Image
@@ -268,6 +293,13 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
         <HowItWorks />
       </div>
       <ComparisonTable />
+      <ImageGallery
+        images={allImageUrls}
+        alt={car.name}
+        initialIndex={galleryIndex}
+        isOpen={galleryOpen}
+        onClose={() => setGalleryOpen(false)}
+      />
     </main>
   );
 }

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Car } from '@/types';
 import { useI18n } from '@/lib/i18n/context';
+import { trackLead } from '@/lib/analytics/events';
 
 interface PurchaseConfigProps {
   car: Car;
@@ -106,6 +107,15 @@ export default function PurchaseConfig({ car }: PurchaseConfigProps) {
         throw new Error('Error al enviar el formulario');
       }
 
+      trackLead({
+        lead_type: 'purchase',
+        form_name: 'purchase_config',
+        placement: 'car_detail',
+        content_name: car.name,
+        content_category: 'compra',
+        value: finalPrice,
+        currency: 'EUR',
+      });
       setIsSubmitted(true);
     } catch (error) {
       console.error('Error submitting form:', error);

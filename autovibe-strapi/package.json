@@ -10,6 +10,8 @@
     "dev": "strapi develop",
     "develop": "strapi develop",
     "dev:resize": "node scripts/resize-car-images.js",
+    "optimize-images": "node scripts/optimize-all-images.js",
+    "optimize-images:dry": "DRY_RUN=true node scripts/optimize-all-images.js",
     "start": "strapi start",
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade latest",

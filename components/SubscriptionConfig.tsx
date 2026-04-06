@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { Car } from '@/types';
 import { useI18n } from '@/lib/i18n/context';
+import { trackLead } from '@/lib/analytics/events';
 
 // Duration ranges from Strapi: 1-3 +20%, 3-6 +10%, 6-12 (12 not inclusive) +5%, 12+ (12 inclusive) +0%
 const DURATION_RANGES = [
@@ -123,6 +124,15 @@ export default function SubscriptionConfig({ car }: SubscriptionConfigProps) {
         throw new Error('Error al enviar el formulario');
       }
 
+      trackLead({
+        lead_type: 'subscription',
+        form_name: 'subscription_config',
+        placement: 'car_detail',
+        content_name: car.name,
+        content_category: 'suscripcion',
+        value: finalPrice,
+        currency: 'EUR',
+      });
       setIsSubmitted(true);
     } catch (error) {
       console.error('Error submitting form:', error);

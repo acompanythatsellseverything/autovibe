@@ -7,7 +7,9 @@ import EnterpriseRentalConfig from './EnterpriseRentalConfig';
 import { useI18n } from '@/lib/i18n/context';
 import HowItWorks from './HowItWorks';
 import ComparisonTable from './ComparisonTable';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState, useMemo } from 'react';
+import { trackViewContent } from '@/lib/analytics/events';
+import ImageGallery from './ImageGallery';
 
 const VAT_RATE = 1.21; // Strapi prices are with IVA; display without: price / 1.21
 
@@ -130,12 +132,31 @@ function parseFormattedText(text: string): ReactNode[] {
 
 export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailContentProps) {
   const { t } = useI18n();
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+
+  useEffect(() => {
+    trackViewContent({
+      content_name: car.name,
+      content_category: 'empresas',
+      content_type: 'vehicle',
+      content_ids: [car.id || car._id || ''],
+      value: car.pricePerMonthEmpresas || car.pricePerMonth,
+      currency: 'EUR',
+    });
+  }, [car.id, car._id]);
 
   // Only additional images in gallery (no cover image on detail page)
   const additionalImages = car.additionalImages || [];
   const largeImage = additionalImages.length > 0 ? additionalImages[0] : null;
   const thumbnailImages = additionalImages.slice(1, 4).filter(Boolean);
   const currentImageUrl = largeImage ? getStrapiFullImageUrl(largeImage) : '';
+
+  const allImageUrls = useMemo(() => {
+    return additionalImages
+      .map((img) => (img ? getStrapiFullImageUrl(img) : ''))
+      .filter(Boolean);
+  }, [additionalImages]);
 
   const minMonths = car.rentalMinMonths || 1;
   const maxMonths = car.rentalMaxMonths || 12;
@@ -200,7 +221,10 @@ export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailC
 
         <div className="mb-8 sm:mb-10 md:mb-12 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-start">
           <div className="h-full flex flex-col">
-            <div className="relative mb-3 sm:mb-4 overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px]">
+            <div
+              className="relative mb-3 sm:mb-4 overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] cursor-pointer"
+              onClick={() => { setGalleryIndex(0); setGalleryOpen(true); }}
+            >
               {currentImageUrl ? (
                 <Image
                   src={currentImageUrl}
@@ -221,11 +245,12 @@ export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailC
               <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                 {thumbnailImages.map((image, thumbIndex) => {
                   const imageUrl = image ? getStrapiImageUrl(image, 'medium') : '';
-                  
+
                   return (
                     <div
                       key={thumbIndex}
-                      className="relative aspect-[16/9] overflow-visible rounded-md sm:rounded-lg"
+                      className="relative aspect-[16/9] overflow-visible rounded-md sm:rounded-lg cursor-pointer"
+                      onClick={() => { setGalleryIndex(thumbIndex + 1); setGalleryOpen(true); }}
                     >
                       {imageUrl ? (
                         <div className="relative h-full w-full rounded-md sm:rounded-lg" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}>
@@ -269,6 +294,13 @@ export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailC
         <HowItWorks />
       </div>
       <ComparisonTable />
+      <ImageGallery
+        images={allImageUrls}
+        alt={car.name}
+        initialIndex={galleryIndex}
+        isOpen={galleryOpen}
+        onClose={() => setGalleryOpen(false)}
+      />
     </main>
   );
 }

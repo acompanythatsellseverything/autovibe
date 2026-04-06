@@ -8,6 +8,7 @@ import { Phone } from 'lucide-react';
 import { useI18n } from '@/lib/i18n/context';
 import { Locale } from '@/lib/i18n/translations';
 import CallbackRequestForm from '@/components/CallbackRequestForm';
+import { trackContactClick } from '@/lib/analytics/events';
 
 export default function Header() {
   const pathname = usePathname();
@@ -202,6 +203,7 @@ export default function Header() {
                   rel="noopener noreferrer"
                   className="flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 xl:h-9 xl:w-9 rounded-full bg-[#25D366] hover:bg-[#20BA5A] transition-all shadow-lg hover:shadow-xl"
                   title="Contactar por WhatsApp"
+                  onClick={() => trackContactClick({ contact_method: 'whatsapp', placement: 'header_desktop' })}
                 >
                   <svg
                     className="h-3 w-3 sm:h-3.5 sm:w-3.5 xl:h-4 xl:w-4 text-white"
@@ -218,6 +220,7 @@ export default function Header() {
                   className={`hidden md:inline text-[14px] md:text-[16px] xl:text-[18px] font-normal whitespace-nowrap hover:opacity-90 transition-opacity ml-1 ${
                     isTransparentHeader ? 'text-white' : 'text-gray-900'
                   }`}
+                  onClick={() => trackContactClick({ contact_method: 'phone', placement: 'header_desktop', cta_text: '+34 613 29 56 10' })}
                 >
                   +34 613 29 56 10
                 </a>
@@ -444,7 +447,7 @@ export default function Header() {
                   rel="noopener noreferrer"
                   className={`flex items-center justify-center rounded-full bg-[#25D366] hover:bg-[#20BA5A] transition-colors shadow-lg hover:shadow-xl flex-shrink-0 ${locale === 'ru' ? 'h-8 w-8' : 'h-10 w-10'}`}
                   title="Contactar por WhatsApp"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => { trackContactClick({ contact_method: 'whatsapp', placement: 'header_mobile' }); setMobileMenuOpen(false); }}
                 >
                   <svg
                     className={`text-white ${locale === 'ru' ? 'h-4 w-4' : 'h-5 w-5'}`}

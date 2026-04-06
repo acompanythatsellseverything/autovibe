@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useI18n } from '@/lib/i18n/context';
+import { trackLead } from '@/lib/analytics/events';
 
 type Props = {
   isOpen: boolean;
@@ -68,6 +69,11 @@ export default function CallbackRequestForm({ isOpen, onClose }: Props) {
         setStatus('error');
         return;
       }
+      trackLead({
+        lead_type: 'callback',
+        form_name: 'callback_request',
+        placement: 'modal',
+      });
       setStatus('success');
       setName('');
       setPhone('');

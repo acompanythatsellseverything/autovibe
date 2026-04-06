@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendServerEvent, hashForMeta } from '@/lib/analytics/server';
+import { generateEventId } from '@/lib/analytics/event-id';
 
 // Helper function to send message to Telegram
 async function sendTelegramMessage(message: string): Promise<boolean> {
@@ -197,10 +199,48 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Send Meta CAPI Lead event (server-side, best-effort)
+    const eventId = data.event_id || generateEventId();
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+      || request.headers.get('x-real-ip')
+      || undefined;
+    const userAgent = request.headers.get('user-agent') || undefined;
+
+    const userData: Record<string, string | undefined> = {
+      client_ip_address: ip,
+      client_user_agent: userAgent,
+      fbp: data.fbp,
+      fbc: data.fbc,
+    };
+
+    if (phone) {
+      userData.ph = await hashForMeta(phone.replace(/\s+/g, ''));
+    }
+    if (email?.trim()) {
+      userData.em = await hashForMeta(email.trim());
+    }
+
+    const leadType = type === 'empresas' ? 'enterprise' : type === 'compra' ? 'purchase' : 'subscription';
+    sendServerEvent({
+      event_name: 'Lead',
+      event_id: eventId,
+      event_source_url: data.event_source_url || '',
+      user_data: userData,
+      custom_data: {
+        lead_type: leadType,
+        form_name: `${leadType}_config`,
+        placement: 'car_detail',
+        content_name: carName,
+        content_category: type || 'suscripcion',
+        value: data.finalPrice || data.price || data.totalPrice,
+        currency: 'EUR',
+      },
+    }).catch(() => {});
+
     // Return success if at least one method worked (Telegram or Email)
     if (telegramSent || emailSent) {
-      return NextResponse.json({ 
-        success: true, 
+      return NextResponse.json({
+        success: true,
         message: 'Solicitud enviada correctamente',
         telegram: telegramSent,
         email: emailSent,

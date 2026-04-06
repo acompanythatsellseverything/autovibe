@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { Car } from '@/types';
 import { useI18n } from '@/lib/i18n/context';
+import { trackLead } from '@/lib/analytics/events';
 
 const VAT_RATE = 1.21; // Strapi prices are with IVA; display without: price / 1.21
 
@@ -114,7 +115,16 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
       if (!response.ok) {
         throw new Error('Error al enviar el formulario');
       }
-      
+
+      trackLead({
+        lead_type: 'enterprise',
+        form_name: 'enterprise_rental_config',
+        placement: 'car_detail',
+        content_name: car.name,
+        content_category: 'empresas',
+        value: totalPrice,
+        currency: 'EUR',
+      });
       setIsSubmitted(true);
     } catch (error) {
       console.error('Error submitting form:', error);
