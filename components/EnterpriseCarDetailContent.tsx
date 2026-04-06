@@ -222,7 +222,7 @@ export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailC
         <div className="mb-8 sm:mb-10 md:mb-12 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-start">
           <div className="h-full flex flex-col">
             <div
-              className="relative mb-3 sm:mb-4 overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] cursor-pointer"
+              className="relative mb-3 sm:mb-4 overflow-hidden rounded-xl sm:rounded-2xl img-skeleton h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] cursor-pointer"
               onClick={() => { setGalleryIndex(0); setGalleryOpen(true); }}
             >
               {currentImageUrl ? (
@@ -253,7 +253,7 @@ export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailC
                       onClick={() => { setGalleryIndex(thumbIndex + 1); setGalleryOpen(true); }}
                     >
                       {imageUrl ? (
-                        <div className="relative h-full w-full rounded-md sm:rounded-lg" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}>
+                        <div className="relative h-full w-full rounded-md sm:rounded-lg img-skeleton" style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}>
                           <Image
                             src={imageUrl}
                             alt={`${car.name} ${thumbIndex + 2}`}

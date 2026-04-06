@@ -61,6 +61,18 @@ html, body {
   animation: scaleIn 0.5s ease-out;
 }
 
+/* Image skeleton shimmer — pure CSS, no JS needed */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.img-skeleton {
+  background: linear-gradient(90deg, #d5d1c2 25%, #e0dccf 50%, #d5d1c2 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
 /* Transparent header on mobile for home and el-club pages */
 header.transparent-header {
   background-color: transparent !important;

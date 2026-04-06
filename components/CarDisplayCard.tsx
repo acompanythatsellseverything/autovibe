@@ -37,7 +37,7 @@ export default function CarDisplayCard({ car, basePath = '/cars' }: CarDisplayCa
             <img
               src={imageUrl}
               alt={carName}
-              className="object-contain w-full h-full rounded-xl"
+              className="object-contain w-full h-full rounded-xl img-skeleton"
               onError={(e) => {
                 (e.target as HTMLImageElement).style.display = 'none';
               }}

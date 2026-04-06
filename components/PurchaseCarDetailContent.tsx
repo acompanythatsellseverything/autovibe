@@ -219,7 +219,7 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
           <div className="md:h-[720px] h-[300] flex flex-col">
             {/* Main Image */}
             <div
-              className="relative flex-[4] overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 cursor-pointer"
+              className="relative flex-[4] overflow-hidden rounded-xl sm:rounded-2xl img-skeleton cursor-pointer"
               onClick={() => { setGalleryIndex(0); setGalleryOpen(true); }}
             >
               {currentImageUrl ? (
@@ -247,7 +247,7 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
                   return (
                     <div
                       key={thumbIndex}
-                      className="relative overflow-hidden rounded-lg cursor-pointer"
+                      className="relative overflow-hidden rounded-lg cursor-pointer img-skeleton"
                       style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)' }}
                       onClick={() => { setGalleryIndex(thumbIndex + 1); setGalleryOpen(true); }}
                     >

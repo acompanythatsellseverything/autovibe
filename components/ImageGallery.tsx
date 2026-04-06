@@ -108,13 +108,14 @@ export default function ImageGallery({ images, alt, initialIndex = 0, isOpen, on
 
       {/* Image */}
       <div
-        className="relative w-full h-full max-w-5xl max-h-[85vh] mx-4 sm:mx-8"
+        className="relative w-full h-full max-w-5xl max-h-[85vh] mx-4 sm:mx-8 img-skeleton rounded-xl"
         onClick={(e) => e.stopPropagation()}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
         <Image
+          key={currentIndex}
           src={images[currentIndex]}
           alt={`${alt} ${currentIndex + 1}`}
           fill
