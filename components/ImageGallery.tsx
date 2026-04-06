@@ -17,14 +17,12 @@ export default function ImageGallery({ images, alt, initialIndex = 0, isOpen, on
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
-  // Reset index when opening with a new initialIndex
   useEffect(() => {
     if (isOpen) {
       setCurrentIndex(initialIndex);
     }
   }, [isOpen, initialIndex]);
 
-  // Lock body scroll when open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -42,7 +40,6 @@ export default function ImageGallery({ images, alt, initialIndex = 0, isOpen, on
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   }, [images.length]);
 
-  // Keyboard navigation
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -54,7 +51,6 @@ export default function ImageGallery({ images, alt, initialIndex = 0, isOpen, on
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose, goNext, goPrev]);
 
-  // Touch swipe handling
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchEndX.current = null;
@@ -106,22 +102,21 @@ export default function ImageGallery({ images, alt, initialIndex = 0, isOpen, on
         </button>
       )}
 
-      {/* Image */}
+      {/* Image — sized to fit the photo, no empty space */}
       <div
-        className="relative w-full h-full max-w-5xl max-h-[85vh] mx-4 sm:mx-8 img-skeleton rounded-xl"
+        className="flex items-center justify-center px-12 sm:px-16"
+        style={{ maxWidth: '100vw', maxHeight: 'calc(100vh - 120px)' }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           key={currentIndex}
           src={images[currentIndex]}
           alt={`${alt} ${currentIndex + 1}`}
-          fill
-          className="object-contain"
-          sizes="100vw"
-          priority
+          className="max-w-full max-h-[calc(100vh-120px)] rounded-xl object-contain img-skeleton"
         />
       </div>
 
