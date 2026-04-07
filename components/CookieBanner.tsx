@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { getConsent, setConsent } from '@/lib/cookies/consent';
 import { initMetaPixel } from '@/lib/analytics/meta-pixel';
 import { useI18n } from '@/lib/i18n/context';
@@ -46,6 +47,20 @@ export default function CookieBanner() {
               >
                 {showDetails ? t('cookies.hideDetails') : t('cookies.showDetails')}
               </button>
+              <br />
+              <Link
+                href="/privacy-policy"
+                className="text-[#603361] hover:text-[#4e2a52] font-medium transition-colors underline underline-offset-2"
+              >
+                {t('cookies.privacyLink')}
+              </Link>
+              {' · '}
+              <Link
+                href="/terms-and-conditions"
+                className="text-[#603361] hover:text-[#4e2a52] font-medium transition-colors underline underline-offset-2"
+              >
+                {t('cookies.termsLink')}
+              </Link>
             </p>
 
             {/* Buttons — small */}

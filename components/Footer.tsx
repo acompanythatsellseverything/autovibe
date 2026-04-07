@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useI18n } from '@/lib/i18n/context';
 
 export default function Footer() {
@@ -89,8 +90,9 @@ export default function Footer() {
               {t('footer.ciudades.title')}
             </h3>
             <div className="space-y-1.5 sm:space-y-2">
-              <span
-                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+              <Link
+                href="/terms-and-conditions"
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80"
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: 'clamp(14px, 2.5vw, 20px)',
@@ -98,9 +100,10 @@ export default function Footer() {
                 }}
               >
                 {t('footer.legal.terminos')}
-              </span>
-              <span
-                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
+              </Link>
+              <Link
+                href="/privacy-policy"
+                className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80"
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: 'clamp(14px, 2.5vw, 20px)',
@@ -108,7 +111,7 @@ export default function Footer() {
                 }}
               >
                 {t('footer.legal.privacidad')}
-              </span>
+              </Link>
               <span
                 className="block font-light leading-[100%] tracking-[0%] transition-opacity hover:opacity-80 cursor-default"
                 style={{
