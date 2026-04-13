@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import Image from 'next/image';
 import CarDisplayCard from '@/components/CarDisplayCard';
 import { useI18n } from '@/lib/i18n/context';

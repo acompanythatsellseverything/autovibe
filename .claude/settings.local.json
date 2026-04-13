@@ -8,7 +8,8 @@
       "Bash(node -e \"const {createStrapi} = require\\('@strapi/strapi'\\); const s = createStrapi\\({appDir: process.cwd\\(\\), distDir: process.cwd\\(\\) + '/dist'}\\); s.load\\(\\).then\\(\\(\\) => { console.log\\('OK'\\); s.destroy\\(\\); }\\).catch\\(e => console.error\\(e.message\\)\\)\")",
       "Bash(node:*)",
       "Bash(JPEG_QUALITY=72 PNG_QUALITY=65 WEBP_QUALITY=72 MAX_WIDTH=1920 SKIP_BACKUP=true DRY_RUN=true node scripts/optimize-all-images.js)",
-      "Bash(JPEG_QUALITY=72 PNG_QUALITY=65 WEBP_QUALITY=72 MAX_WIDTH=1920 SKIP_BACKUP=true node scripts/optimize-all-images.js)"
+      "Bash(JPEG_QUALITY=72 PNG_QUALITY=65 WEBP_QUALITY=72 MAX_WIDTH=1920 SKIP_BACKUP=true node scripts/optimize-all-images.js)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

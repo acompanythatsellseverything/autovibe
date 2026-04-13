@@ -2,7 +2,7 @@
 
 import { Car } from '@/types';
 import { getStrapiImageUrl, getCarCoverImage, type CarImageMode } from '@/lib/strapi/config';
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 
 interface CarDisplayCardProps {
   car: Car;

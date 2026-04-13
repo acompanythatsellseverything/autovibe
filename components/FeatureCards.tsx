@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import { useI18n } from '@/lib/i18n/context';
 
 const CARD_LINKS = ['/suscripcion', '/compra', '/el-club'] as const;

@@ -133,7 +133,7 @@ export const translations = {
       contactanos: {
         title: 'Contáctanos',
         horario: 'L-V 9:00 – 18:00',
-        atencion: 'Atención al cliente: 613 259 610',
+        atencion: 'Atención al cliente: 613 295 610',
         nuevos: 'Nuevos clientes: 611 713 755',
         asistencia: 'Asistencia inmediata por accidente',
       },
@@ -581,7 +581,7 @@ export const translations = {
       contactanos: {
         title: 'Contact us',
         horario: 'Mon-Fri 9:00 – 18:00',
-        atencion: 'Customer service: 613 259 610',
+        atencion: 'Customer service: 613 295 610',
         nuevos: 'New clients: 611 713 755',
         asistencia: 'Urgent accident assistance.',
       },
@@ -1029,7 +1029,7 @@ export const translations = {
       contactanos: {
         title: 'Зв\'яжіться з нами',
         horario: 'Пн-Пт 9:00 – 18:00',
-        atencion: 'Служба підтримки: 613 259 610',
+        atencion: 'Служба підтримки: 613 295 610',
         nuevos: 'Нові клієнти: 611 713 755',
         asistencia: 'Допомога при аварії',
       },
@@ -1477,7 +1477,7 @@ export const translations = {
       contactanos: {
         title: 'Свяжитесь с нами',
         horario: 'Пн-Пт 9:00 – 18:00',
-        atencion: 'Служба поддержки: 613 259 610',
+        atencion: 'Служба поддержки: 613 295 610',
         nuevos: 'Новые клиенты: 611 713 755',
         asistencia: 'Помощь при аварии',
       },

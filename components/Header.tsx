@@ -1,7 +1,8 @@
 'use client';
 
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import { usePathname } from 'next/navigation';
+import { locales } from '@/lib/i18n/translations';
 import { useState } from 'react';
 import Image from 'next/image';
 import { Phone } from 'lucide-react';
@@ -11,9 +12,17 @@ import CallbackRequestForm from '@/components/CallbackRequestForm';
 import { trackContactClick } from '@/lib/analytics/events';
 
 export default function Header() {
-  const pathname = usePathname();
-  const isHomePage = pathname === '/';
-  const isElClubPage = pathname === '/el-club';
+  const pathname = usePathname() || '/';
+  const pathWithoutLocale = (() => {
+    const segs = pathname.split('/');
+    if ((locales as readonly string[]).includes(segs[1])) {
+      const rest = '/' + segs.slice(2).join('/');
+      return rest === '/' ? '/' : rest.replace(/\/$/, '');
+    }
+    return pathname;
+  })();
+  const isHomePage = pathWithoutLocale === '/' || pathWithoutLocale === '';
+  const isElClubPage = pathWithoutLocale === '/el-club';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [callbackFormOpen, setCallbackFormOpen] = useState(false);
   const { locale, setLocale, t } = useI18n();
@@ -22,12 +31,41 @@ export default function Header() {
 
   return (
     <>
+    {/* Mobile language switcher - fixed top-right on mobile for all pages */}
+    <div className="lg:hidden absolute top-4 right-[18px] sm:right-6 z-[60] flex items-center gap-2">
+      {(['es', 'en', 'uk', 'ru'] as const).map((lng) => {
+        const flagSrc = lng === 'es' ? '/icons/spain.png'
+          : lng === 'en' ? '/icons/united-kingdom.png'
+          : lng === 'uk' ? '/icons/ukraine.png'
+          : '/icons/russia.png';
+        const flagAlt = lng === 'es' ? 'España' : lng === 'en' ? 'United Kingdom' : lng === 'uk' ? 'Ukraine' : 'Russia';
+        return (
+          <button
+            key={lng}
+            onClick={() => setLocale(lng)}
+            className={`h-9 w-9 sm:h-10 sm:w-10 overflow-hidden rounded-full transition-transform hover:scale-110 ${
+              locale === lng ? 'ring-2 ring-white shadow-md scale-110' : 'opacity-70'
+            }`}
+            title={flagAlt}
+          >
+            <Image
+              src={flagSrc}
+              alt={flagAlt}
+              width={40}
+              height={40}
+              className="h-full w-full object-cover"
+            />
+          </button>
+        );
+      })}
+    </div>
+
     {/* Mobile burger menu - fixed on mobile for transparent pages */}
     {isTransparentHeader && (
       <button
         className={`lg:hidden fixed top-4 left-[18px] sm:left-6 z-50 ${
-          isTransparentHeader 
-            ? 'text-white' 
+          isTransparentHeader
+            ? 'text-white'
             : 'text-gray-900'
         } ${
           isTransparentHeader
@@ -198,7 +236,7 @@ export default function Header() {
                 </span>
                 {/* WhatsApp Icon - круглое лого справа от Mi Cuenta */}
                 <a
-                  href="https://api.whatsapp.com/send?phone=34643729918"
+                  href="https://api.whatsapp.com/send?phone=34613295610"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 xl:h-9 xl:w-9 rounded-full bg-[#25D366] hover:bg-[#20BA5A] transition-all shadow-lg hover:shadow-xl"
@@ -329,7 +367,7 @@ export default function Header() {
           {/* Header inside drawer */}
           <div className="sticky top-0 bg-[#DFDBC8] z-10">
             <div className="px-6 py-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-start">
                 {/* Close button - Left */}
                 <button
                   onClick={() => setMobileMenuOpen(false)}
@@ -349,61 +387,9 @@ export default function Header() {
                     />
                   </svg>
                 </button>
-
-                {/* Language selector - Right */}
-                <div className="flex items-center space-x-3">
-                  <button
-                    onClick={() => setLocale('es')}
-                    className="h-8 w-8 overflow-hidden rounded-full transition-transform hover:scale-110"
-                  >
-                    <Image
-                      src="/icons/spain.png"
-                      alt="España"
-                      width={32}
-                      height={32}
-                      className="h-full w-full object-cover"
-                    />
-                  </button>
-                  <button
-                    onClick={() => setLocale('en')}
-                    className="h-8 w-8 overflow-hidden rounded-full transition-transform hover:scale-110"
-                  >
-                    <Image
-                      src="/icons/united-kingdom.png"
-                      alt="United Kingdom"
-                      width={32}
-                      height={32}
-                      className="h-full w-full object-cover"
-                    />
-                  </button>
-                  <button
-                    onClick={() => setLocale('uk')}
-                    className="h-8 w-8 overflow-hidden rounded-full transition-transform hover:scale-110"
-                  >
-                    <Image
-                      src="/icons/ukraine.png"
-                      alt="Ukraine"
-                      width={32}
-                      height={32}
-                      className="h-full w-full object-cover"
-                    />
-                  </button>
-                  <button
-                    onClick={() => setLocale('ru')}
-                    className="h-8 w-8 overflow-hidden rounded-full transition-transform hover:scale-110"
-                  >
-                    <Image
-                      src="/icons/russia.png"
-                      alt="Russia"
-                      width={32}
-                      height={32}
-                      className="h-full w-full object-cover"
-                    />
-                  </button>
-                </div>
               </div>
             </div>
-            
+
             {/* Divider - от края до края */}
             <div style={{ height: '1px', backgroundColor: '#B4B4B4', marginTop: '8px' }} />
           </div>
@@ -442,7 +428,7 @@ export default function Header() {
                   <span>{t('header.miCuenta')}</span>
                 </span>
                 <a
-                  href="https://api.whatsapp.com/send?phone=34643729918"
+                  href="https://api.whatsapp.com/send?phone=34613295610"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`flex items-center justify-center rounded-full bg-[#25D366] hover:bg-[#20BA5A] transition-colors shadow-lg hover:shadow-xl flex-shrink-0 ${locale === 'ru' ? 'h-8 w-8' : 'h-10 w-10'}`}

@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import { Car } from '@/types';
 import { getStrapiImageUrl } from '@/lib/strapi/config';
 

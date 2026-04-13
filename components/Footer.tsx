@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import { useI18n } from '@/lib/i18n/context';
 
 export default function Footer() {
@@ -268,7 +268,6 @@ export default function Footer() {
             >
               <p>{t('footer.contactanos.horario')}</p>
               <p>{t('footer.contactanos.atencion')}</p>
-              <p>{t('footer.contactanos.nuevos')}</p>
               <p>{t('footer.contactanos.asistencia')}</p>
             </div>
           </div>

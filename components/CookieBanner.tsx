@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import { getConsent, setConsent } from '@/lib/cookies/consent';
 import { initMetaPixel } from '@/lib/analytics/meta-pixel';
 import { useI18n } from '@/lib/i18n/context';

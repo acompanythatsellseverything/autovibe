@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Car } from '@/types';
 import CarDisplayCard from './CarDisplayCard';
 import DoubleRangeSlider from './DoubleRangeSlider';
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import { RightArr } from './icons/RightArr';
 import { useI18n } from '@/lib/i18n/context';
 
