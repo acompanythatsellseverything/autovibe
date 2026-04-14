@@ -1,12 +1,5 @@
-/**
- * Centralized Meta event tracking functions.
- * Client-side only — fires Pixel events and optionally sends to CAPI.
- */
-
-import { fbq, getFbp, getFbc } from './meta-pixel';
+import { pushDataLayer, getFbp, getFbc } from './dataLayer';
 import { generateEventId } from './event-id';
-
-// ─── Contact Click (WhatsApp / Phone) ────────────────────────────────────────
 
 interface ContactClickParams {
   contact_method: 'whatsapp' | 'phone';
@@ -15,15 +8,13 @@ interface ContactClickParams {
 }
 
 export function trackContactClick(params: ContactClickParams): void {
-  fbq('track', 'Contact', {
+  pushDataLayer('contact', {
     contact_method: params.contact_method,
     placement: params.placement,
     cta_text: params.cta_text || '',
     page_url: typeof window !== 'undefined' ? window.location.href : '',
   });
 }
-
-// ─── ViewContent (Car detail pages) ──────────────────────────────────────────
 
 interface ViewContentParams {
   content_name: string;
@@ -35,7 +26,7 @@ interface ViewContentParams {
 }
 
 export function trackViewContent(params: ViewContentParams): void {
-  fbq('track', 'ViewContent', {
+  pushDataLayer('view_content', {
     content_name: params.content_name,
     content_category: params.content_category,
     content_type: params.content_type,
@@ -45,8 +36,6 @@ export function trackViewContent(params: ViewContentParams): void {
   });
 }
 
-// ─── Lead (Form submissions) ─────────────────────────────────────────────────
-
 export interface LeadParams {
   lead_type: 'callback' | 'subscription' | 'purchase' | 'enterprise';
   form_name: string;
@@ -55,16 +44,14 @@ export interface LeadParams {
   content_category?: string;
   value?: number;
   currency?: string;
+  email?: string;
+  phone?: string;
 }
 
-/**
- * Track a Lead event client-side AND send to CAPI for deduplication.
- * Returns the event_id so the server route can also use it.
- */
 export function trackLead(params: LeadParams): string {
   const eventId = generateEventId();
 
-  fbq('track', 'Lead', {
+  pushDataLayer('lead', {
     lead_type: params.lead_type,
     form_name: params.form_name,
     placement: params.placement,
@@ -75,7 +62,6 @@ export function trackLead(params: LeadParams): string {
     event_id: eventId,
   });
 
-  // Fire CAPI in the background (best-effort)
   sendToCapi({
     event_name: 'Lead',
     event_id: eventId,
@@ -88,14 +74,24 @@ export function trackLead(params: LeadParams): string {
       value: params.value,
       currency: params.currency || 'EUR',
     },
+    user_data: {
+      email: params.email,
+      phone: params.phone,
+    },
   }).catch(() => {
-    // Silently ignore — Pixel already fired
+    /* pixel already fired */
   });
 
   return eventId;
 }
 
-// ─── CAPI helper ─────────────────────────────────────────────────────────────
+export function trackVirtualPageView(pathname: string): void {
+  pushDataLayer('virtual_page_view', {
+    page_path: pathname,
+    page_location: typeof window !== 'undefined' ? window.location.href : '',
+    page_title: typeof document !== 'undefined' ? document.title : '',
+  });
+}
 
 interface CapiPayload {
   event_name: string;
@@ -105,21 +101,18 @@ interface CapiPayload {
 }
 
 async function sendToCapi(payload: CapiPayload): Promise<void> {
-  const fbp = getFbp();
-  const fbc = getFbc();
-
   await fetch('/api/meta-conversions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       event_name: payload.event_name,
       event_id: payload.event_id,
-      event_source_url: window.location.href,
+      event_source_url: typeof window !== 'undefined' ? window.location.href : '',
       custom_data: payload.custom_data,
       user_data: {
         ...payload.user_data,
-        fbp,
-        fbc,
+        fbp: getFbp(),
+        fbc: getFbc(),
       },
     }),
   });

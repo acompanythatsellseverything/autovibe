@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from '@/components/LocalizedLink';
 import { getConsent, setConsent } from '@/lib/cookies/consent';
-import { initMetaPixel } from '@/lib/analytics/meta-pixel';
+import { pushDataLayer } from '@/lib/analytics/dataLayer';
 import { useI18n } from '@/lib/i18n/context';
 
 export default function CookieBanner() {
@@ -20,7 +20,12 @@ export default function CookieBanner() {
   const handleAcceptAll = () => {
     setConsent('all');
     setVisible(false);
-    initMetaPixel();
+    pushDataLayer('consent_granted', {
+      analytics_storage: 'granted',
+      ad_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted',
+    });
   };
 
   const handleEssentialOnly = () => {

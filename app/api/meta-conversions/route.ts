@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendServerEvent } from '@/lib/analytics/server';
+import { sendServerEvent, hashForMeta } from '@/lib/analytics/server';
 
-/**
- * POST /api/meta-conversions
- * Receives client-side events and forwards them to Meta Conversions API,
- * enriched with server-side data (IP, user-agent).
- */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -15,14 +10,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing event_name or event_id' }, { status: 400 });
     }
 
-    // Enrich user_data with server-side info
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
       || request.headers.get('x-real-ip')
       || undefined;
     const userAgent = request.headers.get('user-agent') || undefined;
 
+    const rawEmail = typeof user_data?.email === 'string' ? user_data.email : undefined;
+    const rawPhone = typeof user_data?.phone === 'string' ? user_data.phone : undefined;
+
+    const em = rawEmail ? await hashForMeta(rawEmail) : undefined;
+    const ph = rawPhone ? await hashForMeta(rawPhone.replace(/\D/g, '')) : undefined;
+
     const enrichedUserData = {
-      ...user_data,
+      fbp: user_data?.fbp,
+      fbc: user_data?.fbc,
+      em,
+      ph,
       client_ip_address: ip,
       client_user_agent: userAgent,
     };

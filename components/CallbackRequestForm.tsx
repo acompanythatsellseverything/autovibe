@@ -73,6 +73,7 @@ export default function CallbackRequestForm({ isOpen, onClose }: Props) {
         lead_type: 'callback',
         form_name: 'callback_request',
         placement: 'modal',
+        phone: trimPhone,
       });
       setStatus('success');
       setName('');

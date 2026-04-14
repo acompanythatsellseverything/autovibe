@@ -2,36 +2,39 @@
 
 import { Suspense, useEffect } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { initMetaPixel, fbq } from '@/lib/analytics/meta-pixel';
+import { pushDataLayer } from '@/lib/analytics/dataLayer';
 import { isAnalyticsAllowed } from '@/lib/cookies/consent';
 
-function MetaPixelInner() {
+function AnalyticsInner() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Initialize pixel on first mount — only if user accepted non-essential cookies
   useEffect(() => {
     if (isAnalyticsAllowed()) {
-      initMetaPixel();
+      pushDataLayer('consent_granted', {
+        analytics_storage: 'granted',
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+      });
     }
   }, []);
 
-  // Track PageView on route changes (fbq no-ops if pixel not loaded)
   useEffect(() => {
-    fbq('track', 'PageView');
+    pushDataLayer('virtual_page_view', {
+      page_path: pathname,
+      page_location: typeof window !== 'undefined' ? window.location.href : '',
+      page_title: typeof document !== 'undefined' ? document.title : '',
+    });
   }, [pathname, searchParams]);
 
   return null;
 }
 
-/**
- * Meta Pixel component wrapped in Suspense (required for useSearchParams).
- * Only initializes the pixel if user has accepted analytics cookies.
- */
 export default function MetaPixel() {
   return (
     <Suspense fallback={null}>
-      <MetaPixelInner />
+      <AnalyticsInner />
     </Suspense>
   );
 }
