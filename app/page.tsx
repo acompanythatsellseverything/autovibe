@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,6 +22,12 @@ import {
 } from '@/lib/strapi/queries';
 
 export const revalidate = 60; // Revalidate every 60 seconds
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://autovibe.es/',
+  },
+};
 
 async function getData() {
   try {

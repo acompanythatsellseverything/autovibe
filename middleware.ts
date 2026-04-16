@@ -18,8 +18,16 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
+  // Root serves the default-locale homepage directly (no redirect) so GTM fires
+  // on first landing and marketing signals (fbclid, utm, referrer) aren't lost.
+  if (pathname === '/') {
+    const response = NextResponse.next();
+    response.headers.set('x-locale', DEFAULT_LOCALE);
+    return response;
+  }
+
   const redirectUrl = request.nextUrl.clone();
-  redirectUrl.pathname = `/${DEFAULT_LOCALE}${pathname === '/' ? '' : pathname}`;
+  redirectUrl.pathname = `/${DEFAULT_LOCALE}${pathname}`;
   redirectUrl.search = search;
   return NextResponse.redirect(redirectUrl);
 }
