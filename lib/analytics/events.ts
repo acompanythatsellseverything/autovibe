@@ -7,13 +7,31 @@ interface ContactClickParams {
   cta_text?: string;
 }
 
-export function trackContactClick(params: ContactClickParams): void {
+export function trackContactClick(params: ContactClickParams): string {
+  const eventId = generateEventId();
+
   pushDataLayer('contact', {
     contact_method: params.contact_method,
     placement: params.placement,
     cta_text: params.cta_text || '',
     page_url: typeof window !== 'undefined' ? window.location.href : '',
+    event_id: eventId,
   });
+
+  sendToCapi({
+    event_name: 'Contact',
+    event_id: eventId,
+    custom_data: {
+      contact_method: params.contact_method,
+      placement: params.placement,
+      cta_text: params.cta_text || '',
+    },
+    user_data: {},
+  }).catch(() => {
+    /* pixel already fired */
+  });
+
+  return eventId;
 }
 
 interface ViewContentParams {
