@@ -54,8 +54,8 @@ function formatMessage(data: any): string {
     message += `💰 <b>Cuota mensual:</b> ${data.finalPrice}€\n`;
   } else if (type === 'empresas') {
     // Empresas format
-    message += `📅 <b>Duración:</b> ${data.rentalMonths} meses\n`;
-    message += `💰 <b>Precio por mes:</b> ${data.pricePerMonth}€\n`;
+    message += `📅 <b>Duración:</b> ${data.rentalDays} días\n`;
+    message += `💰 <b>Precio por día:</b> ${data.pricePerDay}€\n`;
     message += `💵 <b>Precio total:</b> ${data.totalPrice}€\n`;
   } else if (type === 'compra') {
     // Compra format
@@ -126,8 +126,8 @@ export async function POST(request: NextRequest) {
         emailBody += `- Kilometraje: ${data.mileage} km/mes\n`;
         emailBody += `- Cuota mensual: ${data.finalPrice}€\n`;
       } else if (type === 'empresas') {
-        emailBody += `- Duración: ${data.rentalMonths} meses\n`;
-        emailBody += `- Precio por mes: ${data.pricePerMonth}€\n`;
+        emailBody += `- Duración: ${data.rentalDays} días\n`;
+        emailBody += `- Precio por día: ${data.pricePerDay}€\n`;
         emailBody += `- Precio total: ${data.totalPrice}€\n`;
       } else if (type === 'compra') {
         emailBody += `- Opción: ${data.purchaseOption === 'fixed' ? 'Pago único' : 'Financiación'}\n`;

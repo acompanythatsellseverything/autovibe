@@ -27,38 +27,38 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
     email: '',
   });
   
-  // Rental configuration
-  const minMonths = car.rentalMinMonths || 1;
-  const maxMonths = car.rentalMaxMonths || 12;
-  const [selectedMonths, setSelectedMonths] = useState(minMonths);
-  
-  // Calculate price based on selected months
+  // Rental configuration (days)
+  const minDays = 1;
+  const maxDays = 31;
+  const [selectedDays, setSelectedDays] = useState(minDays);
+
+  // Calculate price based on selected days
   const selectedPrice = useMemo(() => {
     if (car.rentalPrices && car.rentalPrices.length > 0) {
       // Find exact match or closest lower price
-      const exactMatch = car.rentalPrices.find(p => p.months === selectedMonths);
+      const exactMatch = car.rentalPrices.find(p => p.months === selectedDays);
       if (exactMatch) return exactMatch.price;
-      
+
       // Find closest lower price
       const sortedPrices = [...car.rentalPrices].sort((a, b) => b.months - a.months);
-      const closest = sortedPrices.find(p => p.months <= selectedMonths);
+      const closest = sortedPrices.find(p => p.months <= selectedDays);
       if (closest) return closest.price;
-      
+
       // Use first price as fallback
       return sortedPrices[0]?.price || car.pricePerMonthEmpresas || car.pricePerMonth;
     }
     return car.pricePerMonthEmpresas || car.pricePerMonth;
-  }, [selectedMonths, car.rentalPrices, car.pricePerMonth]);
-  
-  const totalPrice = selectedPrice * selectedMonths;
+  }, [selectedDays, car.rentalPrices, car.pricePerMonth]);
+
+  const totalPrice = selectedPrice * selectedDays;
   // Display prices without IVA (Strapi stores with tax), rounded to whole euros
   const selectedPriceDisplay = Math.round(selectedPrice / VAT_RATE);
   const totalPriceDisplay = Math.round(totalPrice / VAT_RATE);
-  
-  const handleMonthsChange = (delta: number) => {
-    const newMonths = selectedMonths + delta;
-    if (newMonths >= minMonths && newMonths <= maxMonths) {
-      setSelectedMonths(newMonths);
+
+  const handleDaysChange = (delta: number) => {
+    const newDays = selectedDays + delta;
+    if (newDays >= minDays && newDays <= maxDays) {
+      setSelectedDays(newDays);
     }
   };
   
@@ -102,8 +102,8 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
         },
         body: JSON.stringify({
           carName: car.name,
-          rentalMonths: selectedMonths,
-          pricePerMonth: selectedPrice,
+          rentalDays: selectedDays,
+          pricePerDay: selectedPrice,
           totalPrice: totalPrice,
           name: formData.name,
           phone: `+34 ${formData.phone.trim()}`,
@@ -168,10 +168,10 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
                 <div className="bg-[#EAEAEA] rounded-lg p-3" style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}>
                   <div className="flex items-center justify-center gap-4">
                     <button
-                      onClick={() => handleMonthsChange(-1)}
-                      disabled={selectedMonths <= minMonths}
+                      onClick={() => handleDaysChange(-1)}
+                      disabled={selectedDays <= minDays}
                       className={`w-10 h-10 rounded-lg font-bold text-xl flex items-center justify-center transition-all ${
-                        selectedMonths <= minMonths
+                        selectedDays <= minDays
                           ? 'bg-[#C3C3C3] text-gray-500 cursor-not-allowed'
                           : 'bg-[#603361] text-white hover:opacity-90'
                       }`}
@@ -179,14 +179,14 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
                       −
                     </button>
                     <div className="text-center min-w-[120px]">
-                      <div className="text-3xl font-bold text-gray-900">{selectedMonths}</div>
-                      <div className="text-sm text-gray-700">{selectedMonths === 1 ? t('carPage.mes') : t('carPage.meses')}</div>
+                      <div className="text-3xl font-bold text-gray-900">{selectedDays}</div>
+                      <div className="text-sm text-gray-700">{selectedDays === 1 ? t('carPage.dia') : t('carPage.dias')}</div>
                     </div>
                     <button
-                      onClick={() => handleMonthsChange(1)}
-                      disabled={selectedMonths >= maxMonths}
+                      onClick={() => handleDaysChange(1)}
+                      disabled={selectedDays >= maxDays}
                       className={`w-10 h-10 rounded-lg font-bold text-xl flex items-center justify-center transition-all ${
-                        selectedMonths >= maxMonths
+                        selectedDays >= maxDays
                           ? 'bg-[#C3C3C3] text-gray-500 cursor-not-allowed'
                           : 'bg-[#603361] text-white hover:opacity-90'
                       }`}
@@ -195,7 +195,7 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
                     </button>
                   </div>
                   <div className="mt-3 text-center text-xs text-gray-600">
-                    {minMonths} - {maxMonths} {t('carPage.mesesDisponibles')}
+                    {minDays}-{maxDays} {t('carPage.diasDisponibles')}
                   </div>
                 </div>
               </div>
@@ -210,12 +210,12 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
               </h3>
               <div className="space-y-2 text-gray-700 mb-4">
                 <div className="flex justify-between">
-                  <span>{t('carPage.precioMes')}:</span>
+                  <span>{t('carPage.precioDia')}:</span>
                   <span className="font-semibold">{selectedPriceDisplay}€</span>
                 </div>
                 <div className="flex justify-between">
                   <span>{t('carPage.duracion')}:</span>
-                  <span className="font-semibold">{selectedMonths} {selectedMonths === 1 ? t('carPage.mes') : t('carPage.meses')}</span>
+                  <span className="font-semibold">{selectedDays} {selectedDays === 1 ? t('carPage.dia') : t('carPage.dias')}</span>
                 </div>
               </div>
               <div className="flex justify-between items-start pt-2 border-t-2 border-[#B4B4B4] mb-4">
@@ -226,7 +226,7 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
                 </div>
               </div>
             </div>
-            
+
             {/* Continue Button */}
             <div className="px-10 pb-6">
               <button
@@ -364,12 +364,12 @@ export default function EnterpriseRentalConfig({ car }: EnterpriseRentalConfigPr
               </h3>
               <div className="space-y-2 text-gray-700 mb-4">
                 <div className="flex justify-between">
-                  <span>{t('carPage.precioMes')}:</span>
+                  <span>{t('carPage.precioDia')}:</span>
                   <span className="font-semibold">{selectedPriceDisplay}€</span>
                 </div>
                 <div className="flex justify-between">
                   <span>{t('carPage.duracion')}:</span>
-                  <span className="font-semibold">{selectedMonths} {selectedMonths === 1 ? t('carPage.mes') : t('carPage.meses')}</span>
+                  <span className="font-semibold">{selectedDays} {selectedDays === 1 ? t('carPage.dia') : t('carPage.dias')}</span>
                 </div>
               </div>
               <div className="flex justify-between items-start pt-2 border-t-2 border-[#B4B4B4] mb-4">

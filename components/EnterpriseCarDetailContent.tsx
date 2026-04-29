@@ -158,8 +158,8 @@ export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailC
       .filter(Boolean);
   }, [additionalImages]);
 
-  const minMonths = car.rentalMinMonths || 1;
-  const maxMonths = car.rentalMaxMonths || 12;
+  const minDays = 1;
+  const maxDays = 31;
   // Strapi prices include IVA; show without (X/1.21), rounded to whole euros. Empresas has no discount/original price.
   const displayPriceWithVat = car.pricePerMonthEmpresas || car.pricePerMonth;
   const displayPrice = Math.round(displayPriceWithVat / VAT_RATE);
@@ -176,19 +176,19 @@ export default function EnterpriseCarDetailContent({ car }: EnterpriseCarDetailC
           <div className="flex flex-nowrap items-start gap-0.5 sm:gap-2">
             <div className="text-right flex-shrink-0">
               <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
-                {minMonths} - {maxMonths} {t('carPage.meses')}
+                {minDays}-{maxDays} {t('carPage.dias')}
               </div>
               <div className="text-[9px] sm:text-xs md:text-sm font-normal text-gray-700 whitespace-nowrap">
                 duración disponible
               </div>
             </div>
-            
+
             <div className="w-[1px] sm:w-[2px] h-8 sm:h-10 md:h-12 bg-[#B4B4B4] mx-0.5 sm:mx-1 md:mx-2 flex-shrink-0" />
             <div className="w-0.5 sm:w-2 md:w-4 flex-shrink-0" />
-            
+
             <div className="text-left flex-shrink-0 ml-1 sm:ml-0">
               <div className="text-xs sm:text-base md:text-lg font-semibold text-gray-900 whitespace-nowrap">
-                <span>{displayPrice}€</span>/mes
+                <span>{displayPrice}€</span>/{t('carPage.dia')}
               </div>
               <div className="text-[9px] sm:text-xs md:text-sm font-normal text-gray-700 whitespace-nowrap text-right">
                 {t('carPage.masIva')}
