@@ -9,7 +9,26 @@
       "Bash(node:*)",
       "Bash(JPEG_QUALITY=72 PNG_QUALITY=65 WEBP_QUALITY=72 MAX_WIDTH=1920 SKIP_BACKUP=true DRY_RUN=true node scripts/optimize-all-images.js)",
       "Bash(JPEG_QUALITY=72 PNG_QUALITY=65 WEBP_QUALITY=72 MAX_WIDTH=1920 SKIP_BACKUP=true node scripts/optimize-all-images.js)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/es/empresas/cars/3)",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/empresas/cars/3)",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/empresas)",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/es/empresas)",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/es/cars/3)",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/es/suscripcion/cars/3)",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/es/compra/cars/3)",
+      "Bash(curl -sS http://localhost:3000/es/empresas/cars/3 -o /tmp/empresas_resp.html)",
+      "Read(//tmp/**)",
+      "Bash(curl -sS -i http://localhost:3000/es/empresas/cars/3)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); routes = [r for r in d.get\\('dynamicRoutes',[]\\) if 'cars' in r.get\\('page',''\\)]; print\\(json.dumps\\(routes, indent=2\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(list\\(d.keys\\(\\)\\)\\); print\\('static:', [r.get\\('page'\\) for r in d.get\\('staticRoutes',[]\\)][:30]\\)\")",
+      "Bash(touch /Users/wildmll/autovibe/app/empresas/cars/\\\\[id\\\\]/page.tsx /Users/wildmll/autovibe/app/compra/cars/\\\\[id\\\\]/page.tsx /Users/wildmll/autovibe/app/suscripcion/cars/\\\\[id\\\\]/page.tsx)",
+      "Bash(curl -sS -o /dev/null -w \"empresas: %{http_code}\\\\n\" http://localhost:3000/es/empresas/cars/3)",
+      "Bash(curl -sS -o /dev/null -w \"compra: %{http_code}\\\\n\" http://localhost:3000/es/compra/cars/3)",
+      "Bash(curl -sS -o /dev/null -w \"suscripcion: %{http_code}\\\\n\" http://localhost:3000/es/suscripcion/cars/3)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }

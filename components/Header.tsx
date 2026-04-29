@@ -32,7 +32,8 @@ export default function Header() {
   return (
     <>
     {/* Mobile language switcher - fixed top-right on mobile for all pages */}
-    <div className="lg:hidden absolute top-4 right-[18px] sm:right-6 z-[60] flex items-center gap-2">
+    {/* Mobile language switcher - aligned vertically with menu button (header height) */}
+    <div className={`lg:hidden ${isTransparentHeader ? 'absolute top-4' : 'fixed top-0 h-20 sm:h-24 md:h-28'} right-[18px] sm:right-6 z-[60] flex items-center gap-2`}>
       {(['es', 'en', 'uk', 'ru'] as const).map((lng) => {
         const flagSrc = lng === 'es' ? '/icons/spain.png'
           : lng === 'en' ? '/icons/united-kingdom.png'
@@ -43,8 +44,8 @@ export default function Header() {
           <button
             key={lng}
             onClick={() => setLocale(lng)}
-            className={`h-9 w-9 sm:h-10 sm:w-10 overflow-hidden rounded-full transition-transform hover:scale-110 ${
-              locale === lng ? 'ring-2 ring-white shadow-md scale-110' : 'opacity-70'
+            className={`flex-shrink-0 h-8 w-8 sm:h-9 sm:w-9 overflow-hidden rounded-full transition-transform hover:scale-110 ${
+              locale === lng ? 'ring-2 ring-white shadow-md' : 'opacity-70'
             }`}
             title={flagAlt}
           >
