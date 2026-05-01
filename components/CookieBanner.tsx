@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from '@/components/LocalizedLink';
 import { getConsent, setConsent } from '@/lib/cookies/consent';
-import { pushDataLayer } from '@/lib/analytics/dataLayer';
+import { updateConsent } from '@/lib/analytics/dataLayer';
 import { useI18n } from '@/lib/i18n/context';
 
 export default function CookieBanner() {
@@ -12,25 +12,24 @@ export default function CookieBanner() {
   const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
-    if (getConsent() === null) {
+    const consent = getConsent();
+    if (consent === null) {
       setVisible(true);
+    } else if (consent === 'all') {
+      updateConsent(true);
     }
   }, []);
 
   const handleAcceptAll = () => {
     setConsent('all');
     setVisible(false);
-    pushDataLayer('consent_granted', {
-      analytics_storage: 'granted',
-      ad_storage: 'granted',
-      ad_user_data: 'granted',
-      ad_personalization: 'granted',
-    });
+    updateConsent(true);
   };
 
   const handleEssentialOnly = () => {
     setConsent('essential');
     setVisible(false);
+    updateConsent(false);
   };
 
   if (!visible) return null;

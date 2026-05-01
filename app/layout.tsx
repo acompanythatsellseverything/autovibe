@@ -38,8 +38,8 @@ export default function RootLayout({
         {GTM_ID && (
           <Script id="gtm-consent-default" strategy="beforeInteractive">{`
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('consent', 'default', {
+            window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+            window.gtag('consent', 'default', {
               'ad_storage': 'denied',
               'ad_user_data': 'denied',
               'ad_personalization': 'denied',
