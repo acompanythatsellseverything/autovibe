@@ -94,7 +94,7 @@ export const translations = {
     howItWorks: {
       title: 'Cómo funciona',
       step1: { title: 'Pide tu coche', description: 'Elige el que quieras de nuestro catálogo o dinos qué modelo buscas. Tu gestor personal te llama en menos de 5 minutos.' },
-      step2: { title: 'Recibe tu propuesta', description: 'Te enviamos un presupuesto claro con dos opciones — Smart Leasing y Drivovo Subscription — y tú decides cuál te viene mejor.' },
+      step2: { title: 'Recibe tu propuesta', description: 'Te enviamos un presupuesto claro con dos opciones — Smart Leasing y AutoVibe Subscription — y tú decides cuál te viene mejor.' },
       step3: { title: 'Firma online', description: 'Todo se firma por internet con firma digital. Nada de papeleo, sin sorpresas en las comisiones y sin moverte de casa.' },
       step4: { title: 'A rodar', description: 'Tu coche te espera cuando lo necesites. Ya viene matriculado, asegurado y listo para lo que le eches.' },
     },
@@ -378,7 +378,7 @@ export const translations = {
     howItWorks: {
       title: 'How it works',
       step1: { title: 'Request your car', description: 'Choose the one you want from our catalogue or tell us which model you are looking for. Your personal manager will call you in less than 5 minutes.' },
-      step2: { title: 'Receive your quote', description: 'We send you a clear quote with two options — Smart Leasing and Drivovo Subscription — and you decide which one suits you best.' },
+      step2: { title: 'Receive your quote', description: 'We send you a clear quote with two options — Smart Leasing and AutoVibe Subscription — and you decide which one suits you best.' },
       step3: { title: 'Sign online', description: 'Everything is signed online with a digital signature. No paperwork, no commission surprises, and all from home.' },
       step4: { title: 'Hit the road', description: 'Your car is waiting for you when you need it. It comes registered, insured and ready to go.' },
     },
@@ -662,7 +662,7 @@ export const translations = {
     howItWorks: {
       title: 'Як це працює',
       step1: { title: 'Замов свій автомобіль', description: 'Обери будь-який з нашого каталогу або скажи, яку модель шукаєш. Твій персональний менеджер передзвонить менш ніж за 5 хвилин.' },
-      step2: { title: 'Отримай пропозицію', description: 'Надсилаємо тобі чіткий бюджет з двома опціями — Smart Leasing та Drivovo Subscription — і ти вирішуєш, що підходить краще.' },
+      step2: { title: 'Отримай пропозицію', description: 'Надсилаємо тобі чіткий бюджет з двома опціями — Smart Leasing та AutoVibe Subscription — і ти вирішуєш, що підходить краще.' },
       step3: { title: 'Підпиши онлайн', description: 'Усе підписується в інтернеті електронним підписом. Жодного папероволоки, ніяких сюрпризів з комісіями, не виходячи з дому.' },
       step4: { title: 'В дорогу', description: 'Твій автомобіль чекає, коли він тобі знадобиться. Вже з реєстрацією, страхуванням і готовий до поїздок.' },
     },
@@ -946,7 +946,7 @@ export const translations = {
     howItWorks: {
       title: 'Как это работает',
       step1: { title: 'Закажи свой автомобиль', description: 'Выбери любой из нашего каталога или скажи, какую модель ищешь. Твой персональный менеджер перезвонит менее чем за 5 минут.' },
-      step2: { title: 'Получи предложение', description: 'Отправляем тебе понятную смету с двумя опциями — Smart Leasing и Drivovo Subscription — и ты решаешь, что подходит лучше.' },
+      step2: { title: 'Получи предложение', description: 'Отправляем тебе понятную смету с двумя опциями — Smart Leasing и AutoVibe Subscription — и ты решаешь, что подходит лучше.' },
       step3: { title: 'Подпиши онлайн', description: 'Всё подписывается в интернете электронной подписью. Никакой бумажной волокиты, никаких сюрпризов с комиссиями, не выходя из дома.' },
       step4: { title: 'В путь', description: 'Твой автомобиль ждёт, когда он тебе понадобится. Уже с регистрацией, страховкой и готов к поездкам.' },
     },
