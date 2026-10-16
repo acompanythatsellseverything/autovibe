@@ -273,6 +273,18 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Group / network links */}
+        <nav
+          aria-label="Grupo"
+          className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2"
+          style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(13px, 2.2vw, 16px)' }}
+        >
+          <span className="font-medium" style={{ color: '#DFDBC8', opacity: 0.7 }}>Grupo ACTSE:</span>
+          <a href="https://acompanythatsellseverything.com" target="_blank" rel="noopener" className="font-light transition-opacity hover:opacity-80" style={{ color: '#DFDBC8' }}>ACTSE</a>
+          <a href="https://fourel.dev" target="_blank" rel="noopener" className="font-light transition-opacity hover:opacity-80" style={{ color: '#DFDBC8' }}>Fourel</a>
+          <a href="https://dimitrylos.com" target="_blank" rel="noopener" className="font-light transition-opacity hover:opacity-80" style={{ color: '#DFDBC8' }}>Dimitry Los</a>
+        </nav>
+
         {/* Logo and Copyright on mobile - Left aligned */}
         <div className="mt-8 sm:mt-10 md:mt-12 flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-end gap-4 sm:gap-0">
           {/* Logo on mobile */}

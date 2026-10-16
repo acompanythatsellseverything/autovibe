@@ -92,6 +92,12 @@ export const organizationJsonLd = JSON.stringify({
         'https://www.tiktok.com/@autovibe_bogdan',
         'https://www.youtube.com/@autovibe-spain',
       ],
+      parentOrganization: {
+        '@type': 'Organization',
+        '@id': 'https://acompanythatsellseverything.com/#organization',
+        name: 'A Company That Sells Everything',
+        url: 'https://acompanythatsellseverything.com',
+      },
     },
     {
       '@type': 'WebSite',
