@@ -1,8 +1,20 @@
+import type { Metadata } from 'next';
+import { currentLocale, pageMetadata, tr } from '@/lib/seo';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
 import ElClubContent from '@/components/ElClubContent';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await currentLocale();
+  return pageMetadata({
+    path: '/el-club',
+    locale,
+    title: `${tr(locale, 'pages.elClub.hero.title')} | AutoVibe`,
+    description: tr(locale, 'pages.elClub.hero.subtitle'),
+  });
+}
 
 export default function ElClubPage() {
   return (

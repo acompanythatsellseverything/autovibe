@@ -1,0 +1,24 @@
+# AutoVibe
+
+> AutoVibe (AUTOVIBESPAIN S.L.) offers car subscription without hassle in Spain: one monthly fee covering full insurance, maintenance, roadside assistance, ITV and taxes. Also used-car purchase with warranty and flexible short-term rental for companies. Site in Spanish, English, Ukrainian and Russian.
+
+## Services
+
+- Suscripción (car subscription): 1 to 36 months, zero down payment, everything included. https://autovibe.es/es/suscripcion
+- Compra (buy a used car): warranty included, delivery anywhere, financing options. https://autovibe.es/es/compra
+- Empresas (business rental): flexible contracts from 1 to 31 days. https://autovibe.es/es/empresas
+- All cars: https://autovibe.es/es/cars
+- El Club (community): https://autovibe.es/es/el-club
+
+## Languages
+
+Same pages under /es/, /en/, /uk/, /ru/. Spanish home is https://autovibe.es/.
+
+## Company
+
+- Legal name: AUTOVIBESPAIN S.L.
+- Cities served: Valencia, Barcelona, Madrid (Spain)
+- Instagram: https://www.instagram.com/auto_vibe_sl/
+- TikTok: https://www.tiktok.com/@autovibe_bogdan
+- YouTube: https://www.youtube.com/@autovibe-spain
+- Privacy: https://autovibe.es/es/privacy-policy · Terms: https://autovibe.es/es/terms-and-conditions

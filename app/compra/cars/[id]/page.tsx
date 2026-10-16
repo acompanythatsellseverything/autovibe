@@ -1,7 +1,25 @@
+import type { Metadata } from 'next';
+import { currentLocale, pageMetadata, carJsonLd, localizedPath, SITE_URL } from '@/lib/seo';
+import { getCarCoverImage, getStrapiFullImageUrl } from '@/lib/strapi/config';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { getCarById } from '@/lib/strapi/queries';
 import PurchaseCarDetailContent from '@/components/PurchaseCarDetailContent';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const [locale, car] = await Promise.all([currentLocale(), getCarById(id)]);
+  if (!car) return { title: 'AutoVibe', robots: { index: false } };
+  const cover = getCarCoverImage(car, 'compra');
+  const image = cover ? getStrapiFullImageUrl(cover) : undefined;
+  return pageMetadata({
+    path: '/compra/cars/' + car.id,
+    locale,
+    title: `${car.name} | AutoVibe`,
+    description: (car.description || `${car.brand} ${car.model}`).slice(0, 160),
+    image: image && image.startsWith('http') ? image : undefined,
+  });
+}
 
 export default async function CompraCarDetailPage({
   params,
@@ -29,6 +47,10 @@ export default async function CompraCarDetailPage({
 
   return (
     <div className="min-h-screen bg-[#DFDBC8]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: carJsonLd(car, 'compra', SITE_URL + localizedPath('/compra/cars/' + car.id, await currentLocale()), (() => { const c = getCarCoverImage(car, 'compra'); const u = c ? getStrapiFullImageUrl(c) : ''; return u.startsWith('http') ? u : undefined; })()) }}
+      />
       <Header />
       <PurchaseCarDetailContent car={car} />
       <Footer />

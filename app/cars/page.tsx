@@ -1,9 +1,21 @@
+import type { Metadata } from 'next';
+import { currentLocale, pageMetadata, tr } from '@/lib/seo';
 import Header from '@/components/Header';
 import CarCard from '@/components/CarCard';
 import Footer from '@/components/Footer';
 import { getCars } from '@/lib/strapi/queries';
 
 export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await currentLocale();
+  return pageMetadata({
+    path: '/cars',
+    locale,
+    title: `${tr(locale, 'header.suscripcion')} · ${tr(locale, 'pages.suscripcion.title')} | AutoVibe`,
+    description: tr(locale, 'pages.suscripcion.subtitle'),
+  });
+}
 
 export default async function CarsPage() {
   const cars = await getCars();

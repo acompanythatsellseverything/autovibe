@@ -6,6 +6,7 @@ import { I18nProvider } from "@/lib/i18n/context";
 import WhatsAppStickyButton from "@/components/WhatsAppStickyButton";
 import MetaPixel from "@/components/MetaPixel";
 import CookieBanner from "@/components/CookieBanner";
+import { currentLocale, organizationJsonLd, SITE_URL } from "@/lib/seo";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -14,6 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "AutoVibe - Suscripción de coches sin líos",
   description: "Tu coche, tus reglas. Para ti o tu empresa.",
   icons: {
@@ -23,14 +25,16 @@ export const metadata: Metadata = {
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await currentLocale();
   return (
-    <html lang="es">
+    <html lang={locale}>
       <head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: organizationJsonLd }} />
         <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
         <meta name="theme-color" content="#DFDBC8" />

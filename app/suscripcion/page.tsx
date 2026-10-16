@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+import { currentLocale, pageMetadata, tr } from '@/lib/seo';
 import { Suspense } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -5,6 +7,16 @@ import SubscriptionPageContent from '@/components/SubscriptionPageContent';
 import { getCars } from '@/lib/strapi/queries';
 
 export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await currentLocale();
+  return pageMetadata({
+    path: '/suscripcion',
+    locale,
+    title: `${tr(locale, 'pages.suscripcion.title')} | AutoVibe`,
+    description: tr(locale, 'pages.suscripcion.subtitle'),
+  });
+}
 
 export default async function SuscripcionPage() {
   const cars = await getCars();

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { currentLocale, pageMetadata, tr } from '@/lib/seo';
 import Header from '@/components/Header';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,11 +24,15 @@ import {
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: 'https://autovibe.es/',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await currentLocale();
+  return pageMetadata({
+    path: '/',
+    locale,
+    title: `${tr(locale, 'home.hero.title')} | AutoVibe`,
+    description: tr(locale, 'home.hero.subtitle'),
+  });
+}
 
 async function getData() {
   try {
