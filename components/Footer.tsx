@@ -280,7 +280,7 @@ export default function Footer() {
           style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(13px, 2.2vw, 16px)' }}
         >
           <span className="font-medium" style={{ color: '#DFDBC8', opacity: 0.7 }}>Grupo ACTSE:</span>
-          <a href="https://acompanythatsellseverything.com" target="_blank" rel="noopener" className="font-light transition-opacity hover:opacity-80" style={{ color: '#DFDBC8' }}>ACTSE</a>
+          <a href="https://actse.ltd/tech" target="_blank" rel="noopener" className="font-light transition-opacity hover:opacity-80" style={{ color: '#DFDBC8' }}>ACTSE</a>
           <a href="https://fourel.dev" target="_blank" rel="noopener" className="font-light transition-opacity hover:opacity-80" style={{ color: '#DFDBC8' }}>Fourel</a>
           <a href="https://dimitrylos.com" target="_blank" rel="noopener" className="font-light transition-opacity hover:opacity-80" style={{ color: '#DFDBC8' }}>Dimitry Los</a>
         </nav>
