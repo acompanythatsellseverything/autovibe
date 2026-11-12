@@ -94,9 +94,9 @@ export const organizationJsonLd = JSON.stringify({
       ],
       parentOrganization: {
         '@type': 'Organization',
-        '@id': 'https://actse.ltd/tech/#organization',
-        name: 'A Company That Sells Everything',
-        url: 'https://actse.ltd/tech',
+        '@id': 'https://actse.ltd/#org',
+        name: 'A Company That Sells Everything LLC',
+        url: 'https://actse.ltd/',
       },
     },
     {
