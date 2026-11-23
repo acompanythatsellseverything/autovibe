@@ -5,7 +5,9 @@ import Link from '@/components/LocalizedLink';
 import { useI18n } from '@/lib/i18n/context';
 
 export default function Footer() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  // ACTSE Realty has English, Russian and Spanish versions; Ukrainian readers get the Russian one.
+  const realtyUrl = 'https://actse.ltd/realty/' + (locale === 'es' ? 'es/' : locale === 'ru' || locale === 'uk' ? 'ru/' : '');
 
   return (
     <footer className="relative overflow-hidden">
@@ -281,6 +283,7 @@ export default function Footer() {
         >
           <span className="font-medium" style={{ color: '#DFDBC8', opacity: 0.7 }}>Grupo ACTSE:</span>
           <a href="https://actse.ltd/tech" target="_blank" rel="noopener" className="font-light transition-opacity hover:opacity-80" style={{ color: '#DFDBC8' }}>ACTSE</a>
+          <a href={realtyUrl} target="_blank" rel="noopener" className="font-light transition-opacity hover:opacity-80" style={{ color: '#DFDBC8' }}>ACTSE Realty</a>
           <a href="https://fourel.dev" target="_blank" rel="noopener" className="font-light transition-opacity hover:opacity-80" style={{ color: '#DFDBC8' }}>Fourel</a>
           <a href="https://dimitrylos.com" target="_blank" rel="noopener" className="font-light transition-opacity hover:opacity-80" style={{ color: '#DFDBC8' }}>Dimitry Los</a>
         </nav>
