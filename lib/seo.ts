@@ -130,22 +130,22 @@ const CAR_DESC: Record<Locale, Record<CarOfferMode, (n: string, price?: number) 
   es: {
     suscripcion: (n, p) => `${n} por suscripción${p ? ` desde ${p} €/mes` : ''}, todo incluido: seguro, mantenimiento e impuestos.`,
     compra: (n, p) => `${n} en venta${p ? ` por ${p} €` : ''}, con garantía incluida.`,
-    empresas: (n, p) => `Alquiler flexible de ${n} para empresas${p ? ` desde ${p} €/día` : ''}, de 1 a 31 días.`,
+    empresas: (n, p) => `Alquiler flexible de ${n} para empresas${p ? ` desde ${p} €/día` : ''}.`,
   },
   en: {
     suscripcion: (n, p) => `${n} on subscription in Spain${p ? ` from €${p}/month` : ''}, all inclusive: insurance, maintenance and taxes.`,
     compra: (n, p) => `${n} for sale in Spain${p ? ` at €${p}` : ''}, warranty included.`,
-    empresas: (n, p) => `Flexible ${n} rental for companies in Spain${p ? ` from €${p}/day` : ''}, 1 to 31 days.`,
+    empresas: (n, p) => `Flexible ${n} rental for companies in Spain${p ? ` from €${p}/day` : ''}.`,
   },
   ru: {
     suscripcion: (n, p) => `${n} по подписке в Испании${p ? ` от ${p} €/мес` : ''}, всё включено: страховка, обслуживание и налоги.`,
     compra: (n, p) => `${n} в продаже в Испании${p ? ` за ${p} €` : ''}, с гарантией.`,
-    empresas: (n, p) => `Гибкая аренда ${n} для компаний в Испании${p ? ` от ${p} €/день` : ''}, от 1 до 31 дня.`,
+    empresas: (n, p) => `Гибкая аренда ${n} для компаний в Испании${p ? ` от ${p} €/день` : ''}.`,
   },
   uk: {
     suscripcion: (n, p) => `${n} за підпискою в Іспанії${p ? ` від ${p} €/міс` : ''}, усе включено: страхування, обслуговування та податки.`,
     compra: (n, p) => `${n} у продажу в Іспанії${p ? ` за ${p} €` : ''}, з гарантією.`,
-    empresas: (n, p) => `Гнучка оренда ${n} для компаній в Іспанії${p ? ` від ${p} €/день` : ''}, від 1 до 31 дня.`,
+    empresas: (n, p) => `Гнучка оренда ${n} для компаній в Іспанії${p ? ` від ${p} €/день` : ''}.`,
   },
 };
 
@@ -159,7 +159,8 @@ export function carPageMetadata(car: Car, mode: CarOfferMode, locale: Locale, im
     mode === 'compra'
       ? car.purchasePrice ?? car.pricingConfig?.purchasePrice
       : mode === 'empresas'
-        ? car.pricePerMonthEmpresas
+        ? // Same figure the business page shows: per day, without VAT, whole euros.
+          Math.round((car.pricePerMonthEmpresas || car.pricePerMonth || 0) / 1.21)
         : car.pricePerMonthSuscripcion;
   const lead = CAR_DESC[locale][mode](car.name, typeof price === 'number' && price > 0 ? price : undefined);
   // The Strapi description exists in Spanish only, so it is appended on the Spanish pages only.
@@ -186,7 +187,8 @@ export function carJsonLd(car: Car, mode: CarOfferMode, url: string, image?: str
   if (mode === 'compra' && car.pricingConfig?.purchasePrice) {
     offer.price = car.pricingConfig.purchasePrice;
   } else {
-    const monthly = mode === 'empresas' ? car.pricePerMonthEmpresas : car.pricePerMonthSuscripcion;
+    // Business page shows a price per day without VAT (Strapi value / 1.21); keep the same figure here.
+    const monthly = mode === 'empresas' ? Math.round((car.pricePerMonthEmpresas || car.pricePerMonth || 0) / 1.21) : car.pricePerMonthSuscripcion;
     if (monthly) {
       offer.price = monthly;
       offer.priceSpecification = {
