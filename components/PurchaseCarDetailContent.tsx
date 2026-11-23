@@ -176,9 +176,9 @@ export default function PurchaseCarDetailContent({ car }: PurchaseCarDetailConte
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Title and Price Section */}
         <div className="mb-6 sm:mb-8 grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-[1.55fr_1fr] items-start">
-          <h1 className="hidden lg:block text-2xl sm:text-3xl md:text-4xl font-normal text-gray-900" style={{ fontFamily: 'Inter', paddingTop: '0.5rem' }}>
+          <div role="heading" aria-level={1} className="hidden lg:block text-2xl sm:text-3xl md:text-4xl font-normal text-gray-900" style={{ fontFamily: 'Inter', paddingTop: '0.5rem' }}>
             {car.name}
-          </h1>
+          </div>
 
           <div className="flex flex-nowrap items-center justify-between gap-3 sm:gap-4 md:justify-end">
             <div className="text-left flex-shrink-0 md:text-right">

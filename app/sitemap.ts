@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { locales } from '@/lib/i18n/translations';
 import { getCars } from '@/lib/strapi/queries';
-import { SITE_URL, localizedPath } from '@/lib/seo';
+import { SITE_URL, localizedPath, carAvailableFor, type CarOfferMode } from '@/lib/seo';
 
 export const revalidate = 3600;
 
@@ -37,8 +37,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     cars = [];
   }
   for (const car of cars) {
-    for (const prefix of ['/suscripcion/cars/', '/compra/cars/', '/empresas/cars/']) {
-      out.push(...entries(prefix + car.id, 0.7, 'weekly'));
+    for (const mode of ['suscripcion', 'compra', 'empresas'] as CarOfferMode[]) {
+      if (!carAvailableFor(car, mode)) continue;
+      out.push(...entries(`/${mode}/cars/${car.id}`, 0.7, 'weekly'));
     }
   }
   return out;

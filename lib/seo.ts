@@ -112,6 +112,68 @@ export const organizationJsonLd = JSON.stringify({
 
 export type CarOfferMode = 'suscripcion' | 'compra' | 'empresas';
 
+/** False when the car is switched off for this offer type in Strapi. */
+export function carAvailableFor(car: Car, mode: CarOfferMode): boolean {
+  if (mode === 'compra') return car.availableForCompra !== false;
+  if (mode === 'empresas') return car.availableForEmpresas !== false;
+  return car.availableForSuscripcion !== false;
+}
+
+const CAR_TITLE: Record<Locale, Record<CarOfferMode, (n: string) => string>> = {
+  es: { suscripcion: (n) => `${n} por suscripción`, compra: (n) => `Comprar ${n}`, empresas: (n) => `${n} para empresas` },
+  en: { suscripcion: (n) => `${n} car subscription`, compra: (n) => `Buy ${n}`, empresas: (n) => `${n} for business` },
+  ru: { suscripcion: (n) => `${n} по подписке`, compra: (n) => `Купить ${n}`, empresas: (n) => `${n} для бизнеса` },
+  uk: { suscripcion: (n) => `${n} за підпискою`, compra: (n) => `Купити ${n}`, empresas: (n) => `${n} для бізнесу` },
+};
+
+const CAR_DESC: Record<Locale, Record<CarOfferMode, (n: string, price?: number) => string>> = {
+  es: {
+    suscripcion: (n, p) => `${n} por suscripción${p ? ` desde ${p} €/mes` : ''}, todo incluido: seguro, mantenimiento e impuestos.`,
+    compra: (n, p) => `${n} en venta${p ? ` por ${p} €` : ''}, con garantía incluida.`,
+    empresas: (n, p) => `Alquiler flexible de ${n} para empresas${p ? ` desde ${p} €/mes` : ''}.`,
+  },
+  en: {
+    suscripcion: (n, p) => `${n} on subscription in Spain${p ? ` from €${p}/month` : ''}, all inclusive: insurance, maintenance and taxes.`,
+    compra: (n, p) => `${n} for sale in Spain${p ? ` at €${p}` : ''}, warranty included.`,
+    empresas: (n, p) => `Flexible ${n} rental for companies in Spain${p ? ` from €${p}/month` : ''}.`,
+  },
+  ru: {
+    suscripcion: (n, p) => `${n} по подписке в Испании${p ? ` от ${p} €/мес` : ''}, всё включено: страховка, обслуживание и налоги.`,
+    compra: (n, p) => `${n} в продаже в Испании${p ? ` за ${p} €` : ''}, с гарантией.`,
+    empresas: (n, p) => `Гибкая аренда ${n} для компаний в Испании${p ? ` от ${p} €/мес` : ''}.`,
+  },
+  uk: {
+    suscripcion: (n, p) => `${n} за підпискою в Іспанії${p ? ` від ${p} €/міс` : ''}, усе включено: страхування, обслуговування та податки.`,
+    compra: (n, p) => `${n} у продажу в Іспанії${p ? ` за ${p} €` : ''}, з гарантією.`,
+    empresas: (n, p) => `Гнучка оренда ${n} для компаній в Іспанії${p ? ` від ${p} €/міс` : ''}.`,
+  },
+};
+
+/**
+ * Metadata for a car detail page. Each offer type (subscription, purchase, business) and each
+ * language gets its own title and description, so the three pages of one car are not duplicates.
+ * A car that is switched off for the offer type is kept out of search results.
+ */
+export function carPageMetadata(car: Car, mode: CarOfferMode, locale: Locale, image?: string): Metadata {
+  const price =
+    mode === 'compra'
+      ? car.purchasePrice ?? car.pricingConfig?.purchasePrice
+      : mode === 'empresas'
+        ? car.pricePerMonthEmpresas
+        : car.pricePerMonthSuscripcion;
+  const lead = CAR_DESC[locale][mode](car.name, typeof price === 'number' && price > 0 ? price : undefined);
+  // The Strapi description exists in Spanish only, so it is appended on the Spanish pages only.
+  const description = (locale === 'es' && car.description ? `${lead} ${car.description}` : lead).slice(0, 160);
+  return pageMetadata({
+    path: `/${mode}/cars/${car.id}`,
+    locale,
+    title: `${CAR_TITLE[locale][mode](car.name)} | AutoVibe`,
+    description,
+    image: image && image.startsWith('http') ? image : undefined,
+    noindex: !carAvailableFor(car, mode),
+  });
+}
+
 /** Product structured data for a car detail page. */
 export function carJsonLd(car: Car, mode: CarOfferMode, url: string, image?: string): string {
   const offer: Record<string, unknown> = {

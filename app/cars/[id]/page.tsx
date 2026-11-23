@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { currentLocale, pageMetadata, carJsonLd, localizedPath, SITE_URL } from '@/lib/seo';
+import { currentLocale, carPageMetadata, carJsonLd, localizedPath, SITE_URL } from '@/lib/seo';
 import { getCarCoverImage, getStrapiFullImageUrl } from '@/lib/strapi/config';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -12,13 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!car) return { title: 'AutoVibe', robots: { index: false } };
   const cover = getCarCoverImage(car, 'suscripcion');
   const image = cover ? getStrapiFullImageUrl(cover) : undefined;
-  return pageMetadata({
-    path: '/cars/' + car.id,
-    locale,
-    title: `${car.name} | AutoVibe`,
-    description: (car.description || `${car.brand} ${car.model}`).slice(0, 160),
-    image: image && image.startsWith('http') ? image : undefined,
-  });
+  return carPageMetadata(car, 'suscripcion', locale, image);
 }
 
 export default async function CarDetailPage({
