@@ -121,7 +121,7 @@ export function carAvailableFor(car: Car, mode: CarOfferMode): boolean {
 
 const CAR_TITLE: Record<Locale, Record<CarOfferMode, (n: string) => string>> = {
   es: { suscripcion: (n) => `${n} por suscripción`, compra: (n) => `Comprar ${n}`, empresas: (n) => `${n} para empresas` },
-  en: { suscripcion: (n) => `${n} car subscription`, compra: (n) => `Buy ${n}`, empresas: (n) => `${n} for business` },
+  en: { suscripcion: (n) => `${n} subscription`, compra: (n) => `Buy ${n}`, empresas: (n) => `${n} for business` },
   ru: { suscripcion: (n) => `${n} по подписке`, compra: (n) => `Купить ${n}`, empresas: (n) => `${n} для бизнеса` },
   uk: { suscripcion: (n) => `${n} за підпискою`, compra: (n) => `Купити ${n}`, empresas: (n) => `${n} для бізнесу` },
 };
@@ -130,22 +130,22 @@ const CAR_DESC: Record<Locale, Record<CarOfferMode, (n: string, price?: number) 
   es: {
     suscripcion: (n, p) => `${n} por suscripción${p ? ` desde ${p} €/mes` : ''}, todo incluido: seguro, mantenimiento e impuestos.`,
     compra: (n, p) => `${n} en venta${p ? ` por ${p} €` : ''}, con garantía incluida.`,
-    empresas: (n, p) => `Alquiler flexible de ${n} para empresas${p ? ` desde ${p} €/mes` : ''}.`,
+    empresas: (n, p) => `Alquiler flexible de ${n} para empresas${p ? ` desde ${p} €/día` : ''}, de 1 a 31 días.`,
   },
   en: {
     suscripcion: (n, p) => `${n} on subscription in Spain${p ? ` from €${p}/month` : ''}, all inclusive: insurance, maintenance and taxes.`,
     compra: (n, p) => `${n} for sale in Spain${p ? ` at €${p}` : ''}, warranty included.`,
-    empresas: (n, p) => `Flexible ${n} rental for companies in Spain${p ? ` from €${p}/month` : ''}.`,
+    empresas: (n, p) => `Flexible ${n} rental for companies in Spain${p ? ` from €${p}/day` : ''}, 1 to 31 days.`,
   },
   ru: {
     suscripcion: (n, p) => `${n} по подписке в Испании${p ? ` от ${p} €/мес` : ''}, всё включено: страховка, обслуживание и налоги.`,
     compra: (n, p) => `${n} в продаже в Испании${p ? ` за ${p} €` : ''}, с гарантией.`,
-    empresas: (n, p) => `Гибкая аренда ${n} для компаний в Испании${p ? ` от ${p} €/мес` : ''}.`,
+    empresas: (n, p) => `Гибкая аренда ${n} для компаний в Испании${p ? ` от ${p} €/день` : ''}, от 1 до 31 дня.`,
   },
   uk: {
     suscripcion: (n, p) => `${n} за підпискою в Іспанії${p ? ` від ${p} €/міс` : ''}, усе включено: страхування, обслуговування та податки.`,
     compra: (n, p) => `${n} у продажу в Іспанії${p ? ` за ${p} €` : ''}, з гарантією.`,
-    empresas: (n, p) => `Гнучка оренда ${n} для компаній в Іспанії${p ? ` від ${p} €/міс` : ''}.`,
+    empresas: (n, p) => `Гнучка оренда ${n} для компаній в Іспанії${p ? ` від ${p} €/день` : ''}, від 1 до 31 дня.`,
   },
 };
 
@@ -193,8 +193,8 @@ export function carJsonLd(car: Car, mode: CarOfferMode, url: string, image?: str
         '@type': 'UnitPriceSpecification',
         price: monthly,
         priceCurrency: 'EUR',
-        unitCode: 'MON',
-        referenceQuantity: { '@type': 'QuantitativeValue', value: 1, unitCode: 'MON' },
+        unitCode: mode === 'empresas' ? 'DAY' : 'MON',
+        referenceQuantity: { '@type': 'QuantitativeValue', value: 1, unitCode: mode === 'empresas' ? 'DAY' : 'MON' },
       };
     }
   }
